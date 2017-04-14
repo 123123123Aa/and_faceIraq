@@ -2,4 +2,28 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="browserNavigationBarHeight">40dp</dimen>
+
+
+    <!-- Navigation bar -->
+    <dimen name="navigationBarButtonsMargin">10dp</dimen>
+    <dimen name="navigationBarItemSize">25dp</dimen>
+
+    <dimen name="navigationPreviousPageButtonWidth">10dp</dimen>
+    <dimen name="navigationPreviousPageButtonHeight">@dimen/navigationBarItemSize</dimen>
+
+    <dimen name="navigationHomeButtonWidth">@dimen/navigationBarItemSize</dimen>
+    <dimen name="navigationHomeButtonHeight">@dimen/navigationBarItemSize</dimen>
+
+    <dimen name="navigationCardsButtonWidth">20dp</dimen>
+    <dimen name="navigationCardsButtonHeight">20dp</dimen>
+
+    <dimen name="navigationMenuButtonWidth">5dp</dimen>
+    <dimen name="navigationMenuButtonHeight">@dimen/navigationBarItemSize</dimen>
+
+    <dimen name="navigationAddressFieldHeight">@dimen/navigationBarItemSize</dimen>
+
+    <dimen name="addressFieldMargin">2dp</dimen>
+    <dimen name="navigationBarTextSize">15sp</dimen>
+
 </resources>

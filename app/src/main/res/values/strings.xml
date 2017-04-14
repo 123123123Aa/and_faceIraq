@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FaceIraq</string>
+    <string name="HOME_PAGE_ADDRESS">http://faceiraq.net</string>
 </resources>

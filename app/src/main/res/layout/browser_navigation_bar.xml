@@ -1,0 +1,62 @@
+<RelativeLayout android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:padding="6dp"
+    android:layout_height="wrap_content"
+    android:background="@color/navigationBarBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView android:id="@+id/previousPageButton"
+        android:layout_width="@dimen/navigationPreviousPageButtonWidth"
+        android:layout_height="@dimen/navigationPreviousPageButtonHeight"
+        android:layout_marginStart="@dimen/navigationBarButtonsMargin"
+        android:layout_marginEnd="@dimen/navigationBarButtonsMargin"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/left_arrow"/>
+
+    <EditText android:id="@+id/addressField"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navigationAddressFieldHeight"
+        android:layout_toEndOf="@+id/previousPageButton"
+        android:layout_toStartOf="@+id/homeButton"
+        android:background="@drawable/address_field_background"
+        android:text="www.example.com"
+        android:textSize="@dimen/navigationBarTextSize"
+        android:textAlignment="center"
+        android:textColor="@color/navigationBarTextColor"
+        android:maxLines="1"
+        android:inputType="textWebEditText"
+        android:imeOptions="actionGo"
+        android:selectAllOnFocus="true"
+        />
+
+    <ImageView android:id="@+id/homeButton"
+        android:layout_width="@dimen/navigationHomeButtonWidth"
+        android:layout_height="@dimen/navigationHomeButtonHeight"
+        android:layout_marginStart="@dimen/navigationBarButtonsMargin"
+        android:layout_marginEnd="@dimen/navigationBarButtonsMargin"
+        android:layout_toStartOf="@+id/cardsCountButton"
+        android:background="@drawable/home_button"/>
+
+    <TextView android:id="@+id/cardsCountButton"
+        android:layout_width="@dimen/navigationCardsButtonWidth"
+        android:layout_height="@dimen/navigationCardsButtonHeight"
+        android:layout_toStartOf="@+id/menuDotsButton"
+        android:layout_marginStart="@dimen/navigationBarButtonsMargin"
+        android:layout_marginEnd="@dimen/navigationBarButtonsMargin"
+        android:layout_centerVertical="true"
+        android:text="3"
+        android:textColor="@color/navigationBarTextColor"
+        android:gravity="center"
+        android:textSize="@dimen/navigationBarTextSize"
+        android:background="@drawable/cards_count_background"/>
+
+    <ImageView android:id="@+id/menuDotsButton"
+        android:layout_width="@dimen/navigationMenuButtonWidth"
+        android:layout_height="@dimen/navigationMenuButtonHeight"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/navigationBarButtonsMargin"
+        android:layout_marginEnd="@dimen/navigationBarButtonsMargin"
+        android:background="@drawable/menu_dots"/>
+
+
+</RelativeLayout>
