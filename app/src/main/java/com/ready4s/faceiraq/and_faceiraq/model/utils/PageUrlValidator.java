@@ -1,4 +1,4 @@
-package com.ready4s.faceiraq.and_faceiraq.model;
+package com.ready4s.faceiraq.and_faceiraq.model.utils;
 
 /**
  * Created by Paweł Sałata on 14.04.2017.

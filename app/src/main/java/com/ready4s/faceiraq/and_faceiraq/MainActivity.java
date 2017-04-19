@@ -6,20 +6,25 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
-import com.ready4s.faceiraq.and_faceiraq.model.PageUrlValidator;
+import com.ready4s.faceiraq.and_faceiraq.model.database.PageDetails;
+import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
+import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
 import com.ready4s.faceiraq.and_faceiraq.view.WebViewFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.media.CamcorderProfile.get;
+import io.realm.Realm;
 
-public class MainActivity extends FragmentActivity implements NavigationBarFragment.OnNavigationBarActionListener {
+public class MainActivity extends FragmentActivity
+        implements NavigationBarFragment.OnNavigationBarActionListener,
+                    WebViewFragment.OnWebViewActionListener {
 
     private static final String TAG = "MainActivity";
     private String currentPage;
     private List<String> visitedPagesList = new ArrayList<>();
+    private HistoryDAOImplementation historyDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,8 @@ public class MainActivity extends FragmentActivity implements NavigationBarFragm
         setContentView(R.layout.activity_main);
         init();
         currentPage = getHomePageAddress();
+        Realm.init(this);
+        historyDAO = new HistoryDAOImplementation();
     }
 
     @Override
@@ -36,6 +43,9 @@ public class MainActivity extends FragmentActivity implements NavigationBarFragm
         goToPage(currentPage);
     }
 
+    /**
+     * NavigationBar methods
+     */
     @Override
     public void onPageSelected(String pageUrl) {
         goToPage(pageUrl);
@@ -49,6 +59,14 @@ public class MainActivity extends FragmentActivity implements NavigationBarFragm
     @Override
     public void onPreviousPageButtonPressed() {
         goToPreviousPage();
+    }
+
+    /**
+     * WebView methods
+     */
+    @Override
+    public void onPageFinished(PageDetails pageDetails) {
+        historyDAO.insertOrUpdate(pageDetails);
     }
 
     private void goToPreviousPage() {
