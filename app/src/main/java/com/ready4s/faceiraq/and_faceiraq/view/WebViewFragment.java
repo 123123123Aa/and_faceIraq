@@ -1,13 +1,11 @@
 package com.ready4s.faceiraq.and_faceiraq.view;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -46,6 +44,8 @@ public class WebViewFragment extends Fragment {
         super.onDestroyView();
     }
 
+
+
     public void goToSelectedPage(String pageUrl) {
         pageDisplay.loadUrl(pageUrl);
     }
@@ -57,4 +57,5 @@ public class WebViewFragment extends Fragment {
         pageDisplay.getSettings().setBuiltInZoomControls(true);
         pageDisplay.getSettings().setDisplayZoomControls(false);
     }
+
 }

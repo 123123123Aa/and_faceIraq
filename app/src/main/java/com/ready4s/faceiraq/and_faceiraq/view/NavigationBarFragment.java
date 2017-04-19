@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
 
@@ -35,6 +36,13 @@ public class NavigationBarFragment extends Fragment {
 
     @Bind(R.id.addressField)
     EditText addressField;
+    @Bind(R.id.address_focus_section)
+    RelativeLayout mFocusSection;
+    @Bind(R.id.address_section)
+    RelativeLayout mAddressSection;
+    @Bind(R.id.address_focus_field)
+    EditText mFocusEt;
+
 
     public NavigationBarFragment() {
     }
@@ -54,6 +62,7 @@ public class NavigationBarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.browser_navigation_bar, container, false);
         ButterKnife.bind(this, view);
+        onTextClick();
         return view;
     }
 
@@ -63,24 +72,54 @@ public class NavigationBarFragment extends Fragment {
         super.onDestroyView();
     }
 
-    @OnEditorAction(R.id.addressField)
+    private void onTextClick() {
+        addressField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mFocusSection.setVisibility(View.VISIBLE);
+                mAddressSection.setVisibility(View.GONE);
+                mFocusEt.setText(addressField.getText().toString());
+                mFocusEt.setSelection(addressField.length());
+                mFocusEt.requestFocus();
+            }
+        });
+    }
+
+
+    @OnEditorAction(R.id.address_focus_field)
     boolean onEditorAction(int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_GO) {
-            String pageUrl = addressField.getText().toString();
+            String pageUrl = mFocusEt.getText().toString();
             onNavigationBarActionListener.onPageSelected(pageUrl);
+            mFocusEt.clearFocus();
+            addressField.setText(mFocusEt.getText().toString());
+            mFocusSection.setVisibility(View.GONE);
+            mAddressSection.setVisibility(View.VISIBLE);
             return true;
         }
         return false;
     }
 
-    @OnClick(R.id.homeButton)
-    void onHomeButtonPressed() {
-        onNavigationBarActionListener.onHomeButtonPressed();
-    }
 
-    @OnClick(R.id.previousPageButton)
-    void onPreviousPageButtonPressed() {
-        onNavigationBarActionListener.onPreviousPageButtonPressed();
+
+
+
+
+
+    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.cancel_button})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.homeButton:
+                onNavigationBarActionListener.onHomeButtonPressed();
+                break;
+            case R.id.previousPageButton:
+                onNavigationBarActionListener.onPreviousPageButtonPressed();
+                break;
+            case R.id.cancel_button:
+                mFocusSection.setVisibility(View.GONE);
+                mAddressSection.setVisibility(View.VISIBLE);
+
+        }
     }
 
     public void setAddressField(String pageUrl) {
