@@ -67,6 +67,8 @@ public class WebViewFragment extends Fragment {
         super.onDestroyView();
     }
 
+
+
     public void goToSelectedPage(String pageUrl) {
         pageDisplay.loadUrl(pageUrl);
     }
@@ -79,4 +81,5 @@ public class WebViewFragment extends Fragment {
         pageDisplay.getSettings().setBuiltInZoomControls(true);
         pageDisplay.getSettings().setDisplayZoomControls(false);
     }
+
 }
