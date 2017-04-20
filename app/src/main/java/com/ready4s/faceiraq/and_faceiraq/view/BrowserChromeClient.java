@@ -19,6 +19,7 @@ public class BrowserChromeClient extends WebChromeClient {
 
     private WebViewFragment.OnWebViewActionListener onWebViewActionListener;
     private PageDetails pageDetails;
+    private String pageUrl;
 
     public BrowserChromeClient(WebViewFragment.OnWebViewActionListener onWebViewActionListener) {
         this.onWebViewActionListener = onWebViewActionListener;
@@ -28,6 +29,10 @@ public class BrowserChromeClient extends WebChromeClient {
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
+        if (newProgress == 100) {
+            Log.d(TAG, "onProgressChanged: 100");
+            pageUrl = view.getUrl();
+        }
     }
 
     @Override
