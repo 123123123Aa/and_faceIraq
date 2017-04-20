@@ -5,7 +5,7 @@ import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.ready4s.faceiraq.and_faceiraq.model.database.PageDetails;
+import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.TimeUtil;
 
 /**
@@ -13,7 +13,7 @@ import com.ready4s.faceiraq.and_faceiraq.model.utils.TimeUtil;
  * email: psalata9@gmail.com
  */
 
-class BrowserChromeClient extends WebChromeClient {
+public class BrowserChromeClient extends WebChromeClient {
 
     public static final String TAG = "BrowserChromeClient";
 

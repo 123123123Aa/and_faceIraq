@@ -1,4 +1,4 @@
-package com.ready4s.faceiraq.and_faceiraq.view;
+package com.ready4s.faceiraq.and_faceiraq.view.history;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,7 +20,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
-import io.realm.RealmResults;
 
 /**
  * Created by Paweł Sałata on 19.04.2017.

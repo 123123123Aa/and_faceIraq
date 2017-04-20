@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity;
-import com.ready4s.faceiraq.and_faceiraq.model.database.PageDetails;
+import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;

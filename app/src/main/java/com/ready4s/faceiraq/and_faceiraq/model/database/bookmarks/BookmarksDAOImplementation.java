@@ -3,7 +3,7 @@ package com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks;
 import android.util.Log;
 
 import com.ready4s.faceiraq.and_faceiraq.model.database.BrowserDAO;
-import com.ready4s.faceiraq.and_faceiraq.model.database.PageDetails;
+import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
 
 import java.util.ArrayList;
 import java.util.List;

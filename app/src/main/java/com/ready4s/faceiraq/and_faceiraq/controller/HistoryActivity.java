@@ -8,15 +8,11 @@ import android.support.v4.app.FragmentTransaction;
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
-import com.ready4s.faceiraq.and_faceiraq.view.DisplayHistoryFragment;
-import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
-import com.ready4s.faceiraq.and_faceiraq.view.WebViewFragment;
+import com.ready4s.faceiraq.and_faceiraq.view.history.DisplayHistoryFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Created by Paweł Sałata on 19.04.2017.

@@ -1,14 +1,10 @@
 package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.annotation.TargetApi;
-import android.graphics.Bitmap;
 import android.os.Build;
-import android.util.Log;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import com.ready4s.faceiraq.and_faceiraq.model.database.PageDetails;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.ready4s.faceiraq.and_faceiraq.model.database;
+package com.ready4s.faceiraq.and_faceiraq.model;
 
 import android.graphics.Bitmap;
 import android.util.Base64;

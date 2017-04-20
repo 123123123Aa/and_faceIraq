@@ -1,7 +1,6 @@
 package com.ready4s.faceiraq.and_faceiraq.model.database;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
+import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
 
 /**
  * Created by Paweł Sałata on 18.04.2017.

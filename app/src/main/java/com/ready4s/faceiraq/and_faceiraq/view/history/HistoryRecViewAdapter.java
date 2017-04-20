@@ -1,4 +1,4 @@
-package com.ready4s.faceiraq.and_faceiraq.view;
+package com.ready4s.faceiraq.and_faceiraq.view.history;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +19,6 @@ import com.ready4s.faceiraq.and_faceiraq.model.utils.ImageUtil;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import io.realm.RealmResults;
 
 /**
  * Created by Paweł Sałata on 19.04.2017.
