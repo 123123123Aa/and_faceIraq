@@ -25,6 +25,7 @@
             android:text="www.example.com"
             android:textSize="@dimen/navigationBarTextSize"
             android:textAlignment="center"
+            android:paddingLeft="5dp"
             android:textColor="@color/navigationBarTextColor"
             android:maxLines="1"
             android:inputType="textWebEditText"
@@ -69,28 +70,30 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone">
 
-        <EditText android:id="@+id/address_focus_field"
-                  android:layout_width="match_parent"
-                  android:layout_height="@dimen/navigationAddressFieldHeight"
-                  android:background="@drawable/address_field_background"
-                  android:layout_toStartOf="@+id/cancel_button"
-                  android:textSize="@dimen/navigationBarTextSize"
-                  android:textColor="@color/navigationBarTextColor"
-                  android:maxLines="1"
-                  android:inputType="textWebEditText"
-                  android:imeOptions="actionGo"
-                  android:selectAllOnFocus="true"
-                  android:paddingLeft="5dp"
+        <EditText
+                android:id="@+id/address_focus_field"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigationAddressFieldHeight"
+                android:background="@drawable/address_field_background"
+                android:layout_toStartOf="@+id/cancel_button"
+                android:textSize="@dimen/navigationBarTextSize"
+                android:textColor="@color/navigationBarTextColor"
+                android:maxLines="1"
+                android:inputType="textWebEditText"
+                android:imeOptions="actionGo"
+                android:selectAllOnFocus="true"
+                android:paddingLeft="5dp"
             />
 
         <Button android:id="@+id/cancel_button"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:background="@color/navigationBarBackground"
+                android:background="@android:color/transparent"
                 android:text="Cancel"
                 android:textAllCaps="false"
                 android:layout_marginLeft="6dp"
+                android:textColor="@color/navigationBarTextColor"
                 android:layout_alignBottom="@+id/address_focus_field"/>
 
     </RelativeLayout>

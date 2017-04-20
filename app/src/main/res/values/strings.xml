@@ -1,6 +1,47 @@
 <resources>
     <string name="app_name">FaceIraq</string>
     <string name="HOME_PAGE_ADDRESS">http://faceiraq.net</string>
+    <string name="toolbar_title_contact_us">Contact Us</string>
+    <string name="toolbar_theme_colour_title">Theme Colour</string>
+
     <string name="delete">delete</string>
     <string name="search">Search</string>
+
+    <string-array name="dialog_item_list">
+        <item>New page</item>0
+        <item>Bookmark this page</item>1
+        <item>My bookmarks</item>2
+        <item>History</item>3
+        <item>Push notifications</item>4
+        <item>Theme colour</item>5
+        <item>Contact us</item>6
+    </string-array>
+    <string-array name="colors">
+        <item>Beige</item>
+        <item>Red</item>
+        <item>Pink</item>
+        <item>Purple</item>
+        <item>Dark Blue</item>
+        <item>Blue</item>
+        <item>Turquoise</item>
+        <item>Dark Green</item>
+        <item>Green</item>
+        <item>Yellow</item>
+        <item>Orange</item>
+    </string-array>
+    <string-array name="theme_colours">
+        <item>R.styles.beige_theme</item>
+        <item>R.styles.red_theme</item>
+        <item>R.styles.pink_theme</item>
+        <item>R.styles.purple_theme</item>
+        <item>R.styles.dark_blue_theme</item>
+        <item>R.styles.blue_theme</item>
+        <item>R.styles.turquoise_theme</item>
+        <item>R.styles.dark_green_theme</item>
+        <item>R.styles.green_theme</item>
+        <item>R.styles.yellow_theme</item>
+        <item>R.styles.orange_theme</item>
+
+
+    </string-array>
 </resources>

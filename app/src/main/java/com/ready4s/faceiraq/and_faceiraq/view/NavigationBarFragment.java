@@ -9,15 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
+
+import static android.view.View.GONE;
 
 /**
  * Created by Paweł Sałata on 14.04.2017.
@@ -43,6 +48,9 @@ public class NavigationBarFragment extends Fragment {
     RelativeLayout mAddressSection;
     @Bind(R.id.address_focus_field)
     EditText mFocusEt;
+    @Bind(R.id.menuDotsButton)
+    ImageView mDotsMenu;
+
 
 
     public NavigationBarFragment() {
@@ -78,13 +86,17 @@ public class NavigationBarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mFocusSection.setVisibility(View.VISIBLE);
-                mAddressSection.setVisibility(View.GONE);
+                mAddressSection.setVisibility(GONE);
                 mFocusEt.setText(addressField.getText().toString());
                 mFocusEt.setSelection(addressField.length());
                 mFocusEt.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mFocusEt, InputMethodManager.SHOW_IMPLICIT);
             }
         });
+
     }
+
 
 
     @OnEditorAction(R.id.address_focus_field)
@@ -92,15 +104,27 @@ public class NavigationBarFragment extends Fragment {
         if (actionId == EditorInfo.IME_ACTION_GO) {
             String pageUrl = mFocusEt.getText().toString();
             onNavigationBarActionListener.onPageSelected(pageUrl);
-            mFocusEt.clearFocus();
             addressField.setText(mFocusEt.getText().toString());
-            mFocusSection.setVisibility(View.GONE);
+            mFocusSection.setVisibility(GONE);
             mAddressSection.setVisibility(View.VISIBLE);
+            hideSoftKeyboard();
+            return true;
+        } else if (event.getAction() == KeyEvent.ACTION_UP) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mFocusEt.getWindowToken(), 0);
+            mFocusSection.setVisibility(GONE);
+            mAddressSection.setVisibility(View.VISIBLE);
+            mFocusEt.clearFocus();
             return true;
         }
         return false;
     }
 
+    private void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mFocusEt.getWindowToken(), 0);
+        mFocusEt.clearFocus();
+    }
 
 
 
@@ -117,10 +141,17 @@ public class NavigationBarFragment extends Fragment {
                 onNavigationBarActionListener.onPreviousPageButtonPressed();
                 break;
             case R.id.cancel_button:
-                mFocusSection.setVisibility(View.GONE);
+                mFocusSection.setVisibility(GONE);
                 mAddressSection.setVisibility(View.VISIBLE);
+                hideSoftKeyboard();
+                break;
             case R.id.menuDotsButton:
-                onNavigationBarActionListener.onSettingsPressed();
+                MainDialog dialogFragment = new MainDialog();
+                dialogFragment.show(getActivity().getSupportFragmentManager(),"simple dialog");
+
+
+
+
         }
     }
 
