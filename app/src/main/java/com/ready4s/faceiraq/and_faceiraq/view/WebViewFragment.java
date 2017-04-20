@@ -1,19 +1,13 @@
 package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.database.PageDetails;
@@ -29,7 +23,7 @@ import butterknife.ButterKnife;
 public class WebViewFragment extends Fragment {
 
     public interface OnWebViewActionListener {
-        public void onPageFinished(PageDetails pageDetails);
+        public void onPageFinished(PageDetails pageDetails, String url);
     }
 
     OnWebViewActionListener onWebViewActionListener;

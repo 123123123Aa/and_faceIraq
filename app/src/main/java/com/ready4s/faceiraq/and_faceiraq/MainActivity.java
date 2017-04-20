@@ -1,5 +1,6 @@
 package com.ready4s.faceiraq.and_faceiraq;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -25,6 +26,7 @@ public class MainActivity extends FragmentActivity
     private String currentPage;
     private List<String> visitedPagesList = new ArrayList<>();
     private HistoryDAOImplementation historyDAO;
+    public String themeColour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +67,12 @@ public class MainActivity extends FragmentActivity
      * WebView methods
      */
     @Override
-    public void onPageFinished(PageDetails pageDetails) {
+    public void onPageFinished(PageDetails pageDetails, String pageUrl) {
         historyDAO.insertOrUpdate(pageDetails);
+        setPageAddressField(pageUrl);
+
     }
+
 
     private void goToPreviousPage() {
         if ( !visitedPagesList.isEmpty()) {
@@ -117,6 +122,15 @@ public class MainActivity extends FragmentActivity
         webView.goToSelectedPage(pageUrl);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1)
+            if (resultCode == RESULT_OK) {
+                themeColour = data.getStringExtra("Colour");
+            }
+    }
+
     private void init() {
         initFragment(R.id.navigationBarFragment, new NavigationBarFragment());
         initFragment(R.id.webViewFragment, new WebViewFragment());
@@ -134,4 +148,11 @@ public class MainActivity extends FragmentActivity
     private String getHomePageAddress() {
         return getResources().getString(R.string.HOME_PAGE_ADDRESS);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+
 }

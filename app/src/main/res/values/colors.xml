@@ -10,4 +10,16 @@
     <color name="navigationBarTextColor">#000000</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="beige">#F5F1E9</color>
+    <color name="red">#F44144</color>
+    <color name="pink">#E91964</color>
+    <color name="purple">#9D22B0</color>
+    <color name="dark_blue">#3E50B6</color>
+    <color name="blue">#1E98F5</color>
+    <color name="turquoise">#00BED7</color>
+    <color name="dark_green">#00978A</color>
+    <color name="green">#4CB051</color>
+    <color name="yellow">#FFD300</color>
+    <color name="orange">#FF7606</color>
+
 </resources>

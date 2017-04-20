@@ -18,6 +18,7 @@ class BrowserChromeClient extends WebChromeClient {
 
     private WebViewFragment.OnWebViewActionListener onWebViewActionListener;
     private PageDetails pageDetails;
+    private String pageUrl;
 
     public BrowserChromeClient(WebViewFragment.OnWebViewActionListener onWebViewActionListener) {
         this.onWebViewActionListener = onWebViewActionListener;
@@ -30,7 +31,8 @@ class BrowserChromeClient extends WebChromeClient {
         if (newProgress == 100) {
             Log.d(TAG, "onProgressChanged: 100");
             pageDetails.setAddress(view.getUrl());
-            onWebViewActionListener.onPageFinished(pageDetails);
+            pageUrl = view.getUrl();
+            onWebViewActionListener.onPageFinished(pageDetails, pageUrl);
         }
     }
 
@@ -45,6 +47,6 @@ class BrowserChromeClient extends WebChromeClient {
         super.onReceivedIcon(view, icon);
         Log.d(TAG, "onReceivedIcon: " + icon);
         pageDetails.setLogo(icon);
-        onWebViewActionListener.onPageFinished(pageDetails);
+        onWebViewActionListener.onPageFinished(pageDetails, pageUrl);
     }
 }
