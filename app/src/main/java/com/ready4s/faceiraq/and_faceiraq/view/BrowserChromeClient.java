@@ -6,6 +6,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.ready4s.faceiraq.and_faceiraq.model.database.PageDetails;
+import com.ready4s.faceiraq.and_faceiraq.model.utils.TimeUtil;
 
 /**
  * Created by Paweł Sałata on 18.04.2017.
@@ -27,24 +28,29 @@ class BrowserChromeClient extends WebChromeClient {
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
-        if (newProgress == 100) {
-            Log.d(TAG, "onProgressChanged: 100");
-            pageDetails.setAddress(view.getUrl());
-            onWebViewActionListener.onPageFinished(pageDetails);
-        }
     }
 
     @Override
     public void onReceivedTitle(WebView view, String title) {
         super.onReceivedTitle(view, title);
         pageDetails.setTitle(title);
+        pageDetails.setAddress(view.getUrl());
+        pageDetails.setTimestamp(TimeUtil.getCurrentTimestamp());
+        onWebViewActionListener.onPageFinished(pageDetails);
     }
 
     @Override
     public void onReceivedIcon(WebView view, Bitmap icon) {
         super.onReceivedIcon(view, icon);
         Log.d(TAG, "onReceivedIcon: " + icon);
+        pageDetails.setTitle(view.getTitle());
+        pageDetails.setAddress(view.getUrl());
         pageDetails.setLogo(icon);
-        onWebViewActionListener.onPageFinished(pageDetails);
+        onWebViewActionListener.onUpdatePageIcon(pageDetails);
+    }
+
+    public void clearPageDetails() {
+        Log.d(TAG, "clearPageDetails");
+        pageDetails = new PageDetails();
     }
 }

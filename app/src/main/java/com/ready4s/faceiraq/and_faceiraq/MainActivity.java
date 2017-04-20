@@ -1,11 +1,13 @@
 package com.ready4s.faceiraq.and_faceiraq;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity;
 import com.ready4s.faceiraq.and_faceiraq.model.database.PageDetails;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
@@ -61,12 +63,23 @@ public class MainActivity extends FragmentActivity
         goToPreviousPage();
     }
 
+    @Override
+    public void onSettingsPressed() {
+        Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * WebView methods
      */
     @Override
     public void onPageFinished(PageDetails pageDetails) {
-        historyDAO.insertOrUpdate(pageDetails);
+        historyDAO.insert(pageDetails);
+    }
+
+    @Override
+    public void onUpdatePageIcon(PageDetails pageDetails) {
+        historyDAO.update(pageDetails);
     }
 
     private void goToPreviousPage() {

@@ -6,6 +6,8 @@ import android.util.Base64;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ImageUtil;
 
+import java.util.UUID;
+
 import io.realm.RealmObject;
 
 /**
@@ -15,17 +17,30 @@ import io.realm.RealmObject;
 
 public class PageDetails {
 
+    private String uuid;
+    private long timestamp;
     private String title;
     private String address;
     private Bitmap logo;
 
     public PageDetails() {
+        uuid = UUID.randomUUID().toString();
     }
 
-    public PageDetails(String title, String address, Bitmap logo) {
-        this.title = title;
-        this.address = address;
-        this.logo = logo;
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getTitle() {
@@ -60,5 +75,11 @@ public class PageDetails {
     @Override
     public String toString() {
         return "[" + title + "] " + address;
+    }
+
+    public void clear() {
+        title = "";
+        address = "";
+        logo = null;
     }
 }

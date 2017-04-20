@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,15 @@ import butterknife.ButterKnife;
 
 public class WebViewFragment extends Fragment {
 
+    private static final String TAG = "WebViewFragment";
+
     public interface OnWebViewActionListener {
         public void onPageFinished(PageDetails pageDetails);
+        public void onUpdatePageIcon(PageDetails pageDetails);
     }
 
     OnWebViewActionListener onWebViewActionListener;
+    BrowserChromeClient browserChromeClient;
 
     @Bind(R.id.pageDisplay)
     WebView pageDisplay;
@@ -45,6 +50,7 @@ public class WebViewFragment extends Fragment {
         super.onAttach(context);
         try {
             onWebViewActionListener = (OnWebViewActionListener) context;
+            browserChromeClient = new BrowserChromeClient(onWebViewActionListener);
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnWebViewActionListener");
         }
@@ -70,11 +76,13 @@ public class WebViewFragment extends Fragment {
 
 
     public void goToSelectedPage(String pageUrl) {
+        Log.d(TAG, "goToSelectedPage");
+        browserChromeClient.clearPageDetails();
         pageDisplay.loadUrl(pageUrl);
     }
 
     private void init() {
-        pageDisplay.setWebChromeClient(new BrowserChromeClient(onWebViewActionListener));
+        pageDisplay.setWebChromeClient(browserChromeClient);
         pageDisplay.setWebViewClient(new BrowserClient());
         pageDisplay.getSettings().setLoadWithOverviewMode(true);
         pageDisplay.getSettings().setUseWideViewPort(true);

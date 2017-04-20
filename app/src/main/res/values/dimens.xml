@@ -25,5 +25,8 @@
 
     <dimen name="addressFieldMargin">2dp</dimen>
     <dimen name="navigationBarTextSize">15sp</dimen>
+    <dimen name="historyRecordHeight">60dp</dimen>
+    <dimen name="deleteButtonWidth">100dp</dimen>
+    <dimen name="historyPageIconWidth">40dp</dimen>
 
 </resources>

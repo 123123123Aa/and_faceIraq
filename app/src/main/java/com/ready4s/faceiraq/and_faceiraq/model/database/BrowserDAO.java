@@ -10,12 +10,13 @@ import io.realm.RealmObject;
 
 public interface BrowserDAO {
 
-    public void insertOrUpdate(PageDetails pageDetails);
+    public void insert(PageDetails pageDetails);
 
     /**
      * At the moment we are using record timestamp as primary key
      * @param id - timestamp
      */
     public void delete(long id);
+
 
 }

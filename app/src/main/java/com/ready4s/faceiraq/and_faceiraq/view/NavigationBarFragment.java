@@ -30,6 +30,7 @@ public class NavigationBarFragment extends Fragment {
         public void onPageSelected(String pageUrl);
         public void onHomeButtonPressed();
         public void onPreviousPageButtonPressed();
+        public void onSettingsPressed();
     }
 
     OnNavigationBarActionListener onNavigationBarActionListener;
@@ -106,7 +107,7 @@ public class NavigationBarFragment extends Fragment {
 
 
 
-    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.cancel_button})
+    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.cancel_button, R.id.menuDotsButton})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.homeButton:
@@ -118,7 +119,8 @@ public class NavigationBarFragment extends Fragment {
             case R.id.cancel_button:
                 mFocusSection.setVisibility(View.GONE);
                 mAddressSection.setVisibility(View.VISIBLE);
-
+            case R.id.menuDotsButton:
+                onNavigationBarActionListener.onSettingsPressed();
         }
     }
 

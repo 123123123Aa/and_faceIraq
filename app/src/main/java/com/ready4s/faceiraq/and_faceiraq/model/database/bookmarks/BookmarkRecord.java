@@ -1,16 +1,15 @@
-package com.ready4s.faceiraq.and_faceiraq.model.database.history;
-
-import java.util.Objects;
+package com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by Paweł Sałata on 18.04.2017.
+ * Created by Paweł Sałata on 20.04.2017.
  * email: psalata9@gmail.com
  */
 
-public class HistoryRecord extends RealmObject {
+public class BookmarkRecord extends RealmObject {
+
 
     public static final String TIMESTAMP = "timestamp";
     public static final String TITLE = "title";
