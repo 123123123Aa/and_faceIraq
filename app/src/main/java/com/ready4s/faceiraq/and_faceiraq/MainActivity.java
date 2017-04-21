@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.webkit.WebView;
 
 import com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity;
 import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogAdapter;
@@ -31,15 +32,17 @@ public class MainActivity extends FragmentActivity
     private HistoryDAOImplementation historyDAO;
     private BookmarksDAOImplementation bookmarksDAO;
     public String themeColour;
+    private List<WebView> openedPages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
-        init();
+//        init();
         currentPage = getHomePageAddress();
         Realm.init(this);
+        openedPages = new ArrayList<>();
         historyDAO = new HistoryDAOImplementation();
         bookmarksDAO = new BookmarksDAOImplementation();
     }
@@ -86,6 +89,11 @@ public class MainActivity extends FragmentActivity
     public void onSaveBookmarkClick() {
         PageDetails pageDetails = getCurrentPageDetails();
         bookmarksDAO.insert(pageDetails);
+    }
+
+
+    public void onOpenedNewPage() {
+
     }
 
     @Override
@@ -162,10 +170,15 @@ public class MainActivity extends FragmentActivity
         initFragment(R.id.webViewFragment, new WebViewFragment());
     }
 
-    private void initFragment(int containerId, Fragment fragment) {
+    private void initFragment(int containerId, Fragment newFragment) {
+        Fragment fragment =  getSupportFragmentManager()
+                .findFragmentById(containerId);
+        if (fragment != null && fragment.getClass().equals(newFragment.getClass())) {
+            return;
+        }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        transaction.replace(containerId, fragment);
+        transaction.replace(containerId, newFragment);
         transaction.addToBackStack(null);
 
         transaction.commit();

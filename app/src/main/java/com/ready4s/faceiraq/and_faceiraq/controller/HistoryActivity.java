@@ -29,7 +29,7 @@ public class HistoryActivity extends FragmentActivity implements HistoryFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        init();
+//        init();
         Realm.init(this);
         historyDAO = new HistoryDAOImplementation();
         initHistoryData();

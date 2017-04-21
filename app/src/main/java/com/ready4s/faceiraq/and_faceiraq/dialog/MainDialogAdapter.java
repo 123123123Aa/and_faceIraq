@@ -61,6 +61,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
         public void onClick() {
             switch (getAdapterPosition()) {
                 case 0:
+                    ((MainActivity) mContext).onOpenedNewPage();
                     break;
                 case 1:
                     ((MainActivity) mContext).onSaveBookmarkClick();

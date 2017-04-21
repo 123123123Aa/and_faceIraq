@@ -9,6 +9,9 @@
         android:id="@+id/cardsNavigationBarFragment"
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
-
+    <fragment class="com.ready4s.faceiraq.and_faceiraq.view.CardsFragment"
+        android:id="@+id/cardsDisplayFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

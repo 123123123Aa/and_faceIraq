@@ -28,7 +28,6 @@ public class CardsActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cards);
         Log.d(TAG, "onCreate:");
-        init();
     }
 
     @Override
@@ -36,19 +35,6 @@ public class CardsActivity extends AppCompatActivity{
         super.onDestroy();
     }
 
-    private void init() {
-        Log.d(TAG, "init: ");
-        initFragment(R.id.cardsNavigationBarFragment, new CardsNavigationBarFragment());
-//        initFragment(R.id.webViewFragment, new WebViewFragment());
-    }
 
-    private void initFragment(int containerId, Fragment fragment) {
-        Log.d(TAG, "initFragment: ");
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        transaction.replace(containerId, fragment);
-        transaction.addToBackStack(null);
-
-        transaction.commit();
-    }
 }

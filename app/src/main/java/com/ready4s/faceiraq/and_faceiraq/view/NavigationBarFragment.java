@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
 import static android.view.View.GONE;
+import static com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOImplementation.TAG;
 
 /**
  * Created by Paweł Sałata on 14.04.2017.
@@ -31,6 +33,8 @@ import static android.view.View.GONE;
  */
 
 public class NavigationBarFragment extends Fragment {
+
+    public static final String TAG = "NavigationBarFragment";
 
     public interface OnNavigationBarActionListener {
         public void onPageSelected(String pageUrl);
@@ -142,6 +146,7 @@ public class NavigationBarFragment extends Fragment {
                 onNavigationBarActionListener.onPreviousPageButtonPressed();
                 break;
             case R.id.cardsCountButton:
+                Log.d(TAG, "onClick: card count button");
                 onNavigationBarActionListener.onCardsButtonPressed();
                 break;
             case R.id.cancel_button:

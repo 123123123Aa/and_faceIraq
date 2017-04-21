@@ -32,7 +32,7 @@ public class BookmarksActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
-        init();
+//        init();
         Realm.init(this);
         bookmarksDAO = new BookmarksDAOImplementation();
         initBookmarksData();
