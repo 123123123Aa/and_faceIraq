@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/dialog_rl"
               android:layout_width="match_parent"
               android:layout_height="50dp"
     android:background="@color/navigationBarBackground">
@@ -26,15 +27,15 @@
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
         android:background="@color/navigationBarTextColor"/>
-    <ImageView
+    <Button
         android:id="@+id/dialog_theme_circle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/circle"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
-        android:visibility="gone"/>
+        android:layout_marginRight="15dp"
+        android:visibility="gone"
+        android:clickable="false"/>
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/dialog_switch_toggle"
         android:layout_width="wrap_content"

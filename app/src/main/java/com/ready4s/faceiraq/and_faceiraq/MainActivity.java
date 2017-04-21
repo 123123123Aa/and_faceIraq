@@ -1,5 +1,6 @@
 package com.ready4s.faceiraq.and_faceiraq;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,11 @@ import android.util.Log;
 import com.ready4s.faceiraq.and_faceiraq.model.database.PageDetails;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
+import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
 import com.ready4s.faceiraq.and_faceiraq.view.WebViewFragment;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,17 +29,31 @@ public class MainActivity extends FragmentActivity
     private String currentPage;
     private List<String> visitedPagesList = new ArrayList<>();
     private HistoryDAOImplementation historyDAO;
-    public String themeColour;
+    private int themeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppTheme);
+        ThemeChangeUtil.onActivityCreateSetTheme(this);
+        themeId = getThemeId();
         setContentView(R.layout.activity_main);
         init();
         currentPage = getHomePageAddress();
         Realm.init(this);
         historyDAO = new HistoryDAOImplementation();
+    }
+
+    private int getThemeId(){
+        try {
+            Class<?> wrapper = Context.class;
+            Method method = wrapper.getMethod("getThemeResId");
+            method.setAccessible(true);
+            return (Integer) method.invoke(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+
     }
 
     @Override
@@ -127,7 +144,7 @@ public class MainActivity extends FragmentActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1)
             if (resultCode == RESULT_OK) {
-                themeColour = data.getStringExtra("Colour");
+                ThemeChangeUtil.changeToTheme(this, data.getStringExtra("Colour"));
             }
     }
 

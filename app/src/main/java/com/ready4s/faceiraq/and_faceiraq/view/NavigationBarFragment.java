@@ -1,9 +1,12 @@
 package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.ready4s.faceiraq.and_faceiraq.MainActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
-import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialog;
+import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +43,8 @@ public class NavigationBarFragment extends Fragment {
 
     OnNavigationBarActionListener onNavigationBarActionListener;
 
+    @Bind(R.id.navigation_bar_rl)
+    RelativeLayout mNavigationBarRl;
     @Bind(R.id.addressField)
     EditText addressField;
     @Bind(R.id.address_focus_section)
@@ -50,6 +56,7 @@ public class NavigationBarFragment extends Fragment {
     @Bind(R.id.menuDotsButton)
     ImageView mDotsMenu;
 
+    private MainActivity mMainActivity;
 
 
     public NavigationBarFragment() {
@@ -71,6 +78,8 @@ public class NavigationBarFragment extends Fragment {
         View view = inflater.inflate(R.layout.browser_navigation_bar, container, false);
         ButterKnife.bind(this, view);
         onTextClick();
+        mMainActivity = (MainActivity)getActivity();
+        changeNavigationBarBackground();
         return view;
     }
 
@@ -78,6 +87,14 @@ public class NavigationBarFragment extends Fragment {
     public void onDestroyView() {
         ButterKnife.unbind(this);
         super.onDestroyView();
+    }
+
+    private void changeNavigationBarBackground() {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = mMainActivity.getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        mNavigationBarRl.setBackgroundColor(color);
     }
 
     private void onTextClick() {
@@ -145,7 +162,7 @@ public class NavigationBarFragment extends Fragment {
                 hideSoftKeyboard();
                 break;
             case R.id.menuDotsButton:
-                MainDialog dialogFragment = new MainDialog();
+                MainDialogFragment dialogFragment = new MainDialogFragment();
                 dialogFragment.show(getActivity().getSupportFragmentManager(),"simple dialog");
 
 

@@ -9,7 +9,6 @@
     android:fitsSystemWindows="true"
     app:titleTextAppearance="@style/CustomTextAppearance"
     android:minHeight="?attr/actionBarSize"
-    android:background="@color/darkGrey"
     >
 
     <RelativeLayout

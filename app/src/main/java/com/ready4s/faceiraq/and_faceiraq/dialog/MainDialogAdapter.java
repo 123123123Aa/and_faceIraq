@@ -3,16 +3,20 @@ package com.ready4s.faceiraq.and_faceiraq.dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ready4s.faceiraq.and_faceiraq.contact.us.ContactUsActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.contact.us.ContactUsActivity;
 import com.ready4s.faceiraq.and_faceiraq.model.ItemListModel;
 import com.ready4s.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity;
 
@@ -30,14 +34,18 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
 
     private ArrayList<ItemListModel> mItemList = new ArrayList<>();
     private Context mContext;
+    private int themeColour;
 
-    public MainDialogAdapter(Context context) {
+    public MainDialogAdapter(Context context, int colour) {
         this.mContext = context;
+        this.themeColour = colour;
         iniDialogItems();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        @Bind(R.id.dialog_rl)
+        RelativeLayout mDialogRl;
         @Bind(R.id.dialog_tv)
         TextView mDialogTv;
         @Bind(R.id.dialog_iv)
@@ -45,7 +53,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
         @Bind(R.id.line)
         View mLine;
         @Bind(R.id.dialog_theme_circle)
-        ImageView mCircle;
+        Button mCircle;
         @Bind(R.id.dialog_switch_toggle)
         SwitchCompat mSwitchToggle;
 
@@ -53,7 +61,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
             super(view);
             ButterKnife.bind(this, view);
         }
-        @OnClick(R.id.dialog_tv)
+        @OnClick(R.id.dialog_rl)
         public void onClick() {
             switch (getAdapterPosition()) {
                 case 0:
@@ -104,8 +112,14 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
         holder.mDialogIv.setImageResource(item.getImageId());
         if(position == 6)
             holder.mLine.setVisibility(View.GONE);
-        if(position == 5)
+        if(position == 5) {
             holder.mCircle.setVisibility(View.VISIBLE);
+            Drawable drawable = mContext.getResources().getDrawable(R.drawable.circle);
+            drawable.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
+            holder.mCircle.setBackground(drawable);
+//            holder.mCircle.setBackground(mContext.getResources().getDrawable(R.drawable.circle));
+//            holder.mCircle.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
+        }
         if(position == 4)
             holder.mSwitchToggle.setVisibility(View.VISIBLE);
     }
