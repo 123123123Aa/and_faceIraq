@@ -58,6 +58,7 @@
             android:gravity="top|left"
             android:layout_below="@+id/activity_contact_us_subject_et"/>
         <RelativeLayout
+            android:id="@+id/add_image_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
@@ -69,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/activity_contact_us_add_photo_iv"
-                android:text="Add_photo"
+                android:text="Add photo"
                 android:textSize="15dp"
                 android:layout_marginRight="5dp"
                 android:textColor="@color/navigationBarTextColor"/>
@@ -81,6 +82,40 @@
                 android:layout_marginRight="10dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/image_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:visibility="gone"
+            android:layout_below="@id/activity_contact_us_content_et">
+            <TextView
+                android:id="@+id/activity_contact_us_photo_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Photo title"
+                android:textSize="15dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/navigationBarTextColor"/>
+            <ImageView
+                android:id="@+id/activity_contact_us_delete_photo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_close_black_24dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"
+                />
+            <ImageView
+                android:id="@+id/activity_contact_us_photo_iv"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_close_black_24dp"
+                android:layout_below="@id/activity_contact_us_photo_title_tv"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"/>
+
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

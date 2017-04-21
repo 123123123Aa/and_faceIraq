@@ -9,13 +9,11 @@ public class ColourListModel {
     private String title;
     private int colourId;
     private boolean isSelected;
-    private String themeColour;
 
-    public ColourListModel(String title, int colourId, boolean isSelected, String themeColour) {
+    public ColourListModel(String title, int colourId, boolean isSelected) {
         this.title = title;
         this.colourId = colourId;
         this.isSelected = isSelected;
-        this.themeColour = themeColour;
     }
 
     public String getTitle() {
@@ -43,21 +41,12 @@ public class ColourListModel {
     }
 
 
-    public String getThemeColour() {
-        return themeColour;
-    }
-
-    public void setThemeColour(String themeColour) {
-        this.themeColour = themeColour;
-    }
-
     @Override
     public String toString() {
         return "ColourListModel{" +
                 "title=" + title + '\'' +
                 ", colourId=" + colourId +
                 ", isSelected=" + isSelected +
-                "themeColour=" + themeColour + '\'' +
                 '}';
     }
 }

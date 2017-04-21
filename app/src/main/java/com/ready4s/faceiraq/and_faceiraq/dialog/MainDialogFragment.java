@@ -1,11 +1,15 @@
 package com.ready4s.faceiraq.and_faceiraq.dialog;
 
+import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +28,7 @@ import butterknife.OnClick;
  * Created by user on 19.04.2017.
  */
 
-public class MainDialog extends DialogFragment {
+public class MainDialogFragment extends DialogFragment {
 
     @Bind(R.id.dialog_recycler_view)
     RecyclerView mDialogRecyclerView;
@@ -33,6 +37,7 @@ public class MainDialog extends DialogFragment {
 
     private MainDialogAdapter mDialogAdapter;
     private MainActivity mMainActivity;
+    private int themeColour;
 
     @Override
     public void onStart() {
@@ -53,11 +58,24 @@ public class MainDialog extends DialogFragment {
 
         mMainActivity = (MainActivity) getActivity();
         mDialogRecyclerView.setLayoutManager(new LinearLayoutManager(mMainActivity, LinearLayoutManager.VERTICAL, false));
-        mDialogAdapter = new MainDialogAdapter(mMainActivity);
+        changeButtonColor();
+        mDialogAdapter = new MainDialogAdapter(mMainActivity, themeColour);
         mDialogRecyclerView.setAdapter(mDialogAdapter);
+
+
 
         return view;
 
+    }
+
+    private void changeButtonColor() {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = mMainActivity.getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        themeColour = typedValue.data;
+        Drawable drawable = mMainActivity.getResources().getDrawable(R.drawable.btn_round_grey);
+        drawable.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
+        mCancelButton.setBackground(drawable);
     }
 
     @OnClick(R.id.dialog_button)
@@ -65,11 +83,4 @@ public class MainDialog extends DialogFragment {
         dismiss();
     }
 
-//    public Dialog DialogBuilder() {
-//        Dialog builder = new Dialog(getActivity());
-//        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        builder.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        builder.setContentView(view);
-//        return builder;
-//    }
 }

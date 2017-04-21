@@ -20,7 +20,6 @@
         android:textColor="@color/navigationBarTextColor"
         android:text="Cancel"
         android:layout_margin="3dp"
-        android:background="@drawable/btn_round_grey"
         android:layout_below="@id/dialog_recycler_view"
         />
 </RelativeLayout>
