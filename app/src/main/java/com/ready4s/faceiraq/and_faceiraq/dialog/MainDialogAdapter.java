@@ -11,9 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ready4s.faceiraq.and_faceiraq.MainActivity;
 import com.ready4s.faceiraq.and_faceiraq.contact.us.ContactUsActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity;
+import com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity;
 import com.ready4s.faceiraq.and_faceiraq.model.ItemListModel;
+import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
 import com.ready4s.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity;
 
 import java.util.ArrayList;
@@ -59,8 +63,18 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
                 case 0:
                     break;
                 case 1:
+                    ((MainActivity) mContext).onSaveBookmarkClick();
                     break;
                 case 2:
+                    Intent bookmarksIntent = new Intent(mContext, BookmarksActivity.class);
+                    mContext.startActivity(bookmarksIntent);
+                    break;
+                case 3:
+                    Intent historyIntent = new Intent(mContext, HistoryActivity.class);
+                    mContext.startActivity(historyIntent);
+                    break;
+                case 4:
+                    //notifications
                     break;
                 case 5:
                     Intent colourIntent = new Intent(mContext, ThemeColourActivity.class);

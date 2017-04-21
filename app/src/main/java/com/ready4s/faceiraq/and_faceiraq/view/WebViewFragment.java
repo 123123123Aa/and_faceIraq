@@ -12,6 +12,7 @@ import android.webkit.WebView;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
+import com.ready4s.faceiraq.and_faceiraq.model.utils.TimeUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,12 +68,19 @@ public class WebViewFragment extends Fragment {
         super.onDestroyView();
     }
 
-
-
     public void goToSelectedPage(String pageUrl) {
         Log.d(TAG, "goToSelectedPage");
         browserChromeClient.clearPageDetails();
         pageDisplay.loadUrl(pageUrl);
+    }
+
+    public PageDetails getCurrentPageDetails() {
+        PageDetails pageDetails = new PageDetails();
+        pageDetails.setTimestamp(TimeUtil.getCurrentTimestamp());
+        pageDetails.setTitle(pageDisplay.getTitle());
+        pageDetails.setAddress(pageDisplay.getUrl());
+        pageDetails.setLogo(pageDisplay.getFavicon());
+        return pageDetails;
     }
 
     private void init() {

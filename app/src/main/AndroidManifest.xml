@@ -27,6 +27,11 @@
         <activity android:name=".theme.colour.ThemeColourActivity"
                   android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".controller.BookmarksActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".controller.CardsActivity"
+                  android:screenOrientation="portrait"
+            android:theme="@style/CardsActivityTheme"/>
     </application>
 
 </manifest>

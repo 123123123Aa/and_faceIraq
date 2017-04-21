@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.ready4s.faceiraq.and_faceiraq.MainActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialog;
 
@@ -35,7 +36,7 @@ public class NavigationBarFragment extends Fragment {
         public void onPageSelected(String pageUrl);
         public void onHomeButtonPressed();
         public void onPreviousPageButtonPressed();
-        public void onSettingsPressed();
+        void onCardsButtonPressed();
     }
 
     OnNavigationBarActionListener onNavigationBarActionListener;
@@ -51,8 +52,6 @@ public class NavigationBarFragment extends Fragment {
     @Bind(R.id.menuDotsButton)
     ImageView mDotsMenu;
 
-
-
     public NavigationBarFragment() {
     }
 
@@ -61,6 +60,7 @@ public class NavigationBarFragment extends Fragment {
         super.onAttach(context);
         try {
             onNavigationBarActionListener = (OnNavigationBarActionListener) context;
+
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnNavigationBarActionListener");
         }
@@ -135,10 +135,14 @@ public class NavigationBarFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.homeButton:
-                onNavigationBarActionListener.onHomeButtonPressed();
+                onNavigationBarActionListener.onCardsButtonPressed();
+//                onNavigationBarActionListener.onHomeButtonPressed();
                 break;
             case R.id.previousPageButton:
                 onNavigationBarActionListener.onPreviousPageButtonPressed();
+                break;
+            case R.id.cardsCountButton:
+                onNavigationBarActionListener.onCardsButtonPressed();
                 break;
             case R.id.cancel_button:
                 mFocusSection.setVisibility(GONE);

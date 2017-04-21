@@ -34,7 +34,7 @@ class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAdapter.H
     private List<HistoryRecord> filteredHistoryRecords;
     private HistoryFilter historyFilter;
 
-    private DisplayHistoryFragment.OnHistoryActionsListener onHistoryActionsListener;
+    private HistoryFragment.OnHistoryActionsListener onHistoryActionsListener;
 
     public class HistoryRecordHolder extends RecyclerView.ViewHolder {
 
@@ -69,7 +69,7 @@ class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAdapter.H
         }
     }
 
-    public HistoryRecViewAdapter(DisplayHistoryFragment.OnHistoryActionsListener onHistoryActionsListener) {
+    public HistoryRecViewAdapter(HistoryFragment.OnHistoryActionsListener onHistoryActionsListener) {
         this.historyRecords = new ArrayList<>();
         this.filteredHistoryRecords = new ArrayList<>();
         this.onHistoryActionsListener = onHistoryActionsListener;

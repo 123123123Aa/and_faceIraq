@@ -26,9 +26,9 @@ import butterknife.OnTextChanged;
  * email: psalata9@gmail.com
  */
 
-public class DisplayHistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
-    public static final String TAG = "DisplayHistoryFragment";
+    public static final String TAG = "HistoryFragment";
 
     public interface OnHistoryActionsListener {
         public void onDeleteRecordClick(long timestamp);
@@ -46,11 +46,12 @@ public class DisplayHistoryFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
 
-    public DisplayHistoryFragment() {
+    public HistoryFragment() {
     }
 
     @Override
     public void onAttach(Context context) {
+        Log.d(TAG, "onAttach: ");
         super.onAttach(context);
         try {
             onHistoryActionsListener = (OnHistoryActionsListener) context;

@@ -34,7 +34,7 @@ public class BookmarksDAOImplementation implements BrowserDAO {
         record.setTitle(pageDetails.getTitle());
         record.setAddress(pageDetails.getAddress());
         record.setId(getPrimaryKeyValue(pageDetails));
-        Log.d(TAG, record.toString());
+        Log.d(TAG, "Bookmarking: " + record.toString());
         realm.copyToRealmOrUpdate(record);
         realm.commitTransaction();
     }

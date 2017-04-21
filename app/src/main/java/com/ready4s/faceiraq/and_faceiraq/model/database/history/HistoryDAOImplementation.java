@@ -36,7 +36,7 @@ public class HistoryDAOImplementation implements BrowserDAO {
         record.setTitle(pageDetails.getTitle());
         record.setAddress(pageDetails.getAddress());
         record.setId(getPrimaryKeyValue(pageDetails));
-        Log.d(TAG, record.toString());
+        Log.d(TAG, "Adding to history: " + record.toString());
         setIdToUpdate(record.getId());
         realm.copyToRealmOrUpdate(record);
         realm.commitTransaction();

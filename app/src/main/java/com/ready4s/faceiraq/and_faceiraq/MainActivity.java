@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
-import com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity;
+import com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity;
+import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogAdapter;
 import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
+import com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOImplementation;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
@@ -27,6 +29,7 @@ public class MainActivity extends FragmentActivity
     private String currentPage;
     private List<String> visitedPagesList = new ArrayList<>();
     private HistoryDAOImplementation historyDAO;
+    private BookmarksDAOImplementation bookmarksDAO;
     public String themeColour;
 
     @Override
@@ -38,6 +41,7 @@ public class MainActivity extends FragmentActivity
         currentPage = getHomePageAddress();
         Realm.init(this);
         historyDAO = new HistoryDAOImplementation();
+        bookmarksDAO = new BookmarksDAOImplementation();
     }
 
     @Override
@@ -65,9 +69,9 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
-    public void onSettingsPressed() {
-        Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-        startActivity(intent);
+    public void onCardsButtonPressed() {
+        Intent cardsIntent = new Intent(MainActivity.this, CardsActivity.class);
+        startActivity(cardsIntent);
     }
 
     /**
@@ -77,6 +81,11 @@ public class MainActivity extends FragmentActivity
     public void onPageFinished(PageDetails pageDetails) {
         historyDAO.insert(pageDetails);
         setPageAddressField(pageDetails.getAddress());
+    }
+
+    public void onSaveBookmarkClick() {
+        PageDetails pageDetails = getCurrentPageDetails();
+        bookmarksDAO.insert(pageDetails);
     }
 
     @Override
@@ -131,6 +140,12 @@ public class MainActivity extends FragmentActivity
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.webViewFragment);
         webView.goToSelectedPage(pageUrl);
+    }
+
+    private PageDetails getCurrentPageDetails() {
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.webViewFragment);
+        return webView.getCurrentPageDetails();
     }
 
 
