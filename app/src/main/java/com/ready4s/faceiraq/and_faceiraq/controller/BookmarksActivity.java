@@ -8,9 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarkRecord;
 import com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOImplementation;
-import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
+import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import com.ready4s.faceiraq.and_faceiraq.view.bookmarks.BookmarksFragment;
-import com.ready4s.faceiraq.and_faceiraq.view.history.HistoryFragment;
 
 import java.util.List;
 
@@ -31,6 +30,7 @@ public class BookmarksActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeChangeUtil.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_bookmarks);
 //        init();
         Realm.init(this);

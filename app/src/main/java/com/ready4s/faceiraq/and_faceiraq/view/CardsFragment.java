@@ -1,10 +1,7 @@
 package com.ready4s.faceiraq.and_faceiraq.view;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -30,10 +27,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
-
-import static android.R.attr.id;
-import static com.ready4s.faceiraq.and_faceiraq.R.string.delete;
 
 /**
  * Created by Paweł Sałata on 21.04.2017.
@@ -61,7 +54,6 @@ public class CardsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.cards_fragment, container, false);
-
         ButterKnife.bind(this, view);
         init();
 

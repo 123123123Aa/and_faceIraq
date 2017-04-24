@@ -43,69 +43,60 @@
         <item name="android:colorPrimaryDark">@color/beige</item>
         <item name="colorPrimary">@color/beige</item>
         <item name="android:colorButtonNormal">@color/beige</item>
-        <item name="android:navigationBarColor">@color/beige</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
     <style name="red_theme">
         <item name="android:colorPrimaryDark">@color/red</item>
         <item name="colorPrimary">@color/red</item>
         <item name="android:button">@color/red</item>
-        <item name="android:navigationBarColor">@color/red</item>
     </style>
     <style name="pink_theme">
         <item name="android:colorPrimaryDark">@color/pink</item>
         <item name="colorPrimary">@color/pink</item>
         <item name="android:button">@color/pink</item>
-        <item name="android:navigationBarColor">@color/pink</item>
     </style>
     <style name="purple_theme">
         <item name="android:colorPrimaryDark">@color/purple</item>
         <item name="colorPrimary">@color/purple</item>
         <item name="android:button">@color/purple</item>
-        <item name="android:navigationBarColor">@color/purple</item>
     </style>
     <style name="dark_blue_theme">
         <item name="android:colorPrimaryDark">@color/dark_blue</item>
         <item name="colorPrimary">@color/dark_blue</item>
         <item name="android:button">@color/dark_blue</item>
-        <item name="android:navigationBarColor">@color/dark_blue</item>
     </style>
     <style name="blue_theme">
         <item name="android:colorPrimaryDark">@color/blue</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="android:button">@color/blue</item>
-        <item name="android:navigationBarColor">@color/blue</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
     <style name="turquoise_theme">
         <item name="android:colorPrimaryDark">@color/turquoise</item>
         <item name="colorPrimary">@color/turquoise</item>
         <item name="android:button">@color/turquoise</item>
-        <item name="android:navigationBarColor">@color/turquoise</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
     <style name="dark_green_theme">
         <item name="android:colorPrimaryDark">@color/dark_green</item>
         <item name="colorPrimary">@color/dark_green</item>
         <item name="android:button">@color/dark_green</item>
-        <item name="android:navigationBarColor">@color/dark_green</item>
     </style>
     <style name="green_theme">
         <item name="android:colorPrimaryDark">@color/green</item>
         <item name="colorPrimary">@color/green</item>
         <item name="android:button">@color/green</item>
-        <item name="android:navigationBarColor">@color/green</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
     <style name="yellow_theme">
         <item name="android:colorPrimaryDark">@color/yellow</item>
         <item name="colorPrimary">@color/yellow</item>
         <item name="android:button">@color/yellow</item>
-        <item name="android:navigationBarColor">@color/yellow</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
     <style name="orange_theme">
         <item name="android:colorPrimaryDark">@color/orange</item>
         <item name="colorPrimary">@color/orange</item>
         <item name="android:button">@color/orange</item>
-        <item name="android:navigationBarColor">@color/orange</item>
     </style>
-
-
-
 </resources>

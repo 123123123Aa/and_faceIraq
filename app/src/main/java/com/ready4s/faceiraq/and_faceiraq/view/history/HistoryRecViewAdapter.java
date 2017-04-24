@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity;
+import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ImageUtil;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.TimeUtil;
@@ -20,6 +22,12 @@ import com.ready4s.faceiraq.and_faceiraq.model.utils.TimeUtil;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Paweł Sałata on 19.04.2017.
@@ -36,23 +44,27 @@ class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAdapter.H
     private HistoryFilter historyFilter;
 
     private HistoryFragment.OnHistoryActionsListener onHistoryActionsListener;
+    private HistoryActivity context;
 
     public class HistoryRecordHolder extends RecyclerView.ViewHolder {
 
         long id;
-        TextView dateLabel;
-        TextView pageTitle;
-        TextView pageUrl;
-        ImageView pageIcon;
-        LinearLayout deleteButton;
+        @Bind(R.id.dateLabel) TextView dateLabel;
+        @Bind(R.id.pageTitle) TextView pageTitle;
+        @Bind(R.id.pageUrl) TextView pageUrl;
+        @Bind(R.id.pageIcon) ImageView pageIcon;
+        @Bind(R.id.deleteButton) LinearLayout deleteButton;
+        @Bind(R.id.history_section) LinearLayout historySection;
+
 
         public HistoryRecordHolder(View itemView) {
             super(itemView);
-            dateLabel = (TextView) itemView.findViewById(R.id.dateLabel);
-            pageTitle = (TextView) itemView.findViewById(R.id.pageTitle);
-            pageUrl = (TextView) itemView.findViewById(R.id.pageUrl);
-            pageIcon = (ImageView) itemView.findViewById(R.id.pageIcon);
-            deleteButton = (LinearLayout) itemView.findViewById(R.id.deleteButton);
+            ButterKnife.bind(this, itemView);
+//            pageTitle = (TextView) itemView.findViewById(R.id.pageTitle);
+//            pageUrl = (TextView) itemView.findViewById(R.id.pageUrl);
+//            pageIcon = (ImageView) itemView.findViewById(R.id.pageIcon);
+//            historySection = (LinearLayout) itemView.findViewById(R.id.history_section);
+//            deleteButton = (LinearLayout) itemView.findViewById(R.id.deleteButton);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -70,12 +82,26 @@ class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAdapter.H
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, filteredHistoryRecords.size());
         }
+
+        @OnClick(R.id.history_section)
+        public void onClick() {
+            int pos = getAdapterPosition();
+            SharedPreferencesHelper.setCardNumber(
+                    context,
+                    historyRecords.get(pos).getId());
+            SharedPreferencesHelper.setCardUrl(
+                    context,
+                    historyRecords.get(pos).getAddress());
+            context.setResult(RESULT_OK);
+            context.finish();
+        }
     }
 
-    public HistoryRecViewAdapter(HistoryFragment.OnHistoryActionsListener onHistoryActionsListener) {
+    public HistoryRecViewAdapter(HistoryFragment.OnHistoryActionsListener onHistoryActionsListener, HistoryActivity context) {
         this.historyRecords = new ArrayList<>();
         this.filteredHistoryRecords = new ArrayList<>();
         this.onHistoryActionsListener = onHistoryActionsListener;
+        this.context = context;
     }
 
     public List<HistoryRecord> getHistoryRecords() {
