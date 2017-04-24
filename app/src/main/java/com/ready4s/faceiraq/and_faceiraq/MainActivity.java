@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity;
 import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
@@ -19,6 +20,8 @@ import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
 import com.ready4s.faceiraq.and_faceiraq.view.WebViewFragment;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -40,6 +43,7 @@ public class MainActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         ThemeChangeUtil.onActivityCreateSetTheme(this);
         themeId = getThemeId();
         setContentView(R.layout.activity_main);
@@ -118,6 +122,7 @@ public class MainActivity extends FragmentActivity
     public void onSaveBookmarkClick() {
         PageDetails pageDetails = getCurrentPageDetails();
         bookmarksDAO.insert(pageDetails);
+        Toast.makeText(this, getString(R.string.bookmark_added), Toast.LENGTH_SHORT).show();
     }
 
 

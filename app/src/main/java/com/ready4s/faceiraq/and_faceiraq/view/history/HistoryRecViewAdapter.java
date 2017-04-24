@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ImageUtil;
+import com.ready4s.faceiraq.and_faceiraq.model.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -39,6 +40,7 @@ class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAdapter.H
     public class HistoryRecordHolder extends RecyclerView.ViewHolder {
 
         long id;
+        TextView dateLabel;
         TextView pageTitle;
         TextView pageUrl;
         ImageView pageIcon;
@@ -46,6 +48,7 @@ class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAdapter.H
 
         public HistoryRecordHolder(View itemView) {
             super(itemView);
+            dateLabel = (TextView) itemView.findViewById(R.id.dateLabel);
             pageTitle = (TextView) itemView.findViewById(R.id.pageTitle);
             pageUrl = (TextView) itemView.findViewById(R.id.pageUrl);
             pageIcon = (ImageView) itemView.findViewById(R.id.pageIcon);
@@ -92,6 +95,14 @@ class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAdapter.H
 
     @Override
     public void onBindViewHolder(HistoryRecordHolder holder, int position) {
+
+        String recordDate = getDateLabel(position);
+        if (shouldDateBeShown(position, recordDate)) {
+            holder.dateLabel.setText(recordDate);
+            holder.dateLabel.setVisibility(View.VISIBLE);
+        } else {
+            holder.dateLabel.setVisibility(View.GONE);
+        }
         holder.id = filteredHistoryRecords.get(position).getId();
         holder.pageTitle.setText(filteredHistoryRecords.get(position).getTitle());
         holder.pageUrl.setText(filteredHistoryRecords.get(position).getAddress());
@@ -99,7 +110,19 @@ class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAdapter.H
         if (filteredHistoryRecords.get(position).getBase64Logo() != null) {
             Bitmap iconBitmap = ImageUtil.decodeBase64(filteredHistoryRecords.get(position).getBase64Logo());
             holder.pageIcon.setImageBitmap(iconBitmap);
+        } else {
+            holder.pageIcon.setImageBitmap(null);
         }
+    }
+
+    private boolean shouldDateBeShown(int position, String recordDate) {
+        return position == 0 || !recordDate.equals(getDateLabel(position - 1));
+    }
+
+    private String getDateLabel(int position) {
+        return TimeUtil.getFormattedDateWithPrefix(
+                filteredHistoryRecords.get(position).getTimestamp(),
+                TimeUtil.HISTORY_FORMAT);
     }
 
     @Override

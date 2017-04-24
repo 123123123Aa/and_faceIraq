@@ -1,12 +1,7 @@
 package com.ready4s.faceiraq.and_faceiraq.controller;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,10 +11,6 @@ import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageM
 import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
 import com.ready4s.faceiraq.and_faceiraq.view.CardsFragment;
 import com.ready4s.faceiraq.and_faceiraq.view.CardsNavigationBarFragment;
-import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
-import com.ready4s.faceiraq.and_faceiraq.view.WebViewFragment;
-
-import org.parceler.Parcels;
 
 /**
  * Created by Paweł Sałata on 21.04.2017.
@@ -59,7 +50,7 @@ public class CardsActivity extends AppCompatActivity
         long cardID = openedPagesDAO.insert(new OpenedPageModel());
         CardsFragment cardsFragment = (CardsFragment) getSupportFragmentManager()
                 .findFragmentByTag(CardsFragment.TAG);
-        cardsFragment.addBlankPage(cardID);
+        cardsFragment.openNewPage(cardID);
     }
 
     @Override

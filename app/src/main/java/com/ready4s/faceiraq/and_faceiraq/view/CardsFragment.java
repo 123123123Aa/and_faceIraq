@@ -75,7 +75,7 @@ public class CardsFragment extends Fragment {
         cardStackLayout.setAdapter(adapter);
     }
 
-    public void addBlankPage(long cardID) {
+    public void openNewPage(long cardID) {
         OpenedPageModel pageModel = new OpenedPageModel();
         pageModel.setId(cardID);
         openedPages.add(pageModel);

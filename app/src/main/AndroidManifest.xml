@@ -34,6 +34,10 @@
         <activity android:name=".controller.CardsActivity"
                   android:screenOrientation="portrait"
             android:theme="@style/CardsActivityTheme"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="442e5ac982ec4718f72358617db0e278f9bac8b1"
+            />
     </application>
 
 </manifest>
