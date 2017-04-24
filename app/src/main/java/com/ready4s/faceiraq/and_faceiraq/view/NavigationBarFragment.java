@@ -2,14 +2,16 @@ package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -17,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ready4s.faceiraq.and_faceiraq.MainActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
@@ -28,7 +31,6 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
 import static android.view.View.GONE;
-import static com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOImplementation.TAG;
 
 /**
  * Created by Paweł Sałata on 14.04.2017.
@@ -60,6 +62,10 @@ public class NavigationBarFragment extends Fragment {
     EditText mFocusEt;
     @Bind(R.id.menuDotsButton)
     ImageView mDotsMenu;
+    @Bind(R.id.cardsCountButton)
+    TextView mCardsCountButton;
+    @Bind(R.id.menuDotsButtonExtended)
+    RelativeLayout mMenuDotsExtended;
 
     private MainActivity mMainActivity;
 
@@ -87,6 +93,16 @@ public class NavigationBarFragment extends Fragment {
         mMainActivity = (MainActivity)getActivity();
         changeNavigationBarBackground();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeTouchArea();
+        if(mMainActivity.getCardsAmount() != 0) {
+            mCardsCountButton.setText(String.valueOf(mMainActivity.getCardsAmount()));
+        }
+
     }
 
     @Override
@@ -148,12 +164,27 @@ public class NavigationBarFragment extends Fragment {
         mFocusEt.clearFocus();
     }
 
+    private void changeTouchArea() {
+        final View parent = (View) mDotsMenu.getParent();
+        parent.post( new Runnable() {
+            // Post in the parent's message queue to make sure the parent
+            // lays out its children before we call getHitRect()
+            public void run() {
+                final Rect r = new Rect();
+                mDotsMenu.getHitRect(r);
+                r.right -= 20;
+                r.left += 20;
+                parent.setTouchDelegate( new TouchDelegate( r , mDotsMenu));
+            }
+        });
+    }
 
 
 
 
 
-    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.cancel_button, R.id.cardsCountButton, R.id.menuDotsButton})
+
+    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.cancel_button, R.id.cardsCountButton, R.id.menuDotsButtonExtended})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.homeButton:
@@ -172,13 +203,9 @@ public class NavigationBarFragment extends Fragment {
                 mAddressSection.setVisibility(View.VISIBLE);
                 hideSoftKeyboard();
                 break;
-            case R.id.menuDotsButton:
+            case R.id.menuDotsButtonExtended:
                 MainDialogFragment dialogFragment = new MainDialogFragment();
                 dialogFragment.show(getActivity().getSupportFragmentManager(),"simple dialog");
-
-
-
-
         }
     }
 

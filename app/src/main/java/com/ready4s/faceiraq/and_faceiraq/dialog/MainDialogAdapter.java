@@ -16,13 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ready4s.faceiraq.and_faceiraq.MainActivity;
-import com.ready4s.faceiraq.and_faceiraq.contact.us.ContactUsActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.contact.us.ContactUsActivity;
 import com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity;
 import com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity;
 import com.ready4s.faceiraq.and_faceiraq.model.ItemListModel;
-import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
 import com.ready4s.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity;
 
 import java.util.ArrayList;
@@ -40,11 +38,22 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
     private ArrayList<ItemListModel> mItemList = new ArrayList<>();
     private Context mContext;
     private int themeColour;
+    private static final int HISTORY_REQUEST_CODE = 11;
+    private IMainDialogFragment mView;
 
     public MainDialogAdapter(Context context, int colour) {
         this.mContext = context;
         this.themeColour = colour;
         iniDialogItems();
+    }
+
+
+    public void onViewAttached(IMainDialogFragment view) {
+        mView = view;
+    }
+
+    public void onViewDetached() {
+        mView = null;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,7 +82,11 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
                     ((MainActivity) mContext).onOpenedNewPage();
                     break;
                 case 1:
-                    ((MainActivity) mContext).onSaveBookmarkClick();
+                    if (!mItemList.get(getAdapterPosition()).isSelected()) {
+                        ((MainActivity) mContext).onSaveBookmarkClick();
+                        mItemList.get(getAdapterPosition()).setSelected(true);
+                        notifyItemChanged(getAdapterPosition());
+                    }
                     break;
                 case 2:
                     Intent bookmarksIntent = new Intent(mContext, BookmarksActivity.class);
@@ -81,7 +94,8 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
                     break;
                 case 3:
                     Intent historyIntent = new Intent(mContext, HistoryActivity.class);
-                    mContext.startActivity(historyIntent);
+                    ((MainActivity)mContext).startActivityForResult(historyIntent, HISTORY_REQUEST_CODE);
+                    mView.onHistoryPageSelected();
                     break;
                 case 4:
                     //notifications
@@ -104,13 +118,13 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
 
         mItemList.clear();
 
-        mItemList.add(new ItemListModel(dialogItems[0], R.drawable.new_page));
-        mItemList.add(new ItemListModel(dialogItems[1], R.drawable.my_bookmarks));
-        mItemList.add(new ItemListModel(dialogItems[2], R.drawable.my_bookmarks));
-        mItemList.add(new ItemListModel(dialogItems[3], R.drawable.history));
-        mItemList.add(new ItemListModel(dialogItems[4], R.drawable.push_notifications));
-        mItemList.add(new ItemListModel(dialogItems[5], R.drawable.theme_colour));
-        mItemList.add(new ItemListModel(dialogItems[6], R.drawable.contact_us));
+        mItemList.add(new ItemListModel(dialogItems[0], R.drawable.new_page, false));
+        mItemList.add(new ItemListModel(dialogItems[1], R.drawable.my_bookmarks, false));
+        mItemList.add(new ItemListModel(dialogItems[2], R.drawable.my_bookmarks, false));
+        mItemList.add(new ItemListModel(dialogItems[3], R.drawable.history, false));
+        mItemList.add(new ItemListModel(dialogItems[4], R.drawable.push_notifications, false));
+        mItemList.add(new ItemListModel(dialogItems[5], R.drawable.theme_colour, false));
+        mItemList.add(new ItemListModel(dialogItems[6], R.drawable.contact_us, false));
 
 
     }
@@ -126,6 +140,11 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
         ItemListModel item = mItemList.get(position);
         holder.mDialogTv.setText(item.getTitle());
         holder.mDialogIv.setImageResource(item.getImageId());
+        if (position == 1) {
+            if (item.isSelected()) {
+                holder.mDialogIv.setImageResource(R.drawable.bookmark_checked);
+            }
+        }
         if(position == 6)
             holder.mLine.setVisibility(View.GONE);
         if(position == 5) {

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class HistoryFragment extends Fragment {
 
     private HistoryRecViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private HistoryActivity mHistoryActivity;
 
 
     public HistoryFragment() {
@@ -69,6 +71,8 @@ public class HistoryFragment extends Fragment {
         ButterKnife.bind(this, view);
         init();
 
+        mHistoryActivity = (HistoryActivity) getActivity();
+
         return view;
     }
 
@@ -85,7 +89,7 @@ public class HistoryFragment extends Fragment {
 
     public void setHistoryRecords(List<HistoryRecord> historyRecords) {
         Log.d(TAG, "setHistoryRecords: SET");
-        adapter = new HistoryRecViewAdapter(onHistoryActionsListener);
+        adapter = new HistoryRecViewAdapter(onHistoryActionsListener, mHistoryActivity);
         adapter.setHistoryRecords(historyRecords);
         historyRecyclerView.setAdapter(adapter);
         historyRecyclerView.scrollToPosition(0);

@@ -2,15 +2,11 @@ package com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages;
 
 import android.util.Log;
 
-import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
-import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 /**
  * Created by Paweł Sałata on 23.04.2017.

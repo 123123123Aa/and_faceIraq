@@ -8,10 +8,12 @@ public class ItemListModel {
 
     private String title;
     private int imageId;
+    private boolean isSelected;
 
-    public ItemListModel(String title, int imageId) {
+    public ItemListModel(String title, int imageId, boolean isSelected) {
         this.title = title;
         this.imageId = imageId;
+        this.isSelected = isSelected;
     }
 
     public String getTitle() {
@@ -30,11 +32,20 @@ public class ItemListModel {
         this.imageId = imageId;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     @Override
     public String toString() {
         return "ItemListModel{" +
                 "title=" + title + '\'' +
                 ", imageId=" + imageId +
+                ", isSelected=" + isSelected +
                 '}';
     }
 }

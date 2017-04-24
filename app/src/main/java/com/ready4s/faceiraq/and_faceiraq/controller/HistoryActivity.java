@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
+import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import com.ready4s.faceiraq.and_faceiraq.view.history.HistoryFragment;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class HistoryActivity extends FragmentActivity implements HistoryFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeChangeUtil.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_history);
 //        init();
         Realm.init(this);

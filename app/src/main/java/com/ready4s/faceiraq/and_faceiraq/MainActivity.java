@@ -21,8 +21,6 @@ import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
 import com.ready4s.faceiraq.and_faceiraq.view.WebViewFragment;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 
@@ -32,7 +30,9 @@ public class MainActivity extends FragmentActivity
 
     private static final String TAG = "MainActivity";
     private static final int CARDS_REQUEST_CODE = 111;
+    private static final int HISTORY_REQUEST_CODE = 11;
     private int themeId;
+    private int cardAmount;
     private HistoryDAOImplementation historyDAO;
     private BookmarksDAOImplementation bookmarksDAO;
     private OpenedPagesDAO openedPagesDAO;
@@ -187,9 +187,17 @@ public class MainActivity extends FragmentActivity
                     break;
                 case CARDS_REQUEST_CODE:
                     loadSelectedCard();
+                    cardAmount = data.getIntExtra("cards_amount", 1);
+                    break;
+                case HISTORY_REQUEST_CODE:
+                    loadSelectedCard();
                     break;
             }
         }
+    }
+
+    public int getCardsAmount() {
+        return openedPagesDAO.getOpenedPages().size();
     }
 
     private void loadSelectedCard() {

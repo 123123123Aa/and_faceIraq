@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
-import com.ready4s.faceiraq.and_faceiraq.MainActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
 
 import butterknife.Bind;
@@ -29,7 +28,7 @@ import butterknife.OnClick;
  * Created by user on 19.04.2017.
  */
 
-public class MainDialogFragment extends DialogFragment {
+public class MainDialogFragment extends DialogFragment implements IMainDialogFragment{
 
     @Bind(R.id.dialog_recycler_view)
     RecyclerView mDialogRecyclerView;
@@ -57,13 +56,12 @@ public class MainDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
 
 
-        mActivity = (Activity) getActivity();
+        mActivity =  getActivity();
         mDialogRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         changeButtonColor();
         mDialogAdapter = new MainDialogAdapter(mActivity, themeColour);
+        mDialogAdapter.onViewAttached(this);
         mDialogRecyclerView.setAdapter(mDialogAdapter);
-
-
 
         return view;
 
@@ -79,9 +77,23 @@ public class MainDialogFragment extends DialogFragment {
         mCancelButton.setBackground(drawable);
     }
 
-    @OnClick(R.id.dialog_button)
-    public void onClick(){
-        dismiss();
+    @Override
+    public void onPause() {
+        super.onPause();
+        mDialogAdapter.onViewDetached();
     }
 
+    @OnClick(R.id.dialog_button)
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.dialog_button:
+                dismiss();
+                break;
+        }
+    }
+
+    @Override
+    public void onHistoryPageSelected() {
+        dismiss();
+    }
 }
