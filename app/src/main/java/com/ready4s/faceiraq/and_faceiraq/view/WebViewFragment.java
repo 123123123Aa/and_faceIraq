@@ -1,6 +1,8 @@
 package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,8 @@ import android.webkit.WebView;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
+import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
+import com.ready4s.faceiraq.and_faceiraq.model.utils.ImageUtil;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.TimeUtil;
 
 import butterknife.Bind;
@@ -67,6 +71,25 @@ public class WebViewFragment extends Fragment {
         ButterKnife.unbind(this);
         super.onDestroyView();
     }
+
+
+    public OpenedPageModel getOpenedPage() {
+        OpenedPageModel page= new OpenedPageModel();
+        page.setTitle(pageDisplay.getTitle());
+        page.setUrl(pageDisplay.getUrl());
+        byte[] byteScreenshot = ImageUtil.convertToByteArray(takeScreenshot());
+        page.setScreenshot(byteScreenshot);
+        return page;
+    }
+
+    private Bitmap takeScreenshot() {
+        View screenView = getView();
+        screenView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+        screenView.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+
 
     public void goToSelectedPage(String pageUrl) {
         Log.d(TAG, "goToSelectedPage");

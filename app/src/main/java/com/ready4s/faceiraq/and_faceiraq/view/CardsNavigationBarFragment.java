@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.View.GONE;
 
@@ -22,6 +24,14 @@ import static android.view.View.GONE;
 
 public class CardsNavigationBarFragment extends Fragment {
 
+    public interface OnCardsNavigationBarActions {
+        void onNewCardPressed();
+        void onHomeButtonPressed();
+        void onCardsButtonPressed();
+    }
+
+    OnCardsNavigationBarActions onCardsNavigationBarActions;
+
     public static final String TAG = "CardsNavigationBar";
 
     public CardsNavigationBarFragment() {
@@ -31,6 +41,11 @@ public class CardsNavigationBarFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
+        try {
+            onCardsNavigationBarActions = (OnCardsNavigationBarActions) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnCardsNavigationBarActions");
+        }
     }
 
     @Nullable
@@ -48,31 +63,21 @@ public class CardsNavigationBarFragment extends Fragment {
         super.onDestroyView();
     }
 
-//        @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.cancel_button, R.id.menuDotsButton})
-//        public void onClick(View view) {
-//            switch (view.getId()) {
-//                case R.id.homeButton:
-//                    onNavigationBarActionListener.onCardsButtonPressed();
-////                onNavigationBarActionListener.onHomeButtonPressed();
-//                    break;
-//                case R.id.previousPageButton:
-//                    onNavigationBarActionListener.onPreviousPageButtonPressed();
-//                    break;
-//                case R.id.cardsCountButton:
-//                    onNavigationBarActionListener.onCardsButtonPressed();
-//                case R.id.cancel_button:
-//                    mFocusSection.setVisibility(GONE);
-//                    mAddressSection.setVisibility(View.VISIBLE);
-//                    hideSoftKeyboard();
-//                    break;
-//                case R.id.menuDotsButton:
-//                    MainDialog dialogFragment = new MainDialog();
-//                    dialogFragment.show(getActivity().getSupportFragmentManager(),"simple dialog");
-//
-//
-//
-//
-//            }
-//        }
+    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.menuDotsButton, R.id.cardsCountButton})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.homeButton:
+                onCardsNavigationBarActions.onHomeButtonPressed();
+                break;
+            case R.id.previousPageButton:
+                onCardsNavigationBarActions.onNewCardPressed();
+                break;
+            case R.id.cardsCountButton:
+                onCardsNavigationBarActions.onCardsButtonPressed();
+            case R.id.menuDotsButton:
+                MainDialogFragment dialogFragment = new MainDialogFragment();
+                dialogFragment.show(getActivity().getSupportFragmentManager(),"simple dialog");
+        }
+    }
 
 }

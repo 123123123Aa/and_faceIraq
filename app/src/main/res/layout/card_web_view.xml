@@ -4,10 +4,12 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    card_view:cardBackgroundColor="@color/white"
+    android:layout_margin="4dp"
     card_view:cardCornerRadius="6dp"
     card_view:cardUseCompatPadding="true"
     card_view:cardElevation="6dp"
-    android:layout_height="match_parent" >
+    android:layout_height="500dp" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +29,18 @@
             android:textStyle="bold"
             android:textSize="20sp" />
 
-        <WebView android:id="@+id/cardContent"
+        <ImageView android:id="@+id/deleteIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignTop="@id/cardTitle"
+            android:layout_alignBottom="@id/cardTitle"
+            android:src="@drawable/delete_icon"
+            android:padding="5dp"
+            />
+
+        <ImageView android:id="@+id/cardContent"
             android:background="@color/white"
             android:layout_below="@id/cardTitle"
             android:layout_width="match_parent"

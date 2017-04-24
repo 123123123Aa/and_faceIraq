@@ -153,12 +153,12 @@ public class NavigationBarFragment extends Fragment {
 
 
 
-    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.cancel_button, R.id.menuDotsButton})
+    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.cancel_button, R.id.cardsCountButton, R.id.menuDotsButton})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.homeButton:
-                onNavigationBarActionListener.onCardsButtonPressed();
-//                onNavigationBarActionListener.onHomeButtonPressed();
+//                onNavigationBarActionListener.onCardsButtonPressed();
+                onNavigationBarActionListener.onHomeButtonPressed();
                 break;
             case R.id.previousPageButton:
                 onNavigationBarActionListener.onPreviousPageButtonPressed();

@@ -31,4 +31,14 @@ public class ImageUtil {
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
+    public static byte[] convertToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
+    }
+
+    public static Bitmap convertToBitmap(byte[] byteArray) throws Exception {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+    }
+
 }

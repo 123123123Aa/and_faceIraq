@@ -1,5 +1,6 @@
 package com.ready4s.faceiraq.and_faceiraq.dialog;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -36,7 +37,7 @@ public class MainDialogFragment extends DialogFragment {
     Button mCancelButton;
 
     private MainDialogAdapter mDialogAdapter;
-    private MainActivity mMainActivity;
+    private Activity mActivity;
     private int themeColour;
 
     @Override
@@ -56,10 +57,10 @@ public class MainDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
 
 
-        mMainActivity = (MainActivity) getActivity();
-        mDialogRecyclerView.setLayoutManager(new LinearLayoutManager(mMainActivity, LinearLayoutManager.VERTICAL, false));
+        mActivity = (Activity) getActivity();
+        mDialogRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         changeButtonColor();
-        mDialogAdapter = new MainDialogAdapter(mMainActivity, themeColour);
+        mDialogAdapter = new MainDialogAdapter(mActivity, themeColour);
         mDialogRecyclerView.setAdapter(mDialogAdapter);
 
 
@@ -70,10 +71,10 @@ public class MainDialogFragment extends DialogFragment {
 
     private void changeButtonColor() {
         TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = mMainActivity.getTheme();
+        Resources.Theme theme = mActivity.getTheme();
         theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
         themeColour = typedValue.data;
-        Drawable drawable = mMainActivity.getResources().getDrawable(R.drawable.btn_round_grey);
+        Drawable drawable = mActivity.getResources().getDrawable(R.drawable.btn_round_grey);
         drawable.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
         mCancelButton.setBackground(drawable);
     }

@@ -7,13 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.webkit.WebView;
 
 import com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity;
-import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogAdapter;
 import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
+import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOImplementation;
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
+import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
+import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
@@ -30,12 +31,11 @@ public class MainActivity extends FragmentActivity
                     WebViewFragment.OnWebViewActionListener {
 
     private static final String TAG = "MainActivity";
-    private String currentPage;
-    private List<String> visitedPagesList = new ArrayList<>();
-    private HistoryDAOImplementation historyDAO;
+    private static final int CARDS_REQUEST_CODE = 111;
     private int themeId;
+    private HistoryDAOImplementation historyDAO;
     private BookmarksDAOImplementation bookmarksDAO;
-    private List<WebView> openedPages;
+    private OpenedPagesDAO openedPagesDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +44,11 @@ public class MainActivity extends FragmentActivity
         themeId = getThemeId();
         setContentView(R.layout.activity_main);
 //        init();
-        currentPage = getHomePageAddress();
         Realm.init(this);
-        openedPages = new ArrayList<>();
         historyDAO = new HistoryDAOImplementation();
         bookmarksDAO = new BookmarksDAOImplementation();
+        openedPagesDAO = new OpenedPagesDAO();
+        goToHomePage();
     }
 
     private int getThemeId(){
@@ -67,7 +67,19 @@ public class MainActivity extends FragmentActivity
     @Override
     protected void onStart() {
         super.onStart();
-        goToPage(currentPage);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        savePageToRealm();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
+        openedPagesDAO.deleteAll();
+        super.onDestroy();
     }
 
     /**
@@ -85,13 +97,13 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onPreviousPageButtonPressed() {
-        goToPreviousPage();
+//        goToPreviousPage();
     }
 
     @Override
     public void onCardsButtonPressed() {
         Intent cardsIntent = new Intent(MainActivity.this, CardsActivity.class);
-        startActivity(cardsIntent);
+        startActivityForResult(cardsIntent, CARDS_REQUEST_CODE);
     }
 
     /**
@@ -110,7 +122,8 @@ public class MainActivity extends FragmentActivity
 
 
     public void onOpenedNewPage() {
-
+        OpenedPageModel pageModel = new OpenedPageModel();
+        openedPagesDAO.insert(pageModel);
     }
 
     @Override
@@ -118,13 +131,18 @@ public class MainActivity extends FragmentActivity
         historyDAO.update(pageDetails);
     }
 
+    private void savePageToRealm() {
+        OpenedPageModel openedPage = getOpenedPage();
+        long cardId = SharedPreferencesHelper.getCardNumber(this);
+        openedPage.setId(cardId);
+        openedPagesDAO.update(openedPage);
+        Log.d(TAG, "savePageToRealm: id=" + cardId + ", url=" + openedPage.getUrl());
+    }
 
-    private void goToPreviousPage() {
-        if ( !visitedPagesList.isEmpty()) {
-            String lastVisitedPage = getPreviousPage();
-            goToPage(lastVisitedPage);
-            removeLastVisitedPage();
-        }
+    private OpenedPageModel getOpenedPage() {
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.webViewFragment);
+        return webView.getOpenedPage();
     }
 
     private void goToHomePage() {
@@ -135,24 +153,10 @@ public class MainActivity extends FragmentActivity
     private void goToPage(String rawUrl) {
         Log.d(TAG, "Visiting page: " + rawUrl);
         String validUrlAddress = PageUrlValidator.validatePageUrl(rawUrl);
-        saveVisitedPage(validUrlAddress);
+        SharedPreferencesHelper.setCardUrl(this, validUrlAddress);
+//        saveVisitedPage(validUrlAddress);
         setPageAddressField(validUrlAddress);
         loadPageToWebView(validUrlAddress);
-    }
-
-    private String getPreviousPage() {
-        return visitedPagesList.isEmpty() ? "" : visitedPagesList.get(visitedPagesList.size() - 1);
-    }
-
-    private void removeLastVisitedPage() {
-        visitedPagesList.remove(visitedPagesList.size() - 1);
-    }
-
-    private void saveVisitedPage(String pageUrl) {
-        if ( !getPreviousPage().equals(currentPage) ) {
-            currentPage = pageUrl;
-            visitedPagesList.add(currentPage);
-        }
     }
 
     private void setPageAddressField(String pageUrl) {
@@ -176,10 +180,22 @@ public class MainActivity extends FragmentActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1)
-            if (resultCode == RESULT_OK) {
-                ThemeChangeUtil.changeToTheme(this, data.getStringExtra("Colour"));
+        if (resultCode == RESULT_OK) {
+            switch(requestCode) {
+                case 1:
+                    ThemeChangeUtil.changeToTheme(this, data.getStringExtra("Colour"));
+                    break;
+                case CARDS_REQUEST_CODE:
+                    loadSelectedCard();
+                    break;
             }
+        }
+    }
+
+    private void loadSelectedCard() {
+        String url = SharedPreferencesHelper.getCardUrl(this);
+        Log.d(TAG, "loadSelectedCard: url=" + url);
+        goToPage(url);
     }
 
     private void init() {

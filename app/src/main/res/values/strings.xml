@@ -6,6 +6,7 @@
 
     <string name="delete">delete</string>
     <string name="search">Search</string>
+    <string name="card_number">cardNumber</string>
 
     <string-array name="dialog_item_list">
         <item>New page</item>0
