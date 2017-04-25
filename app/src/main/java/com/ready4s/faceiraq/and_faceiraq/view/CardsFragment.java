@@ -79,10 +79,10 @@ public class CardsFragment extends Fragment {
 
     private void removePageAt(int position) {
         ((CardsActivity)getActivity()).onCardDeleted(openedPages.get(position).getId());
-        openedPages.remove(position);
-        adapter = new CardsAdapter(getActivity(), openedPages);
-        cardStackLayout.removeAdapter();
-        cardStackLayout.setAdapter(adapter);
+//        adapter = new CardsAdapter(getActivity(), openedPages);
+//        cardStackLayout.removeAdapter();
+//        cardStackLayout.setAdapter(adapter);
+        adapter.removeViewAt(position);
     }
 
     private class CardsAdapter extends CardStackAdapter {
@@ -90,6 +90,7 @@ public class CardsFragment extends Fragment {
         private List<OpenedPageModel> openedPages;
         private LayoutInflater inflater;
         private Context context;
+        private ViewGroup container;
 
         public CardsAdapter(Context context, List<OpenedPageModel> openedPages) {
             super(context);
@@ -100,6 +101,7 @@ public class CardsFragment extends Fragment {
 
         @Override
         public View createView(final int position, ViewGroup container) {
+            this.container = container;
             CardView root = (CardView) inflater.inflate(R.layout.card_web_view, container, false);
             root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.white));
             TextView cardTitle = (TextView) root.findViewById(R.id.cardTitle);
@@ -119,6 +121,24 @@ public class CardsFragment extends Fragment {
                 }
             });
             return root;
+        }
+
+//        public void removeViewAt(final int position) {
+//            float nextViewY = container.getChildAt(position).getY();
+//            container.removeViewAt(position);
+//            for (int i = position; i < getCount(); i++) {
+//                float tmp = container.getChildAt(i).getY();
+//                container.getChildAt(i).setY(nextViewY);
+//                nextViewY = tmp;
+//            }
+//        }
+
+        public void removeViewAt(final int position) {
+            container.getChildAt(position).getY();
+            container.removeViewAt(position);
+            for (int i = position+1; i < getCount(); i++) {
+                container.addView(container.getChildAt(i), i-1);
+            }
         }
 
         @Override

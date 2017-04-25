@@ -8,10 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity;
 import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,7 +29,11 @@ public class CardsNavigationBarFragment extends Fragment {
         void onNewPageButtonPressed();
         void onHomeButtonPressed();
         void onCardsButtonPressed();
+        int getCardsAmount();
     }
+
+    @Bind(R.id.cardsCountButton)
+    TextView cardsCountButton;
 
     OnCardsNavigationBarActions onCardsNavigationBarActions;
 
@@ -44,6 +51,12 @@ public class CardsNavigationBarFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnCardsNavigationBarActions");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateCardsCount();
     }
 
     @Nullable
@@ -75,6 +88,19 @@ public class CardsNavigationBarFragment extends Fragment {
             case R.id.menuDotsButtonExtended:
                 MainDialogFragment dialogFragment = new MainDialogFragment();
                 dialogFragment.show(getActivity().getSupportFragmentManager(),"simple dialog");
+        }
+    }
+
+
+    public void updateCardCount(int cardsCount) {
+        if(cardsCount != 0 && cardsCountButton != null) {
+            cardsCountButton.setText(String.valueOf(cardsCount));
+        }
+    }
+
+    private void updateCardsCount() {
+        if(onCardsNavigationBarActions.getCardsAmount() != 0) {
+            cardsCountButton.setText(String.valueOf(onCardsNavigationBarActions.getCardsAmount()));
         }
     }
 

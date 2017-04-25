@@ -69,6 +69,7 @@ public class CardsActivity extends AppCompatActivity
         CardsFragment cardsFragment = (CardsFragment) getSupportFragmentManager()
                 .findFragmentByTag(CardsFragment.TAG);
         cardsFragment.openNewPage(cardID);
+        updateNavigationBarCardsCount();
     }
 
     @Override
@@ -98,9 +99,20 @@ public class CardsActivity extends AppCompatActivity
         finish();
     }
 
+    @Override
+    public int getCardsAmount() {
+        return openedPagesDAO.getOpenedPages().size();
+    }
+
     public void onCardSelected() {
         setResult(RESULT_OK);
         finish();
+    }
+
+    private void updateNavigationBarCardsCount() {
+        CardsNavigationBarFragment fragment = (CardsNavigationBarFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.cardsNavigationBarFragment);
+        fragment.updateCardCount(getCardsAmount());
     }
 
     public void onCardDeleted(long id) {
