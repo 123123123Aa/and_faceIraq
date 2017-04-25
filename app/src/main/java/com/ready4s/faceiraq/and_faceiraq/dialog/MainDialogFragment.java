@@ -60,7 +60,7 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
         mDialogRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         changeButtonColor();
         mDialogAdapter = new MainDialogAdapter(mActivity, themeColour);
-        mDialogAdapter.onFragmentViewAttached(this);
+        mDialogAdapter.onViewAttached(this);
         mDialogRecyclerView.setAdapter(mDialogAdapter);
 
         return view;
@@ -80,7 +80,7 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
     @Override
     public void onPause() {
         super.onPause();
-        mDialogAdapter.onFragmentViewDetached();
+        mDialogAdapter.onViewDetached();
     }
 
     @OnClick(R.id.dialog_button)

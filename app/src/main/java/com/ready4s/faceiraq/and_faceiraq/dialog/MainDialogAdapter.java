@@ -40,8 +40,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
     private int themeColour;
     private static final int HISTORY_REQUEST_CODE = 11;
     private static final int BOOKMARKS_REQUEST_CODE = 12;
-    private IMainDialogFragment mFragmentView;
-    private IMainDialogActivity mActivityView;
+    private IMainDialogFragment mView;
 
     public MainDialogAdapter(Context context, int colour) {
         this.mContext = context;
@@ -50,21 +49,14 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
     }
 
 
-    public void onFragmentViewAttached(IMainDialogFragment view) {
-        mFragmentView = view;
+    public void onViewAttached(IMainDialogFragment view) {
+        mView = view;
     }
 
-    public void onFragmentViewDetached() {
-        mFragmentView = null;
+    public void onViewDetached() {
+        mView = null;
     }
 
-    public void onActivityViewAttached(IMainDialogActivity view) {
-        mActivityView = view;
-    }
-
-    public void onActivityViewDetached() {
-        mActivityView = null;
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -90,7 +82,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
             switch (getAdapterPosition()) {
                 case 0:
                     ((MainActivity) mContext).onOpenedNewPage();
-                    mFragmentView.onPageSelected();
+                    mView.onPageSelected();
                     break;
                 case 1:
                     if (!mItemList.get(getAdapterPosition()).isSelected()) {
@@ -103,14 +95,14 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
                 case 2:
                     Intent bookmarksIntent = new Intent(mContext, BookmarksActivity.class);
                     ((MainActivity)mContext).startActivityForResult(bookmarksIntent, BOOKMARKS_REQUEST_CODE);
-                    mFragmentView.onPageSelected();
+                    mView.onPageSelected();
 
 
                     break;
                 case 3:
                     Intent historyIntent = new Intent(mContext, HistoryActivity.class);
                     ((MainActivity)mContext).startActivityForResult(historyIntent, HISTORY_REQUEST_CODE);
-                    mFragmentView.onPageSelected();
+                    mView.onPageSelected();
                     break;
                 case 4:
                     //notifications

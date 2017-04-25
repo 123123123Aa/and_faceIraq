@@ -96,15 +96,19 @@ public class NavigationBarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(mMainActivity.getCardsAmount() != 0) {
-            mCardsCountButton.setText(String.valueOf(mMainActivity.getCardsAmount()));
-        }
+        updateCardsCount();
     }
 
     @Override
     public void onDestroyView() {
         ButterKnife.unbind(this);
         super.onDestroyView();
+    }
+
+    private void updateCardsCount() {
+        if(mMainActivity.getCardsAmount() != 0) {
+            mCardsCountButton.setText(String.valueOf(mMainActivity.getCardsAmount()));
+        }
     }
 
     private void changeNavigationBarBackground() {
@@ -207,5 +211,6 @@ public class NavigationBarFragment extends Fragment {
 
     public void setAddressField(String pageUrl) {
         addressField.setText(pageUrl);
+        updateCardsCount();
     }
 }
