@@ -2,7 +2,6 @@ package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -98,11 +96,9 @@ public class NavigationBarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        changeTouchArea();
         if(mMainActivity.getCardsAmount() != 0) {
             mCardsCountButton.setText(String.valueOf(mMainActivity.getCardsAmount()));
         }
-
     }
 
     @Override
@@ -164,20 +160,20 @@ public class NavigationBarFragment extends Fragment {
         mFocusEt.clearFocus();
     }
 
-    private void changeTouchArea() {
-        final View parent = (View) mDotsMenu.getParent();
-        parent.post( new Runnable() {
-            // Post in the parent's message queue to make sure the parent
-            // lays out its children before we call getHitRect()
-            public void run() {
-                final Rect r = new Rect();
-                mDotsMenu.getHitRect(r);
-                r.right -= 20;
-                r.left += 20;
-                parent.setTouchDelegate( new TouchDelegate( r , mDotsMenu));
-            }
-        });
-    }
+//    private void changeTouchArea() {
+//        final View parent = (View) mDotsMenu.getParent();
+//        parent.post( new Runnable() {
+//            // Post in the parent's message queue to make sure the parent
+//            // lays out its children before we call getHitRect()
+//            public void run() {
+//                final Rect r = new Rect();
+//                mDotsMenu.getHitRect(r);
+//                r.right -= 20;
+//                r.left += 20;
+//                parent.setTouchDelegate( new TouchDelegate( r , mDotsMenu));
+//            }
+//        });
+//    }
 
 
 

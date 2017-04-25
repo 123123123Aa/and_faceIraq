@@ -15,8 +15,6 @@ import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.view.View.GONE;
-
 /**
 * Created by Paweł Sałata on 21.04.2017.
 * email: psalata9@gmail.com
@@ -63,7 +61,7 @@ public class CardsNavigationBarFragment extends Fragment {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.menuDotsButton, R.id.cardsCountButton})
+    @OnClick({R.id.homeButton, R.id.previousPageButton, R.id.menuDotsButtonExtended, R.id.cardsCountButton})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.homeButton:
@@ -74,7 +72,7 @@ public class CardsNavigationBarFragment extends Fragment {
                 break;
             case R.id.cardsCountButton:
                 onCardsNavigationBarActions.onCardsButtonPressed();
-            case R.id.menuDotsButton:
+            case R.id.menuDotsButtonExtended:
                 MainDialogFragment dialogFragment = new MainDialogFragment();
                 dialogFragment.show(getActivity().getSupportFragmentManager(),"simple dialog");
         }

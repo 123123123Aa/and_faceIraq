@@ -11,11 +11,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity;
+import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarkRecord;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Paweł Sałata on 21.04.2017.
@@ -26,23 +34,23 @@ public class BookmarksRecViewAdapter  extends RecyclerView.Adapter<BookmarksRecV
 
     private static final String TAG = "BookmarksRecViewAdapter";
     private List<BookmarkRecord> bookmarksRecords;
+    private BookmarksActivity mContext;
 
     private BookmarksFragment.OnBookmarksActionsListener onBookmarksActionsListener;
 
     public class BookmarkRecordHolder extends RecyclerView.ViewHolder {
 
         long id;
-        TextView pageTitle;
-        TextView pageUrl;
-        ImageView pageIcon;
-        LinearLayout deleteButton;
+//        @Bind(R.id.dateLabel) TextView dateLabel;
+        @Bind(R.id.pageTitle) TextView pageTitle;
+        @Bind(R.id.pageUrl) TextView pageUrl;
+        @Bind(R.id.pageIcon) ImageView pageIcon;
+        @Bind(R.id.deleteButton) LinearLayout deleteButton;
+        @Bind(R.id.history_section) LinearLayout historySection;
 
         public BookmarkRecordHolder(View itemView) {
             super(itemView);
-            pageTitle = (TextView) itemView.findViewById(R.id.pageTitle);
-            pageUrl = (TextView) itemView.findViewById(R.id.pageUrl);
-            pageIcon = (ImageView) itemView.findViewById(R.id.pageIcon);
-            deleteButton = (LinearLayout) itemView.findViewById(R.id.deleteButton);
+            ButterKnife.bind(this, itemView);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -58,11 +66,26 @@ public class BookmarksRecViewAdapter  extends RecyclerView.Adapter<BookmarksRecV
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, bookmarksRecords.size());
         }
+
+        @OnClick(R.id.history_section)
+        public void onClick() {
+            int pos = getAdapterPosition();
+            SharedPreferencesHelper.setCardNumber(
+                    mContext,
+                    bookmarksRecords.get(pos).getId());
+            SharedPreferencesHelper.setCardUrl(
+                    mContext,
+                    bookmarksRecords.get(pos).getAddress());
+            mContext.setResult(RESULT_OK);
+            mContext.finish();
+        }
     }
 
-    public BookmarksRecViewAdapter(BookmarksFragment.OnBookmarksActionsListener onBookmarksActionsListener) {
+    public BookmarksRecViewAdapter(BookmarksFragment.OnBookmarksActionsListener onBookmarksActionsListener, BookmarksActivity context) {
         this.bookmarksRecords = new ArrayList<>();
         this.onBookmarksActionsListener = onBookmarksActionsListener;
+        this.mContext = context;
+
     }
 
     public List<BookmarkRecord> getBookmarksRecords() {

@@ -24,18 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="9dp"
+            android:layout_marginTop="20dp"
             android:text="Card Title"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:textSize="20sp" />
-
+            android:textSize="20sp"/>
         <ImageView android:id="@+id/deleteIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_alignTop="@id/cardTitle"
-            android:layout_alignBottom="@id/cardTitle"
+            android:layout_margin="5dp"
             android:src="@drawable/delete_icon"
             android:padding="5dp"
             />

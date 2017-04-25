@@ -70,6 +70,7 @@ public class CardsFragment extends Fragment {
     public void openNewPage(long cardID) {
         OpenedPageModel pageModel = new OpenedPageModel();
         pageModel.setId(cardID);
+        pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
         openedPages.add(pageModel);
         adapter = new CardsAdapter(getActivity(), openedPages);
         cardStackLayout.removeAdapter();

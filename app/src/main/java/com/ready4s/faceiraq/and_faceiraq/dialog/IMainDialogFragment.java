@@ -6,5 +6,5 @@ package com.ready4s.faceiraq.and_faceiraq.dialog;
 
 public interface IMainDialogFragment {
 
-    void onHistoryPageSelected();
+    void onPageSelected();
 }

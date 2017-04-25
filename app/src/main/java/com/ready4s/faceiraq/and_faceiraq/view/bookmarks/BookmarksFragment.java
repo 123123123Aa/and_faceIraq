@@ -10,17 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity;
 import com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarkRecord;
-import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnTextChanged;
 
 /**
  * Created by Paweł Sałata on 21.04.2017.
@@ -42,6 +40,7 @@ public class BookmarksFragment extends Fragment {
 
     private BookmarksRecViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private BookmarksActivity mBookmarksActivity;
 
 
     public BookmarksFragment() {
@@ -66,6 +65,8 @@ public class BookmarksFragment extends Fragment {
         ButterKnife.bind(this, view);
         init();
 
+        mBookmarksActivity = (BookmarksActivity) getActivity();
+
         return view;
     }
 
@@ -77,7 +78,7 @@ public class BookmarksFragment extends Fragment {
 
     public void setBookmarksRecords(List<BookmarkRecord> bookmarksRecords) {
         Log.d(TAG, "setBookmarksRecords: SET");
-        adapter = new BookmarksRecViewAdapter(onBookmarksActionsListener);
+        adapter = new BookmarksRecViewAdapter(onBookmarksActionsListener,  mBookmarksActivity);
         adapter.setBookmarksRecords(bookmarksRecords);
         recyclerView.setAdapter(adapter);
         recyclerView.scrollToPosition(0);

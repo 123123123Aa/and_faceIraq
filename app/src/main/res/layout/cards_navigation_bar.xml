@@ -26,7 +26,7 @@
     <TextView android:id="@+id/cardsCountButton"
         android:layout_width="@dimen/navigationCardsButtonWidth"
         android:layout_height="@dimen/navigationCardsButtonHeight"
-        android:layout_toStartOf="@+id/menuDotsButton"
+        android:layout_toStartOf="@+id/menuDotsButtonExtended"
         android:layout_marginStart="@dimen/navigationBarButtonsMargin"
         android:layout_marginEnd="20dp"
         android:layout_centerVertical="true"
@@ -35,14 +35,21 @@
         android:gravity="center"
         android:textSize="@dimen/navigationBarTextSize"
         android:background="@drawable/white_cards_count_background"/>
-
-    <ImageView android:id="@+id/menuDotsButton"
-        android:layout_width="@dimen/navigationMenuButtonWidth"
-        android:layout_height="@dimen/navigationMenuButtonHeight"
+    <RelativeLayout
+        android:id="@+id/menuDotsButtonExtended"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:paddingStart="@dimen/navigationBarButtonsMargin"
-        android:paddingEnd="@dimen/navigationBarButtonsMargin"
-        android:background="@drawable/white_menu_dots"/>
+        android:layout_marginEnd="10dp">
+        <ImageView android:id="@+id/menuDotsButton"
+            android:layout_width="@dimen/navigationMenuButtonWidth"
+            android:layout_height="@dimen/navigationMenuButtonHeight"
+            android:layout_centerHorizontal="true"
+            android:paddingStart="@dimen/navigationBarButtonsMargin"
+            android:paddingEnd="@dimen/navigationBarButtonsMargin"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/white_menu_dots"/>
+    </RelativeLayout>
 
 </RelativeLayout>
 

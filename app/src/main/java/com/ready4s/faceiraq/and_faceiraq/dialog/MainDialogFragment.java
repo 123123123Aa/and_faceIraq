@@ -1,6 +1,5 @@
 package com.ready4s.faceiraq.and_faceiraq.dialog;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
+import com.ready4s.faceiraq.and_faceiraq.MainActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
 
 import butterknife.Bind;
@@ -36,7 +36,7 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
     Button mCancelButton;
 
     private MainDialogAdapter mDialogAdapter;
-    private Activity mActivity;
+    private MainActivity mActivity;
     private int themeColour;
 
     @Override
@@ -56,11 +56,11 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
         ButterKnife.bind(this, view);
 
 
-        mActivity =  getActivity();
+        mActivity = (MainActivity)getActivity();
         mDialogRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         changeButtonColor();
         mDialogAdapter = new MainDialogAdapter(mActivity, themeColour);
-        mDialogAdapter.onViewAttached(this);
+        mDialogAdapter.onFragmentViewAttached(this);
         mDialogRecyclerView.setAdapter(mDialogAdapter);
 
         return view;
@@ -80,7 +80,7 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
     @Override
     public void onPause() {
         super.onPause();
-        mDialogAdapter.onViewDetached();
+        mDialogAdapter.onFragmentViewDetached();
     }
 
     @OnClick(R.id.dialog_button)
@@ -93,7 +93,7 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
     }
 
     @Override
-    public void onHistoryPageSelected() {
+    public void onPageSelected() {
         dismiss();
     }
 }

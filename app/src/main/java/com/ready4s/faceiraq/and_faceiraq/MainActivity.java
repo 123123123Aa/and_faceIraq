@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity;
 import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
 import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
@@ -20,11 +21,10 @@ import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
 import com.ready4s.faceiraq.and_faceiraq.view.WebViewFragment;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
 
 import java.lang.reflect.Method;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 
 public class MainActivity extends FragmentActivity
@@ -34,6 +34,7 @@ public class MainActivity extends FragmentActivity
     private static final String TAG = "MainActivity";
     private static final int CARDS_REQUEST_CODE = 111;
     private static final int HISTORY_REQUEST_CODE = 11;
+    private static final int BOOKMARKS_REQUEST_CODE = 12;
     private int themeId;
     private int cardAmount;
     private HistoryDAOImplementation historyDAO;
@@ -128,7 +129,9 @@ public class MainActivity extends FragmentActivity
 
     public void onOpenedNewPage() {
         OpenedPageModel pageModel = new OpenedPageModel();
+        pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
         openedPagesDAO.insert(pageModel);
+        goToPage(pageModel.getUrl());
     }
 
     @Override
@@ -192,11 +195,13 @@ public class MainActivity extends FragmentActivity
                     break;
                 case CARDS_REQUEST_CODE:
                     loadSelectedCard();
-                    cardAmount = data.getIntExtra("cards_amount", 1);
+//                    cardAmount = data.getIntExtra("cards_amount", 1);
                     break;
                 case HISTORY_REQUEST_CODE:
                     loadSelectedCard();
                     break;
+                case BOOKMARKS_REQUEST_CODE:
+                    loadSelectedCard();
             }
         }
     }
