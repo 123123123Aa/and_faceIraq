@@ -2,7 +2,6 @@ package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +19,8 @@ import com.ready4s.faceiraq.and_faceiraq.model.utils.TimeUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static android.graphics.Bitmap.Config.ARGB_8888;
 
 /**
  * Created by Paweł Sałata on 14.04.2017.
@@ -84,8 +85,12 @@ public class WebViewFragment extends Fragment {
 
     private Bitmap takeScreenshot() {
         View screenView = getView();
+        Bitmap bitmap;
         screenView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+        if(screenView.getDrawingCache() != null)
+            bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+        else
+            bitmap = Bitmap.createBitmap(1080, 1593, ARGB_8888);
         screenView.setDrawingCacheEnabled(false);
         return bitmap;
     }

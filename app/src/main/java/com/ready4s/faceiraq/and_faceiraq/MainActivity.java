@@ -10,9 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity;
 import com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity;
-import com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity;
 import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
 import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
@@ -24,6 +22,10 @@ import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
 import com.ready4s.faceiraq.and_faceiraq.view.WebViewFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Method;
 
@@ -42,10 +44,10 @@ public class MainActivity extends FragmentActivity
 
     private static final String TAG = "MainActivity";
     private int themeId;
-    private int cardAmount;
     private HistoryDAOImplementation historyDAO;
     private BookmarksDAOImplementation bookmarksDAO;
     private OpenedPagesDAO openedPagesDAO;
+    private EventBus mEventBus = EventBus.getDefault();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +83,24 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mEventBus.register(this);
+//        if(!SharedPreferencesColourTheme.getThemeColour(this).equals("1")) {
+//            ThemeChangeUtil.changeToTheme(this, SharedPreferencesColourTheme.getThemeColour(this));
+//        }
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void getThemeColour(String themeColour) {
+        ThemeChangeUtil.changeToTheme(this, themeColour);
+        mEventBus.removeStickyEvent(themeColour);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
+        mEventBus.unregister(this);
         savePageToRealm();
     }
 

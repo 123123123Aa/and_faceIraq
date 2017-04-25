@@ -79,7 +79,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryFragmen
         int themeColour = typedValue.data;
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbarTitle.setText(R.string.toolbr_history_title);
+        mToolbarTitle.setText(R.string.toolbar_history_title);
         mToolbar.setBackgroundColor(themeColour);
     }
 

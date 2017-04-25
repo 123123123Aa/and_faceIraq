@@ -120,6 +120,15 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
 
             }
         }
+        public void setInvisible() {
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams)itemView.getLayoutParams();
+            params.height = 0;
+            itemView.setVisibility(View.GONE);
+        }
+    }
+
+    private void setVisibility(ViewHolder holder) {
+        holder.setInvisible();
     }
 
     public void iniDialogItems() {
@@ -166,6 +175,9 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
         }
         if(position == 4)
             holder.mSwitchToggle.setVisibility(View.VISIBLE);
+        if(position == 1 && !(mActivity instanceof MainActivity)) {
+            setVisibility(holder);
+        }
     }
 
     @Override

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.ColourListModel;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -47,6 +49,8 @@ public class ThemeColourAdapter extends RecyclerView.Adapter<ThemeColourAdapter.
         @Bind(R.id.theme_colour_colour)
         ImageView mColour;
 
+        private EventBus mEventBus = EventBus.getDefault();
+
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -57,6 +61,7 @@ public class ThemeColourAdapter extends RecyclerView.Adapter<ThemeColourAdapter.
             int pos = getAdapterPosition();
             Intent intent = new Intent();
             intent.putExtra("Colour", mItemList.get(pos).getTitle());
+            mEventBus.postSticky(mItemList.get(pos).getTitle());
             ((Activity) mContext).setResult(RESULT_OK, intent);
             ((Activity) mContext).finish();
         }
