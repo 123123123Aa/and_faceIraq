@@ -87,6 +87,7 @@ public class HistoryFragment extends Fragment {
         adapter.getFilter().filter(text);
     }
 
+
     public void setHistoryRecords(List<HistoryRecord> historyRecords) {
         Log.d(TAG, "setHistoryRecords: SET");
         adapter = new HistoryRecViewAdapter(onHistoryActionsListener, mHistoryActivity);

@@ -8,6 +8,8 @@
     <string name="search">Search</string>
     <string name="card_number">cardNumber</string>
     <string name="bookmark_added">You are add this page to Bookmarks</string>
+    <string name="toolbar_my_bookmarks_title">My Bookmarks</string>
+    <string name="toolbr_history_title">History</string>
 
     <string-array name="dialog_item_list">
         <item>New page</item>0

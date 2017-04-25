@@ -1,9 +1,14 @@
 package com.ready4s.faceiraq.and_faceiraq.controller;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarkRecord;
@@ -13,6 +18,8 @@ import com.ready4s.faceiraq.and_faceiraq.view.bookmarks.BookmarksFragment;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 
 /**
@@ -20,8 +27,13 @@ import io.realm.Realm;
  * email: psalata9@gmail.com
  */
 
-public class BookmarksActivity extends FragmentActivity
+public class BookmarksActivity extends AppCompatActivity
         implements BookmarksFragment.OnBookmarksActionsListener {
+
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.toolbar_title)
+    TextView mToolbarTitle;
 
     private static final String TAG = "BookmarksActivity";
     public static final int BOOKMARKS_REQUEST_CODE = 12;
@@ -33,7 +45,9 @@ public class BookmarksActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         ThemeChangeUtil.onActivityCreateSetTheme(this);
         setContentView(R.layout.activity_bookmarks);
+        ButterKnife.bind(this);
 //        init();
+        setupToolbar();
         Realm.init(this);
         bookmarksDAO = new BookmarksDAOImplementation();
         initBookmarksData();
@@ -44,6 +58,31 @@ public class BookmarksActivity extends FragmentActivity
     public void onDeleteRecordClick(long id) {
         bookmarksDAO.delete(id);
 //        initHistoryData();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    private void setupToolbar() {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = this.getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int themeColour = typedValue.data;
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbarTitle.setText(R.string.toolbar_my_bookmarks_title);
+        mToolbar.setBackgroundColor(themeColour);
     }
 
     private void initBookmarksData() {

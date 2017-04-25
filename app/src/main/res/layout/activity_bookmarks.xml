@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context="com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity">
 
+    <include layout="@layout/toolbar_home"></include>
+
     <fragment class="com.ready4s.faceiraq.and_faceiraq.view.bookmarks.BookmarksFragment"
         android:id="@+id/bookmarksFragment"
         android:layout_width="match_parent"
