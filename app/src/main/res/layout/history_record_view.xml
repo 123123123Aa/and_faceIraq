@@ -55,6 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
+                    android:maxLength="40"
                     android:text=""/>
 
             <TextView android:id="@+id/pageUrl"
