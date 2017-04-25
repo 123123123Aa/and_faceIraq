@@ -1,7 +1,7 @@
 <resources>
     
     <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="colorAccent">@color/beige</item>
 
     </style>
 
@@ -44,6 +44,7 @@
         <item name="colorPrimary">@color/beige</item>
         <item name="android:colorButtonNormal">@color/beige</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/navigationBarBackground</item>
     </style>
     <style name="red_theme">
         <item name="android:colorPrimaryDark">@color/red</item>
