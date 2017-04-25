@@ -1,7 +1,6 @@
 package com.ready4s.faceiraq.and_faceiraq.dialog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -29,6 +28,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity.BOOKMARKS_REQUEST_CODE;
+import static com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity.HISTORY_REQUEST_CODE;
+import static com.ready4s.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity.THEME_COLOUR_REQUEST_CODE;
+
 /**
  * Created by user on 19.04.2017.
  */
@@ -36,14 +39,14 @@ import butterknife.OnClick;
 public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.ViewHolder>{
 
     private ArrayList<ItemListModel> mItemList = new ArrayList<>();
-    private Context mContext;
+    private MainDialogFragment.OnMainDialogActionsListener listener;
+    private Activity mActivity;
     private int themeColour;
-    private static final int HISTORY_REQUEST_CODE = 11;
-    private static final int BOOKMARKS_REQUEST_CODE = 12;
     private IMainDialogFragment mView;
 
-    public MainDialogAdapter(Context context, int colour) {
-        this.mContext = context;
+    public MainDialogAdapter(MainDialogFragment.OnMainDialogActionsListener context, int colour) {
+        this.listener = context;
+        this.mActivity = (Activity) context;
         this.themeColour = colour;
         iniDialogItems();
     }
@@ -81,39 +84,38 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
         public void onClick() {
             switch (getAdapterPosition()) {
                 case 0:
-                    ((MainActivity) mContext).onOpenedNewPage();
+                    listener.onOpenedNewPage();
                     mView.onPageSelected();
                     break;
                 case 1:
-                    if (!mItemList.get(getAdapterPosition()).isSelected()) {
-                        ((MainActivity) mContext).onSaveBookmarkClick();
+                    if (!mItemList.get(getAdapterPosition()).isSelected()
+                            && mActivity instanceof MainActivity) {
+                        ((MainActivity) mActivity).onSaveBookmarkClick();
 //                        mActivityView.onSaveBookmarkClick();
                         mItemList.get(getAdapterPosition()).setSelected(true);
                         notifyItemChanged(getAdapterPosition());
                     }
                     break;
                 case 2:
-                    Intent bookmarksIntent = new Intent(mContext, BookmarksActivity.class);
-                    ((MainActivity)mContext).startActivityForResult(bookmarksIntent, BOOKMARKS_REQUEST_CODE);
+                    Intent bookmarksIntent = new Intent(mActivity, BookmarksActivity.class);
+                    mActivity.startActivityForResult(bookmarksIntent, BOOKMARKS_REQUEST_CODE);
                     mView.onPageSelected();
-
-
                     break;
                 case 3:
-                    Intent historyIntent = new Intent(mContext, HistoryActivity.class);
-                    ((MainActivity)mContext).startActivityForResult(historyIntent, HISTORY_REQUEST_CODE);
+                    Intent historyIntent = new Intent(mActivity, HistoryActivity.class);
+                    mActivity.startActivityForResult(historyIntent, HISTORY_REQUEST_CODE);
                     mView.onPageSelected();
                     break;
                 case 4:
                     //notifications
                     break;
                 case 5:
-                    Intent colourIntent = new Intent(mContext, ThemeColourActivity.class);
-                    ((Activity) mContext).startActivityForResult(colourIntent, 1);
+                    Intent colourIntent = new Intent(mActivity, ThemeColourActivity.class);
+                    mActivity.startActivityForResult(colourIntent, THEME_COLOUR_REQUEST_CODE);
                     break;
                 case 6:
-                    Intent intent = new Intent(mContext, ContactUsActivity.class);
-                    mContext.startActivity(intent);
+                    Intent intent = new Intent(mActivity, ContactUsActivity.class);
+                    mActivity.startActivity(intent);
                     break;
 
             }
@@ -121,7 +123,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
     }
 
     public void iniDialogItems() {
-        String[] dialogItems = mContext.getResources().getStringArray(R.array.dialog_item_list);
+        String[] dialogItems = mActivity.getResources().getStringArray(R.array.dialog_item_list);
 
         mItemList.clear();
 
@@ -156,10 +158,10 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
             holder.mLine.setVisibility(View.GONE);
         if(position == 5) {
             holder.mCircle.setVisibility(View.VISIBLE);
-            Drawable drawable = mContext.getResources().getDrawable(R.drawable.circle);
+            Drawable drawable = mActivity.getResources().getDrawable(R.drawable.circle);
             drawable.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
             holder.mCircle.setBackground(drawable);
-//            holder.mCircle.setBackground(mContext.getResources().getDrawable(R.drawable.circle));
+//            holder.mCircle.setBackground(mActivity.getResources().getDrawable(R.drawable.circle));
 //            holder.mCircle.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
         }
         if(position == 4)

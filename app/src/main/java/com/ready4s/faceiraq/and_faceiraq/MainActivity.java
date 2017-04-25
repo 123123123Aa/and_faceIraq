@@ -10,7 +10,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity;
 import com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity;
+import com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity;
+import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 import com.ready4s.faceiraq.and_faceiraq.model.PageDetails;
 import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOImplementation;
@@ -27,14 +30,17 @@ import java.lang.reflect.Method;
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 
+import static com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity.BOOKMARKS_REQUEST_CODE;
+import static com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity.CARDS_REQUEST_CODE;
+import static com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity.HISTORY_REQUEST_CODE;
+import static com.ready4s.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity.THEME_COLOUR_REQUEST_CODE;
+
 public class MainActivity extends FragmentActivity
         implements NavigationBarFragment.OnNavigationBarActionListener,
-                    WebViewFragment.OnWebViewActionListener {
+                    WebViewFragment.OnWebViewActionListener,
+                    MainDialogFragment.OnMainDialogActionsListener {
 
     private static final String TAG = "MainActivity";
-    private static final int CARDS_REQUEST_CODE = 111;
-    private static final int HISTORY_REQUEST_CODE = 11;
-    private static final int BOOKMARKS_REQUEST_CODE = 12;
     private int themeId;
     private int cardAmount;
     private HistoryDAOImplementation historyDAO;
@@ -126,7 +132,7 @@ public class MainActivity extends FragmentActivity
         Toast.makeText(this, getString(R.string.bookmark_added), Toast.LENGTH_SHORT).show();
     }
 
-
+    @Override
     public void onOpenedNewPage() {
         OpenedPageModel pageModel = new OpenedPageModel();
         pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
@@ -190,7 +196,7 @@ public class MainActivity extends FragmentActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch(requestCode) {
-                case 1:
+                case THEME_COLOUR_REQUEST_CODE:
                     ThemeChangeUtil.changeToTheme(this, data.getStringExtra("Colour"));
                     break;
                 case CARDS_REQUEST_CODE:

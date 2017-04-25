@@ -30,6 +30,8 @@ public class ThemeColourActivity extends AppCompatActivity {
     @Bind(R.id.theme_colour_rv)
     RecyclerView mColourRv;
 
+    public static final int THEME_COLOUR_REQUEST_CODE = 9;
+
     private ThemeColourAdapter mThemeColourAdapter;
 
     @Override

@@ -24,6 +24,7 @@ public class BookmarksActivity extends FragmentActivity
         implements BookmarksFragment.OnBookmarksActionsListener {
 
     private static final String TAG = "BookmarksActivity";
+    public static final int BOOKMARKS_REQUEST_CODE = 12;
 
     private BookmarksDAOImplementation bookmarksDAO;
 

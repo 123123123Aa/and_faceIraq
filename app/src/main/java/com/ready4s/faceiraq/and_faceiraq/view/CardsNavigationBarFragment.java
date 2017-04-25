@@ -23,7 +23,7 @@ import butterknife.OnClick;
 public class CardsNavigationBarFragment extends Fragment {
 
     public interface OnCardsNavigationBarActions {
-        void onNewCardPressed();
+        void onNewPageButtonPressed();
         void onHomeButtonPressed();
         void onCardsButtonPressed();
     }
@@ -68,7 +68,7 @@ public class CardsNavigationBarFragment extends Fragment {
                 onCardsNavigationBarActions.onHomeButtonPressed();
                 break;
             case R.id.previousPageButton:
-                onCardsNavigationBarActions.onNewCardPressed();
+                onCardsNavigationBarActions.onNewPageButtonPressed();
                 break;
             case R.id.cardsCountButton:
                 onCardsNavigationBarActions.onCardsButtonPressed();

@@ -23,7 +23,7 @@ import io.realm.Realm;
 public class HistoryActivity extends FragmentActivity implements HistoryFragment.OnHistoryActionsListener {
 
     private static final String TAG = "HistoryActivity";
-
+    public static final int HISTORY_REQUEST_CODE = 11;
     private HistoryDAOImplementation historyDAO;
 
     @Override

@@ -1,5 +1,7 @@
 package com.ready4s.faceiraq.and_faceiraq.dialog;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -35,9 +37,25 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
     @Bind(R.id.dialog_button)
     Button mCancelButton;
 
+    public interface OnMainDialogActionsListener {
+        public void onOpenedNewPage();
+    }
+
     private MainDialogAdapter mDialogAdapter;
-    private MainActivity mActivity;
+    private OnMainDialogActionsListener listener;
+    private Activity mActivity;
     private int themeColour;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (OnMainDialogActionsListener) context;
+            mActivity = (Activity) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnMainDialogActionsListener");
+        }
+    }
 
     @Override
     public void onStart() {
@@ -56,10 +74,9 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
         ButterKnife.bind(this, view);
 
 
-        mActivity = (MainActivity)getActivity();
         mDialogRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         changeButtonColor();
-        mDialogAdapter = new MainDialogAdapter(mActivity, themeColour);
+        mDialogAdapter = new MainDialogAdapter(listener, themeColour);
         mDialogAdapter.onViewAttached(this);
         mDialogRecyclerView.setAdapter(mDialogAdapter);
 
