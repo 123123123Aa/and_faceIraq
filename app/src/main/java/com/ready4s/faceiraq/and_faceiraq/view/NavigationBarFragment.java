@@ -220,7 +220,7 @@ public class NavigationBarFragment extends Fragment {
         if (show) {
             previousPageButton.setVisibility(View.VISIBLE);
         } else {
-            previousPageButton.setVisibility(View.GONE);
+            previousPageButton.setVisibility(View.INVISIBLE);
         }
     }
 }
