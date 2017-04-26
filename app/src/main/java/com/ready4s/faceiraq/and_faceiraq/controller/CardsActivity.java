@@ -69,7 +69,7 @@ public class CardsActivity extends AppCompatActivity
         long cardID = openedPagesDAO.insert(new OpenedPageModel());
         CardsFragment cardsFragment = (CardsFragment) getSupportFragmentManager()
                 .findFragmentByTag(CardsFragment.TAG);
-//        cardsFragment.openNewPage(cardID);
+        cardsFragment.openNewPage(cardID);
         updateNavigationBarCardsCount();
     }
 
@@ -118,5 +118,6 @@ public class CardsActivity extends AppCompatActivity
 
     public void onCardDeleted(long id) {
         openedPagesDAO.delete(id);
+        updateNavigationBarCardsCount();
     }
 }

@@ -32,8 +32,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static io.fabric.sdk.android.services.concurrency.AsyncTask.init;
-
 /**
  * Created by Paweł Sałata on 21.04.2017.
  * email: psalata9@gmail.com
@@ -45,86 +43,50 @@ public class CardsFragment extends Fragment {
 
 
     @Bind(R.id.cardStack)
-    RecyclerView cardStackLayout;
-//    CardStackLayout cardStackLayout;
-    private static final int VERTICAL_MARGIN = -1000;
+    CardStackLayout cardStackLayout;
 
     private OpenedPagesDAO openedPagesDAO;
     private List<OpenedPageModel> openedPages;
-    private CardStackRecyclerAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private CardsAdapter adapter;
 
     public CardsFragment() {
         openedPagesDAO = new OpenedPagesDAO();
         openedPages = openedPagesDAO.getOpenedPages();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        layoutManager = new LinearLayoutManager(context);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.cards_recycler_fragment, container, false);
+        View view = inflater.inflate(R.layout.cards_fragment, container, false);
         ButterKnife.bind(this, view);
-
-//        init();
         init();
-
 
         return view;
     }
 
     private void init() {
-        cardStackLayout.setLayoutManager(layoutManager);
-        adapter = new CardStackRecyclerAdapter(openedPages, getContext());
-        cardStackLayout.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_MARGIN));
+        adapter = new CardsAdapter(getActivity(), openedPages);
+        cardStackLayout.setShowInitAnimation(true);
+        cardStackLayout.setParallaxEnabled(true);
         cardStackLayout.setAdapter(adapter);
     }
 
-    public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
-
-        private final int verticalSpaceHeight;
-
-        public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
-            this.verticalSpaceHeight = verticalSpaceHeight;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                                   RecyclerView.State state) {
-            if (parent.getChildAdapterPosition(view) != 0) {
-                outRect.top = verticalSpaceHeight;
-            }
-        }
+    public void openNewPage(long cardID) {
+        OpenedPageModel pageModel = new OpenedPageModel();
+        pageModel.setId(cardID);
+        pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
+        openedPages.add(pageModel);
+        adapter = new CardsAdapter(getActivity(), openedPages);
+        cardStackLayout.removeAdapter();
+        cardStackLayout.setAdapter(adapter);
     }
-
-//    private void init() {
-//        adapter = new CardsAdapter(getActivity(), openedPages);
-//        cardStackLayout.setShowInitAnimation(true);
-//        cardStackLayout.setParallaxEnabled(true);
-//        cardStackLayout.setAdapter(adapter);
-//    }
-//
-//    public void openNewPage(long cardID) {
-//        OpenedPageModel pageModel = new OpenedPageModel();
-//        pageModel.setId(cardID);
-//        pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
-//        openedPages.add(pageModel);
-//        adapter = new CardsAdapter(getActivity(), openedPages);
-//        cardStackLayout.removeAdapter();
-//        cardStackLayout.setAdapter(adapter);
-//    }
 
     private void removePageAt(int position) {
         ((CardsActivity)getActivity()).onCardDeleted(openedPages.get(position).getId());
-//        adapter = new CardsAdapter(getActivity(), openedPages);
-//        cardStackLayout.removeAdapter();
-//        cardStackLayout.setAdapter(adapter);
-//        adapter.removeViewAt(position);
+        openedPages.remove(position);
+        adapter = new CardsAdapter(getActivity(), openedPages);
+        cardStackLayout.removeAdapter();
+        cardStackLayout.setAdapter(adapter);
     }
 
     private class CardsAdapter extends CardStackAdapter {
@@ -132,7 +94,6 @@ public class CardsFragment extends Fragment {
         private List<OpenedPageModel> openedPages;
         private LayoutInflater inflater;
         private Context context;
-        private ViewGroup container;
 
         public CardsAdapter(Context context, List<OpenedPageModel> openedPages) {
             super(context);
@@ -143,7 +104,6 @@ public class CardsFragment extends Fragment {
 
         @Override
         public View createView(final int position, ViewGroup container) {
-            this.container = container;
             CardView root = (CardView) inflater.inflate(R.layout.card_web_view, container, false);
             root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.white));
             TextView cardTitle = (TextView) root.findViewById(R.id.cardTitle);
@@ -163,23 +123,6 @@ public class CardsFragment extends Fragment {
                 }
             });
             return root;
-        }
-
-
-//        public void removeViewAt(final int position) {
-//            float nextViewY = container.getChildAt(position).getY();
-//            container.removeViewAt(position);
-//            for (int i = position; i < getCount(); i++) {
-//                float tmp = container.getChildAt(i).getY();
-//                container.getChildAt(i).setY(nextViewY);
-//                nextViewY = tmp;
-//            }
-//        }
-
-        public void removeViewAt(final int position) {
-            container.removeViewAt(position);
-            openedPages.remove(position);
-            resetCards();
         }
 
         @Override
