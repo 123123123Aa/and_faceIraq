@@ -1,11 +1,15 @@
 package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +32,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static io.fabric.sdk.android.services.concurrency.AsyncTask.init;
+
 /**
  * Created by Paweł Sałata on 21.04.2017.
  * email: psalata9@gmail.com
@@ -39,50 +45,86 @@ public class CardsFragment extends Fragment {
 
 
     @Bind(R.id.cardStack)
-    CardStackLayout cardStackLayout;
+    RecyclerView cardStackLayout;
+//    CardStackLayout cardStackLayout;
+    private static final int VERTICAL_MARGIN = -1000;
 
     private OpenedPagesDAO openedPagesDAO;
     private List<OpenedPageModel> openedPages;
-    private CardsAdapter adapter;
+    private CardStackRecyclerAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     public CardsFragment() {
         openedPagesDAO = new OpenedPagesDAO();
         openedPages = openedPagesDAO.getOpenedPages();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        layoutManager = new LinearLayoutManager(context);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.cards_fragment, container, false);
+        View view = inflater.inflate(R.layout.cards_recycler_fragment, container, false);
         ButterKnife.bind(this, view);
+
+//        init();
         init();
+
 
         return view;
     }
 
     private void init() {
-        adapter = new CardsAdapter(getActivity(), openedPages);
-        cardStackLayout.setShowInitAnimation(true);
-        cardStackLayout.setParallaxEnabled(true);
+        cardStackLayout.setLayoutManager(layoutManager);
+        adapter = new CardStackRecyclerAdapter(openedPages, getContext());
+        cardStackLayout.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_MARGIN));
         cardStackLayout.setAdapter(adapter);
     }
 
-    public void openNewPage(long cardID) {
-        OpenedPageModel pageModel = new OpenedPageModel();
-        pageModel.setId(cardID);
-        pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
-        openedPages.add(pageModel);
-        adapter = new CardsAdapter(getActivity(), openedPages);
-        cardStackLayout.removeAdapter();
-        cardStackLayout.setAdapter(adapter);
+    public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private final int verticalSpaceHeight;
+
+        public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
+            this.verticalSpaceHeight = verticalSpaceHeight;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                   RecyclerView.State state) {
+            if (parent.getChildAdapterPosition(view) != 0) {
+                outRect.top = verticalSpaceHeight;
+            }
+        }
     }
+
+//    private void init() {
+//        adapter = new CardsAdapter(getActivity(), openedPages);
+//        cardStackLayout.setShowInitAnimation(true);
+//        cardStackLayout.setParallaxEnabled(true);
+//        cardStackLayout.setAdapter(adapter);
+//    }
+//
+//    public void openNewPage(long cardID) {
+//        OpenedPageModel pageModel = new OpenedPageModel();
+//        pageModel.setId(cardID);
+//        pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
+//        openedPages.add(pageModel);
+//        adapter = new CardsAdapter(getActivity(), openedPages);
+//        cardStackLayout.removeAdapter();
+//        cardStackLayout.setAdapter(adapter);
+//    }
 
     private void removePageAt(int position) {
         ((CardsActivity)getActivity()).onCardDeleted(openedPages.get(position).getId());
 //        adapter = new CardsAdapter(getActivity(), openedPages);
 //        cardStackLayout.removeAdapter();
 //        cardStackLayout.setAdapter(adapter);
-        adapter.removeViewAt(position);
+//        adapter.removeViewAt(position);
     }
 
     private class CardsAdapter extends CardStackAdapter {
@@ -123,6 +165,7 @@ public class CardsFragment extends Fragment {
             return root;
         }
 
+
 //        public void removeViewAt(final int position) {
 //            float nextViewY = container.getChildAt(position).getY();
 //            container.removeViewAt(position);
@@ -134,11 +177,9 @@ public class CardsFragment extends Fragment {
 //        }
 
         public void removeViewAt(final int position) {
-            container.getChildAt(position).getY();
             container.removeViewAt(position);
-            for (int i = position+1; i < getCount(); i++) {
-                container.addView(container.getChildAt(i), i-1);
-            }
+            openedPages.remove(position);
+            resetCards();
         }
 
         @Override
