@@ -25,6 +25,7 @@ import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ImageUtil;
+import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +108,8 @@ public class CardsFragment extends Fragment {
             CardView root = (CardView) inflater.inflate(R.layout.card_web_view, container, false);
             root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.white));
             TextView cardTitle = (TextView) root.findViewById(R.id.cardTitle);
-            cardTitle.setText(openedPages.get(position).getTitle());
+            String cardRawUrl = PageUrlValidator.getRawUrl(openedPages.get(position).getUrl());
+            cardTitle.setText(cardRawUrl);
             ImageView imageView = (ImageView) root.findViewById(R.id.cardContent);
             byte[] screenshotByteArray = openedPages.get(position).getScreenshot();
             try {

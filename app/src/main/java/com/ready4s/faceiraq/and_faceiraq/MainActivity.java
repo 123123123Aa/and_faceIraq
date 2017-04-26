@@ -18,6 +18,7 @@ import com.ready4s.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOIm
 import com.ready4s.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
+import com.ready4s.faceiraq.and_faceiraq.model.database.previous_pages.PreviousPagesDAO;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import com.ready4s.faceiraq.and_faceiraq.view.NavigationBarFragment;
@@ -47,6 +48,7 @@ public class MainActivity extends FragmentActivity
     private HistoryDAOImplementation historyDAO;
     private BookmarksDAOImplementation bookmarksDAO;
     private OpenedPagesDAO openedPagesDAO;
+    private PreviousPagesDAO previousPagesDAO;
     private EventBus mEventBus = EventBus.getDefault();
 
     @Override
@@ -61,6 +63,7 @@ public class MainActivity extends FragmentActivity
         historyDAO = new HistoryDAOImplementation();
         bookmarksDAO = new BookmarksDAOImplementation();
         openedPagesDAO = new OpenedPagesDAO();
+        previousPagesDAO = new PreviousPagesDAO();
         goToHomePage();
     }
 
@@ -108,6 +111,7 @@ public class MainActivity extends FragmentActivity
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: ");
         openedPagesDAO.deleteAll();
+        previousPagesDAO.deleteAll();
         super.onDestroy();
     }
 
@@ -116,7 +120,7 @@ public class MainActivity extends FragmentActivity
      */
     @Override
     public void onPageSelected(String pageUrl) {
-        goToPage(pageUrl);
+        goToPage(pageUrl, true);
     }
 
     @Override
@@ -126,7 +130,9 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onPreviousPageButtonPressed() {
-//        goToPreviousPage();
+        if (previousPagesDAO.getSize() > 0) {
+            goToPreviousPage();
+        }
     }
 
     @Override
@@ -155,7 +161,7 @@ public class MainActivity extends FragmentActivity
         OpenedPageModel pageModel = new OpenedPageModel();
         pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
         openedPagesDAO.insert(pageModel);
-        goToPage(pageModel.getUrl());
+        goToPage(pageModel.getUrl(), true);
     }
 
     @Override
@@ -179,16 +185,26 @@ public class MainActivity extends FragmentActivity
 
     private void goToHomePage() {
         String homePageAddress = getResources().getString(R.string.HOME_PAGE_ADDRESS);
-        goToPage(homePageAddress);
+        goToPage(homePageAddress, true);
     }
 
-    private void goToPage(String rawUrl) {
+    private void goToPage(String rawUrl, boolean saveToPreviousPages) {
         Log.d(TAG, "Visiting page: " + rawUrl);
         String validUrlAddress = PageUrlValidator.validatePageUrl(rawUrl);
+        if (saveToPreviousPages) savePreviousPage();
         SharedPreferencesHelper.setCardUrl(this, validUrlAddress);
-//        saveVisitedPage(validUrlAddress);
         setPageAddressField(validUrlAddress);
         loadPageToWebView(validUrlAddress);
+    }
+
+    private void goToPreviousPage() {
+        String url = previousPagesDAO.getLast();
+        goToPage(url, false);
+    }
+
+    private void savePreviousPage() {
+        String url = SharedPreferencesHelper.getCardUrl(this);
+        previousPagesDAO.insert(url);
     }
 
     private void setPageAddressField(String pageUrl) {
@@ -237,7 +253,7 @@ public class MainActivity extends FragmentActivity
     private void loadSelectedCard() {
         String url = SharedPreferencesHelper.getCardUrl(this);
         Log.d(TAG, "loadSelectedCard: url=" + url);
-        goToPage(url);
+        goToPage(url, true);
     }
 
     private void init() {
@@ -265,7 +281,11 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (previousPagesDAO.getSize() > 0) {
+            goToPreviousPage();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 

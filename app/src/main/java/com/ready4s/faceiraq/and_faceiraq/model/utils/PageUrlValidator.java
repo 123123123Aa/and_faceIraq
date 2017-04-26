@@ -9,10 +9,25 @@ public class PageUrlValidator {
 
     public final static String HTTP_PREFIX = "http://";
     public final static String HTTPS_PREFIX = "https://";
+    public static final String WWW_PREFIX = "www.";
 
     public static String validatePageUrl(String rawUrl) {
         if (!rawUrl.isEmpty() && !rawUrl.contains(HTTP_PREFIX) && !rawUrl.contains(HTTPS_PREFIX)) {
             return HTTP_PREFIX + rawUrl;
+        }
+        return rawUrl;
+    }
+
+    public static String getRawUrl(String validUrl) {
+        String rawUrl = validUrl;
+        if (validUrl.startsWith(HTTPS_PREFIX)) {
+            rawUrl = validUrl.replaceFirst(HTTPS_PREFIX, "");
+        }
+        if (validUrl.startsWith(HTTP_PREFIX)) {
+            rawUrl = validUrl.replaceFirst(HTTP_PREFIX, "");
+        }
+        if (!rawUrl.startsWith(WWW_PREFIX)) {
+            rawUrl =  WWW_PREFIX + rawUrl;
         }
         return rawUrl;
     }

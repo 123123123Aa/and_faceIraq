@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.dialog.MainDialogFragment;
+import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
@@ -75,7 +76,8 @@ public class CardsActivity extends AppCompatActivity
 
     @Override
     public void onHomeButtonPressed() {
-        //goto home page
+        SharedPreferencesHelper.setCardUrl(this, getString(R.string.HOME_PAGE_ADDRESS));
+        setResult(RESULT_OK);
         finish();
     }
 
