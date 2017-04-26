@@ -64,6 +64,8 @@ public class NavigationBarFragment extends Fragment {
     TextView mCardsCountButton;
     @Bind(R.id.menuDotsButtonExtended)
     RelativeLayout mMenuDotsExtended;
+    @Bind(R.id.previousPageButton)
+    ImageView previousPageButton;
 
     private MainActivity mMainActivity;
 
@@ -212,5 +214,13 @@ public class NavigationBarFragment extends Fragment {
     public void setAddressField(String pageUrl) {
         addressField.setText(pageUrl);
         updateCardsCount();
+    }
+
+    public void showPreviousPageButton(boolean show) {
+        if (show) {
+            previousPageButton.setVisibility(View.VISIBLE);
+        } else {
+            previousPageButton.setVisibility(View.GONE);
+        }
     }
 }

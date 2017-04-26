@@ -16,7 +16,9 @@
         android:textColorHint="@color/darkGrey"
         android:textColor="@color/black"
         android:textAlignment="center"
-        android:imeOptions="actionDone"
+        android:maxLines="1"
+        android:inputType="text|textNoSuggestions"
+        android:imeOptions="actionSearch"
         />
 
     <android.support.v7.widget.RecyclerView

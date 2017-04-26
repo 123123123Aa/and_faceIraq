@@ -1,8 +1,5 @@
 package com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages;
 
-import org.parceler.Parcel;
-
-import io.realm.OpenedPageModelRealmProxy;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 

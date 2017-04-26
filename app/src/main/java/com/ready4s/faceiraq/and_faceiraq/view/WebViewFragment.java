@@ -34,6 +34,7 @@ public class WebViewFragment extends Fragment {
     public interface OnWebViewActionListener {
         public void onPageFinished(PageDetails pageDetails);
         public void onUpdatePageIcon(PageDetails pageDetails);
+        public void onErrorReceived();
     }
 
     OnWebViewActionListener onWebViewActionListener;
@@ -113,7 +114,7 @@ public class WebViewFragment extends Fragment {
 
     private void init() {
         pageDisplay.setWebChromeClient(browserChromeClient);
-        pageDisplay.setWebViewClient(new BrowserClient());
+        pageDisplay.setWebViewClient(new BrowserClient(onWebViewActionListener));
         pageDisplay.getSettings().setLoadWithOverviewMode(true);
         pageDisplay.getSettings().setUseWideViewPort(true);
         pageDisplay.getSettings().setBuiltInZoomControls(true);

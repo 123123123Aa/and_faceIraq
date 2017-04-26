@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.HistoryActivity"
-            android:screenOrientation="portrait"/>
+                android:windowSoftInputMode="stateAlwaysHidden"
+                android:screenOrientation="portrait"/>
         <activity android:name=".contact.us.ContactUsActivity"
                   android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait"/>
@@ -38,7 +39,7 @@
             android:theme="@style/CardsActivityTheme"/>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="442e5ac982ec4718f72358617db0e278f9bac8b1"
+            android:value="f1f3b6b456a17e56a74481b46abb9dac9d7a2b38"
             />
     </application>
 

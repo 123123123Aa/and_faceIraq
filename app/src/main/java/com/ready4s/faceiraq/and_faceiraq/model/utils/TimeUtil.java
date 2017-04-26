@@ -3,6 +3,7 @@ package com.ready4s.faceiraq.and_faceiraq.model.utils;
 import android.annotation.TargetApi;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
+import android.text.format.DateFormat;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,12 +24,10 @@ public class TimeUtil {
         return System.currentTimeMillis() / FACTOR;
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
     public static String getFormattedDateWithPrefix(long dateMillis, String dateFormat) {
-        Date date = new Date(dateMillis * FACTOR);
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        String dateString = DateFormat.format(dateFormat, dateMillis * FACTOR).toString();
         String datePrefix = shouldHaveTodayPrefix(getCurrentTimestamp(), dateMillis) ? TODAY_PREFIX : "";
-        return datePrefix + formatter.format(date);
+        return datePrefix + dateString;
     }
 
     private static boolean shouldHaveTodayPrefix(long currentTimestamp, long recordTimestamp) {
@@ -36,11 +35,8 @@ public class TimeUtil {
                 .equals(getFormattedDate(recordTimestamp, HISTORY_FORMAT));
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
-    public static String getFormattedDate(long dateMillis, String dateFormat) {
-        Date date = new Date(dateMillis * FACTOR);
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.getDefault());
-        return formatter.format(date);
+    private static String getFormattedDate(long dateMillis, String dateFormat) {
+        return DateFormat.format(dateFormat, dateMillis * FACTOR).toString();
     }
 
 

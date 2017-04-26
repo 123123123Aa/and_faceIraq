@@ -26,10 +26,17 @@ public class PageUrlValidator {
         if (validUrl.startsWith(HTTP_PREFIX)) {
             rawUrl = validUrl.replaceFirst(HTTP_PREFIX, "");
         }
+        if (validUrl.isEmpty()) {
+            return "";
+        }
         if (!rawUrl.startsWith(WWW_PREFIX)) {
             rawUrl =  WWW_PREFIX + rawUrl;
         }
         return rawUrl;
+    }
+
+    public static boolean isValid(String url) {
+        return url.startsWith(HTTP_PREFIX);
     }
 
 }

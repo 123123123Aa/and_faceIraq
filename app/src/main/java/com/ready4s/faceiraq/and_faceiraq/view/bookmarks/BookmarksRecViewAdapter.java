@@ -98,7 +98,7 @@ public class BookmarksRecViewAdapter  extends RecyclerView.Adapter<BookmarksRecV
 
     @Override
     public BookmarkRecordHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_record_view, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.bookmark_record_view, parent, false);
         return new BookmarkRecordHolder(v);
     }
 

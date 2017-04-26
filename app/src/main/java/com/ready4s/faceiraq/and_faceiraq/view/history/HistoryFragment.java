@@ -7,9 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
@@ -20,7 +23,13 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnEditorAction;
 import butterknife.OnTextChanged;
+
+import static android.view.View.GONE;
+import static android.webkit.WebSettings.PluginState.ON;
+import static com.ready4s.faceiraq.and_faceiraq.R.id.addressField;
+import static com.ready4s.faceiraq.and_faceiraq.R.id.pageUrl;
 
 /**
  * Created by Paweł Sałata on 19.04.2017.
@@ -88,6 +97,15 @@ public class HistoryFragment extends Fragment {
     }
 
 
+    @OnEditorAction(R.id.searchBox)
+    public boolean onEditorAction(int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            hideSoftKeyboard(searchBox);
+            return true;
+        }
+        return false;
+    }
+
     public void setHistoryRecords(List<HistoryRecord> historyRecords) {
         Log.d(TAG, "setHistoryRecords: SET");
         adapter = new HistoryRecViewAdapter(onHistoryActionsListener, mHistoryActivity);
@@ -99,5 +117,11 @@ public class HistoryFragment extends Fragment {
 
     private void init() {
         historyRecyclerView.setLayoutManager(layoutManager);
+    }
+
+    private void hideSoftKeyboard(EditText editText) {
+        editText.clearFocus();
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 }

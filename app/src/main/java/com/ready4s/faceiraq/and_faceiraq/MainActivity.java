@@ -146,8 +146,16 @@ public class MainActivity extends FragmentActivity
      */
     @Override
     public void onPageFinished(PageDetails pageDetails) {
-        historyDAO.insert(pageDetails);
+        if (PageUrlValidator.isValid(pageDetails.getAddress())) {
+            historyDAO.insert(pageDetails);
+        }
         setPageAddressField(pageDetails.getAddress());
+    }
+
+    @Override
+    public void onErrorReceived() {
+        Log.d(TAG, "onErrorReceived: ");
+        setPageAddressField(getString(R.string.enter_valid_url));
     }
 
     public void onSaveBookmarkClick() {
@@ -193,8 +201,9 @@ public class MainActivity extends FragmentActivity
         String validUrlAddress = PageUrlValidator.validatePageUrl(rawUrl);
         if (saveToPreviousPages) savePreviousPage();
         SharedPreferencesHelper.setCardUrl(this, validUrlAddress);
-        setPageAddressField(validUrlAddress);
+//        setPageAddressField(validUrlAddress);
         loadPageToWebView(validUrlAddress);
+        showPreviousPageButton(previousPagesDAO.getSize() > 0);
     }
 
     private void goToPreviousPage() {
@@ -211,6 +220,12 @@ public class MainActivity extends FragmentActivity
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigationBarFragment);
         navigationBar.setAddressField(pageUrl);
+    }
+
+    private void showPreviousPageButton(boolean show) {
+        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.navigationBarFragment);
+        navigationBar.showPreviousPageButton(show);
     }
 
     private void loadPageToWebView(String pageUrl) {

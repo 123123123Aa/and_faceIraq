@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
 import com.ready4s.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
@@ -64,6 +65,7 @@ public class ThemeColourActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+//                Toast.makeText(this, getString(R.string.appWillRestart), Toast.LENGTH_SHORT).show();
             finish();
         }
         return super.onOptionsItemSelected(item);
