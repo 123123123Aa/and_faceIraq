@@ -89,6 +89,8 @@ public class MainActivity extends FragmentActivity
     protected void onResume() {
         super.onResume();
         mEventBus.register(this);
+        if (previousPagesDAO.getSize() == 1)
+            showPreviousPageButton(false);
 //        if(!SharedPreferencesColourTheme.getThemeColour(this).equals("1")) {
 //            ThemeChangeUtil.changeToTheme(this, SharedPreferencesColourTheme.getThemeColour(this));
 //        }

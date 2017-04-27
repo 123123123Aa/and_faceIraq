@@ -1,20 +1,19 @@
 package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.content.Context;
-import android.graphics.Rect;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mutualmobile.cardstack.CardStackAdapter;
@@ -111,6 +110,8 @@ public class CardsFragment extends Fragment {
             String cardRawUrl = PageUrlValidator.getRawUrl(openedPages.get(position).getUrl());
             cardTitle.setText(cardRawUrl);
             ImageView imageView = (ImageView) root.findViewById(R.id.cardContent);
+            RelativeLayout mTitleSectionRl = (RelativeLayout) root.findViewById(R.id.card_title_section);
+            mTitleSectionRl.setBackgroundColor(getThemeColour());
             byte[] screenshotByteArray = openedPages.get(position).getScreenshot();
             try {
                 imageView.setImageBitmap(ImageUtil.convertToBitmap(screenshotByteArray));
@@ -130,6 +131,14 @@ public class CardsFragment extends Fragment {
         @Override
         public int getCount() {
             return openedPages.size();
+        }
+
+        private int getThemeColour() {
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = context.getTheme();
+            theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            int themeColour = typedValue.data;
+            return themeColour;
         }
 
         @Override
