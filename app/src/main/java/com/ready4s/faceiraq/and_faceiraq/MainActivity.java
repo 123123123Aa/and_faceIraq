@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import java.lang.reflect.Method;
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 
+import static android.R.attr.tag;
 import static com.ready4s.faceiraq.and_faceiraq.controller.BookmarksActivity.BOOKMARKS_REQUEST_CODE;
 import static com.ready4s.faceiraq.and_faceiraq.controller.CardsActivity.CARDS_REQUEST_CODE;
 import static com.ready4s.faceiraq.and_faceiraq.controller.HistoryActivity.HISTORY_REQUEST_CODE;
@@ -115,6 +117,30 @@ public class MainActivity extends FragmentActivity
         super.onDestroy();
     }
 
+    @Override
+    protected void onResumeFragments() {
+        Log.d(TAG, "onResumeFragments: ");
+        super.onResumeFragments();
+        getFragment(
+                R.id.navigationBarFragment,
+                new NavigationBarFragment());
+        getFragment(
+                R.id.webViewFragment,
+                new WebViewFragment());
+    }
+
+    @Override
+    protected void onPostResume() {
+        Log.d(TAG, "onPostResume: ");
+        super.onPostResume();
+        getFragment(
+                R.id.navigationBarFragment,
+                new NavigationBarFragment());
+        getFragment(
+                R.id.webViewFragment,
+                new WebViewFragment());
+    }
+
     /**
      * NavigationBar methods
      */
@@ -160,8 +186,11 @@ public class MainActivity extends FragmentActivity
 
     public void onSaveBookmarkClick() {
         PageDetails pageDetails = getCurrentPageDetails();
-        bookmarksDAO.insert(pageDetails);
-        Toast.makeText(this, getString(R.string.bookmark_added), Toast.LENGTH_SHORT).show();
+        String url = pageDetails.getAddress();
+        if (url != null && PageUrlValidator.isValid(url)) {
+            bookmarksDAO.insert(pageDetails);
+            Toast.makeText(this, getString(R.string.bookmark_added), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -217,29 +246,54 @@ public class MainActivity extends FragmentActivity
     }
 
     private void setPageAddressField(String pageUrl) {
-        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.navigationBarFragment);
-        navigationBar.setAddressField(pageUrl);
+        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
+        if (navigationBar != null ) {
+            navigationBar.setAddressField(pageUrl);
+        }
     }
 
     private void showPreviousPageButton(boolean show) {
-        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.navigationBarFragment);
-        navigationBar.showPreviousPageButton(show);
+        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
+        if (navigationBar != null) {
+            navigationBar.showPreviousPageButton(show);
+        }
     }
 
     private void loadPageToWebView(String pageUrl) {
-        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.webViewFragment);
-        webView.goToSelectedPage(pageUrl);
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        if (webView != null) {
+            webView.goToSelectedPage(pageUrl);
+        }
     }
 
     private PageDetails getCurrentPageDetails() {
-        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.webViewFragment);
-        return webView.getCurrentPageDetails();
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        return webView != null ? webView.getCurrentPageDetails() : new PageDetails();
     }
 
+    private NavigationBarFragment getNavigationBarFragment() {
+        return (NavigationBarFragment) getFragment(
+                    R.id.navigationBarFragment,
+                    new NavigationBarFragment());
+    }
+
+    private WebViewFragment getWebViewFragment() {
+        return (WebViewFragment) getFragment(
+                    R.id.webViewFragment,
+                    new WebViewFragment());
+    }
+
+    /**
+     * Android 4.4 requires to manually add fragments on Activity restart
+     * @return
+     */
+    private Fragment getFragment(int containerId, Fragment newInstance) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentById(containerId);
+        if (fragment != null) return fragment;
+        fragmentManager.beginTransaction().replace(containerId, newInstance).addToBackStack(null).commit();
+        return fragmentManager.findFragmentById(containerId);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -272,11 +326,11 @@ public class MainActivity extends FragmentActivity
     }
 
     private void init() {
-        initFragment(R.id.navigationBarFragment, new NavigationBarFragment());
-        initFragment(R.id.webViewFragment, new WebViewFragment());
+        initFragment(getString(R.string.navigationBarFragmentTag), R.id.navigationBarFragment, new NavigationBarFragment());
+        initFragment(getString(R.string.webViewFragmentTag), R.id.webViewFragment, new WebViewFragment());
     }
 
-    private void initFragment(int containerId, Fragment newFragment) {
+    private void initFragment(String tag, int containerId, Fragment newFragment) {
         Fragment fragment =  getSupportFragmentManager()
                 .findFragmentById(containerId);
         if (fragment != null && fragment.getClass().equals(newFragment.getClass())) {
@@ -284,7 +338,8 @@ public class MainActivity extends FragmentActivity
         }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        transaction.replace(containerId, newFragment);
+//        transaction.replace(containerId, newFragment);
+        transaction.add(containerId, newFragment, tag);
         transaction.addToBackStack(null);
 
         transaction.commit();

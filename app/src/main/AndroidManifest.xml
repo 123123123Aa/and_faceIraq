@@ -21,21 +21,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.HistoryActivity"
-                android:windowSoftInputMode="stateAlwaysHidden"
-                android:screenOrientation="portrait"/>
+                android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".contact.us.ContactUsActivity"
-                  android:windowSoftInputMode="adjustPan"
-                  android:screenOrientation="portrait"/>
+                  android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".MainActivity"
-                  android:windowSoftInputMode="adjustPan"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".theme.colour.ThemeColourActivity"
-                  android:windowSoftInputMode="adjustPan"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".controller.BookmarksActivity"
-                  android:screenOrientation="portrait"/>
+                  android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".theme.colour.ThemeColourActivity"/>
+        <activity android:name=".controller.BookmarksActivity"/>
         <activity android:name=".controller.CardsActivity"
-                  android:screenOrientation="portrait"
             android:theme="@style/CardsActivityTheme"/>
         <meta-data
             android:name="io.fabric.ApiKey"

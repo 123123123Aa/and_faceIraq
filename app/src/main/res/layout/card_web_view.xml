@@ -11,10 +11,10 @@
     card_view:cardElevation="6dp"
     android:layout_height="500dp" >
 
-    <RelativeLayout
+    <RelativeLayout android:id="@+id/themeChangingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/beige"
+        android:background="@color/colorPrimary"
         android:paddingEnd="5dp"
         android:paddingStart="5dp"
         android:paddingBottom="5dp"

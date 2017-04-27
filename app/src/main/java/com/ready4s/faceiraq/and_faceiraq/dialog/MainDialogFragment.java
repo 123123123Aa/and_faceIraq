@@ -60,16 +60,13 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
     @Override
     public void onStart() {
         super.onStart();
-        Window window = getDialog().getWindow();
 
-        window.setLayout(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
-        window.setGravity(Gravity.BOTTOM);
-        window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        initWindowProperties();
         View view = inflater.inflate(R.layout.dialog_main, container, false);
         ButterKnife.bind(this, view);
 
@@ -82,6 +79,15 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
 
         return view;
 
+    }
+
+    private void initWindowProperties() {
+        Window window = getDialog().getWindow();
+
+        window.setLayout(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.BOTTOM);
+        window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        window.requestFeature(Window.FEATURE_NO_TITLE);
     }
 
     private void changeButtonColor() {

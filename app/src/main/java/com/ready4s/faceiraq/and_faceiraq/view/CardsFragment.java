@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mutualmobile.cardstack.CardStackAdapter;
@@ -32,6 +33,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.ready4s.faceiraq.and_faceiraq.R.id.cardTitle;
 
 /**
  * Created by Paweł Sałata on 21.04.2017.
