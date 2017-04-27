@@ -151,9 +151,14 @@ public class MainActivity extends FragmentActivity
     public void onPageFinished(PageDetails pageDetails) {
         if(isNotValid)
             isNotValid = false;
-        else 
+        else
         if (PageUrlValidator.isValid(pageDetails.getAddress())) {
             historyDAO.insert(pageDetails);
+                if (previousPagesDAO.getSize() == 0 && !pageDetails.getAddress().equals(getResources().getString(R.string.HOME_PAGE_ADDRESS)))
+                    savePreviousPage();
+                else if (previousPagesDAO.getSize() != 0)
+                    savePreviousPage();
+            showPreviousPageButton(previousPagesDAO.getSize() > 0);
 //        }
             setPageAddressField(pageDetails.getAddress());
         }
