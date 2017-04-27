@@ -13,6 +13,16 @@ public class PreviousPageModel extends RealmObject {
 
     private String url;
 
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setCardNumber(long id) {
+        this.id = id;
+    }
+
     public String getUrl() {
         return url;
     }

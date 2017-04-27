@@ -14,6 +14,7 @@ public class SharedPreferencesHelper {
 
     private static String CARD_NUMBER_PREF = "selectedCardNumber";
     private static String CARD_URL_PREF = "selectedCardUrl";
+    private static String THEME_NAME_PREF = "selectedThemeName";
 
     public static SharedPreferences getPrefs(Context context) {
         return context.getSharedPreferences("CardNumberAcrossApplication", context.MODE_PRIVATE);
@@ -33,5 +34,13 @@ public class SharedPreferencesHelper {
 
     public static void setCardUrl(Context context, String value) {
         getPrefs(context).edit().putString(CARD_URL_PREF, value).commit();
+    }
+
+    public static String getThemeName(Context context) {
+        return getPrefs(context).getString(THEME_NAME_PREF, context.getString(R.string.defaultThemeName));
+    }
+
+    public static void setThemeName(Context context, String value) {
+        getPrefs(context).edit().putString(THEME_NAME_PREF, value).commit();
     }
 }

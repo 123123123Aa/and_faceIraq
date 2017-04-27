@@ -14,6 +14,7 @@
     <string name="enter_valid_url">Please enter valid url</string>
     <string name="navigationBarFragmentTag">NavigationBarFragment</string>
     <string name="webViewFragmentTag">WebViewFragment</string>
+    <string name="defaultThemeName">Beige</string>
 
     <string-array name="dialog_item_list">
         <item>New page</item>0

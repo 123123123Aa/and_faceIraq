@@ -1,5 +1,6 @@
 package com.ready4s.faceiraq.and_faceiraq.contact.us;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -15,6 +16,8 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,10 +54,17 @@ public class ContactUsActivity extends AppCompatActivity {
     RelativeLayout mImageSection;
     @Bind(R.id.add_image_section)
     RelativeLayout mAddImageSection;
+    @Bind(R.id.activity_contact_us_content_et)
+    EditText mContentEt;
+    @Bind(R.id.activity_contact_us_email_et)
+    EditText mEmailEt;
+    @Bind(R.id.activity_contact_us_subject_et)
+    EditText mSubjectEt;
 
     private static final int SELECT_PICTURE = 1;
 
     private String filemanagerstring;
+    private View focusedView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +74,7 @@ public class ContactUsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupToolbar();
+        setOnChangeListeners();
     }
 
     private void setupToolbar() {
@@ -75,6 +86,12 @@ public class ContactUsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbarTitle.setText(R.string.toolbar_title_contact_us);
         mToolbar.setBackgroundColor(themeColour);
+    }
+
+    private void setOnChangeListeners() {
+        mContentEt.setOnFocusChangeListener(focusListener);
+        mEmailEt.setOnFocusChangeListener(focusListener);
+        mSubjectEt.setOnFocusChangeListener(focusListener);
     }
 
     @Override
@@ -93,9 +110,23 @@ public class ContactUsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                break;
+            case R.id.action_send:
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private View.OnFocusChangeListener focusListener = new View.OnFocusChangeListener() {
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus){
+                focusedView = v;
+            } else {
+                focusedView  = null;
+            }
+        }
+    };
 
     @OnClick({R.id.activity_contact_us_add_photo_iv, R.id.activity_contact_us_delete_photo})
     public void onClick(View view) {

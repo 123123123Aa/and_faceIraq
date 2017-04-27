@@ -1,5 +1,6 @@
 package com.ready4s.faceiraq.and_faceiraq.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.webkit.WebResourceError;
@@ -37,6 +38,14 @@ public class BrowserClient extends WebViewClient {
         return true;
     }
 
+    @SuppressWarnings("deprecated")
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        listener.onErrorReceived();
+        super.onReceivedError(view, errorCode, description, failingUrl);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         listener.onErrorReceived();

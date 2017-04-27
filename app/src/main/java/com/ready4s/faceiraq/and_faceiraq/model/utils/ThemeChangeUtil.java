@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
+import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 
 /**
  * Created by user on 21.04.2017.
@@ -20,6 +21,7 @@ public class ThemeChangeUtil {
     public static void changeToTheme(Activity activity, String theme)
     {
         sTheme = theme;
+        SharedPreferencesHelper.setThemeName(activity, theme);
         activity.finish();
 
         activity.startActivity(new Intent(activity, activity.getClass()));
@@ -29,7 +31,7 @@ public class ThemeChangeUtil {
     /** Set the theme of the activity, according to the configuration. */
     public static void onActivityCreateSetTheme(Activity activity)
     {
-        switch (sTheme)
+        switch (SharedPreferencesHelper.getThemeName(activity))
         {
             default:
             case "Beige":

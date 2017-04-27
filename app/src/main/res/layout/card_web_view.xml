@@ -11,36 +11,44 @@
     card_view:cardElevation="6dp"
     android:layout_height="500dp" >
 
-    <RelativeLayout android:id="@+id/themeChangingLayout"
+    <RelativeLayout
+        android:id="@+id/card_title_section"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/beige"
         android:paddingEnd="5dp"
         android:paddingStart="5dp"
         android:paddingBottom="5dp"
         >
 
-        <TextView android:id="@+id/cardTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="9dp"
-            android:layout_marginTop="20dp"
-            android:text="Card Title"
-            android:textColor="@android:color/black"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/card_title_section"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
 
-        <ImageView android:id="@+id/deleteIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
-            android:src="@drawable/delete_icon"
-            android:padding="5dp"
-            />
+            <TextView android:id="@+id/cardTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="9dp"
+                android:layout_marginTop="20dp"
+                android:text="Card Title"
+                android:textColor="@android:color/black"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <ImageView android:id="@+id/deleteIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:src="@drawable/delete_icon"
+                android:padding="5dp"
+                />
+
+        <!--</RelativeLayout>-->
 
         <ImageView android:id="@+id/cardContent"
             android:background="@color/white"
