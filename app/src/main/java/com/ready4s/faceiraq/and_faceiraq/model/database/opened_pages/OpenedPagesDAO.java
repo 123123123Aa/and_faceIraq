@@ -28,7 +28,7 @@ public class OpenedPagesDAO {
         Log.d(TAG, "insert: ");
         realm.beginTransaction();
         openedPage.setId(getPrimaryKeyValue());
-        realm.copyToRealmOrUpdate(openedPage);
+        realm.copyToRealm(openedPage);
         realm.commitTransaction();
         return openedPage.getId();
     }
@@ -77,6 +77,10 @@ public class OpenedPagesDAO {
         List<OpenedPageModel> resultsList = new ArrayList<>();
         resultsList.addAll(realm.where(OpenedPageModel.class).findAll());
         return resultsList;
+    }
+
+    public int getSize() {
+        return getOpenedPages().size();
     }
 
     private long getPrimaryKeyValue() {

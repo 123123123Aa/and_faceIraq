@@ -2,6 +2,7 @@ package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -50,5 +51,11 @@ public class BrowserClient extends WebViewClient {
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         listener.onErrorReceived();
         super.onReceivedError(view, request, error);
+    }
+
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        listener.onPageStarted(url);
+        super.onPageStarted(view, url, favicon);
     }
 }

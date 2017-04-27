@@ -34,15 +34,33 @@ public class PreviousPagesDAO {
         realm.commitTransaction();
     }
 
+    public String removeLastAndGetNext() {
+        if (isEmpty()) {
+            return "";
+        }
+        long id = SharedPreferencesHelper.getCardNumber(mContext);
+        realm.beginTransaction();
+        RealmResults<PreviousPageModel> previousPages = realm.where(PreviousPageModel.class).equalTo("id", id).findAll();
+        previousPages.last().deleteFromRealm();
+        realm.commitTransaction();
+
+        realm.beginTransaction();
+        RealmResults<PreviousPageModel> previousPagesAfterDelete = realm.where(PreviousPageModel.class).equalTo("id", id).findAll();
+        String previousPageUrl = previousPagesAfterDelete.last().getUrl();
+        previousPagesAfterDelete.last().deleteFromRealm();
+        realm.commitTransaction();
+        return previousPageUrl;
+    }
+
+
     public String getLast() {
-        if (getSize() < 1) {
+        if (isEmpty()) {
             return "";
         }
         long id = SharedPreferencesHelper.getCardNumber(mContext);
         realm.beginTransaction();
         RealmResults<PreviousPageModel> previousPages = realm.where(PreviousPageModel.class).equalTo("id", id).findAll();
         String previousPageUrl = previousPages.last().getUrl();
-        previousPages.deleteLastFromRealm();
         realm.commitTransaction();
         return previousPageUrl;
     }
@@ -65,5 +83,9 @@ public class PreviousPagesDAO {
         int size = results.size();
         realm.commitTransaction();
         return size;
+    }
+
+    public boolean isEmpty() {
+        return getSize() < 2;
     }
 }

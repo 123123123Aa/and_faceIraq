@@ -36,7 +36,7 @@ public class PageUrlValidator {
     }
 
     public static boolean isValid(String url) {
-        return url != null && url.startsWith(HTTP_PREFIX);
+        return url != null && (url.startsWith(HTTP_PREFIX) || url.startsWith(HTTPS_PREFIX));
     }
 
 }

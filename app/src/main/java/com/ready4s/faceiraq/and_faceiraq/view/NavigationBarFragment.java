@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -29,6 +30,8 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
 import static android.view.View.GONE;
+import static com.ready4s.faceiraq.and_faceiraq.R.id.add;
+import static com.ready4s.faceiraq.and_faceiraq.R.id.pageUrl;
 
 /**
  * Created by Paweł Sałata on 14.04.2017.
@@ -107,9 +110,11 @@ public class NavigationBarFragment extends Fragment {
         super.onDestroyView();
     }
 
-    private void updateCardsCount() {
-        if(mMainActivity.getCardsAmount() != 0) {
+    public void updateCardsCount() {
+        if(mMainActivity.getCardsAmount() > 1) {
             mCardsCountButton.setText(String.valueOf(mMainActivity.getCardsAmount()));
+        } else {
+            mCardsCountButton.setText(String.valueOf(1));
         }
     }
 
@@ -211,18 +216,20 @@ public class NavigationBarFragment extends Fragment {
         }
     }
 
-    public void setAddressField(String pageUrl, boolean isNotValid) {
-        if(isNotValid) {
-            addressField.setError(String.valueOf(R.string.enter_valid_url));
-            addressField.setText(null);
-            addressField.setHint(pageUrl);
-            addressField.setHintTextColor(getResources().getColor(R.color.navigationBarTextColor));
-
-        } else {
-            addressField.setError(null);
+    public void setAddressField(String pageUrl) {
+        if (addressField.getError() == null) {
             addressField.setText(pageUrl);
         }
         updateCardsCount();
+    }
+
+    public void setAddressFieldError(boolean errorOccurred) {
+        if (errorOccurred) {
+            addressField.setError(getString(R.string.enter_valid_url));
+            addressField.setText(null);
+        } else {
+            addressField.setError(null);
+        }
     }
 
     public void showPreviousPageButton(boolean show) {

@@ -35,6 +35,7 @@ public class WebViewFragment extends Fragment {
         public void onPageFinished(PageDetails pageDetails);
         public void onUpdatePageIcon(PageDetails pageDetails);
         public void onErrorReceived();
+        void onPageStarted(String url);
     }
 
     OnWebViewActionListener onWebViewActionListener;
