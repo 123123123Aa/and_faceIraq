@@ -49,6 +49,7 @@ public class MainActivity extends FragmentActivity
     private BookmarksDAOImplementation bookmarksDAO;
     private OpenedPagesDAO openedPagesDAO;
     private PreviousPagesDAO previousPagesDAO;
+    private boolean isNotValid;
     private EventBus mEventBus = EventBus.getDefault();
 
     @Override
@@ -63,8 +64,8 @@ public class MainActivity extends FragmentActivity
         historyDAO = new HistoryDAOImplementation();
         bookmarksDAO = new BookmarksDAOImplementation();
         openedPagesDAO = new OpenedPagesDAO();
-        previousPagesDAO = new PreviousPagesDAO();
-        goToHomePage();
+        previousPagesDAO = new PreviousPagesDAO(this);
+        goToHomePage(false);
     }
 
     private int getThemeId(){
@@ -89,7 +90,7 @@ public class MainActivity extends FragmentActivity
     protected void onResume() {
         super.onResume();
         mEventBus.register(this);
-        if (previousPagesDAO.getSize() == 1)
+        if (previousPagesDAO.getSize() == 0)
             showPreviousPageButton(false);
 //        if(!SharedPreferencesColourTheme.getThemeColour(this).equals("1")) {
 //            ThemeChangeUtil.changeToTheme(this, SharedPreferencesColourTheme.getThemeColour(this));
@@ -127,7 +128,7 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onHomeButtonPressed() {
-        goToHomePage();
+        goToHomePage(true);
     }
 
     @Override
@@ -148,15 +149,20 @@ public class MainActivity extends FragmentActivity
      */
     @Override
     public void onPageFinished(PageDetails pageDetails) {
+        if(isNotValid)
+            isNotValid = false;
+        else 
         if (PageUrlValidator.isValid(pageDetails.getAddress())) {
             historyDAO.insert(pageDetails);
+//        }
+            setPageAddressField(pageDetails.getAddress());
         }
-        setPageAddressField(pageDetails.getAddress());
     }
 
     @Override
     public void onErrorReceived() {
         Log.d(TAG, "onErrorReceived: ");
+        isNotValid = true;
         setPageAddressField(getString(R.string.enter_valid_url));
     }
 
@@ -171,7 +177,8 @@ public class MainActivity extends FragmentActivity
         OpenedPageModel pageModel = new OpenedPageModel();
         pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
         openedPagesDAO.insert(pageModel);
-        goToPage(pageModel.getUrl(), true);
+        goToPage(pageModel.getUrl(), false);
+        showPreviousPageButton(false);
     }
 
     @Override
@@ -193,9 +200,9 @@ public class MainActivity extends FragmentActivity
         return webView.getOpenedPage();
     }
 
-    private void goToHomePage() {
+    private void goToHomePage(boolean isHomeButton) {
         String homePageAddress = getResources().getString(R.string.HOME_PAGE_ADDRESS);
-        goToPage(homePageAddress, true);
+        goToPage(homePageAddress, isHomeButton);
     }
 
     private void goToPage(String rawUrl, boolean saveToPreviousPages) {
@@ -221,7 +228,7 @@ public class MainActivity extends FragmentActivity
     private void setPageAddressField(String pageUrl) {
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigationBarFragment);
-        navigationBar.setAddressField(pageUrl);
+        navigationBar.setAddressField(pageUrl, isNotValid);
     }
 
     private void showPreviousPageButton(boolean show) {
@@ -270,7 +277,10 @@ public class MainActivity extends FragmentActivity
     private void loadSelectedCard() {
         String url = SharedPreferencesHelper.getCardUrl(this);
         Log.d(TAG, "loadSelectedCard: url=" + url);
-        goToPage(url, true);
+        if (previousPagesDAO.getSize() == 0)
+            goToPage(url, false);
+        else
+            goToPage(url, true);
     }
 
     private void init() {

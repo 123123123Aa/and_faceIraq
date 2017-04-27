@@ -1,8 +1,9 @@
 package com.ready4s.faceiraq.and_faceiraq.model.database.previous_pages;
 
+import android.content.Context;
 import android.util.Log;
 
-import com.ready4s.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
+import com.ready4s.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -16,15 +17,19 @@ public class PreviousPagesDAO {
 
     public static final String TAG = "PreviousPagesDAO";
     private Realm realm;
+    private Context mContext;
 
-    public PreviousPagesDAO() {
+    public PreviousPagesDAO(Context context) {
         realm = Realm.getDefaultInstance();
+        this.mContext = context;
     }
 
     public void insert(String url) {
+        long id = SharedPreferencesHelper.getCardNumber(mContext);
         realm.beginTransaction();
         PreviousPageModel previousPage = new PreviousPageModel();
         previousPage.setUrl(url);
+        previousPage.setCardNumber(id);
         realm.copyToRealm(previousPage);
         realm.commitTransaction();
     }
@@ -33,8 +38,9 @@ public class PreviousPagesDAO {
         if (getSize() < 1) {
             return "";
         }
+        long id = SharedPreferencesHelper.getCardNumber(mContext);
         realm.beginTransaction();
-        RealmResults<PreviousPageModel> previousPages = realm.where(PreviousPageModel.class).findAll();
+        RealmResults<PreviousPageModel> previousPages = realm.where(PreviousPageModel.class).equalTo("id", id).findAll();
         String previousPageUrl = previousPages.last().getUrl();
         previousPages.deleteLastFromRealm();
         realm.commitTransaction();
@@ -53,8 +59,9 @@ public class PreviousPagesDAO {
     }
 
     public int getSize() {
+        long id = SharedPreferencesHelper.getCardNumber(mContext);
         realm.beginTransaction();
-        RealmResults<PreviousPageModel> results = realm.where(PreviousPageModel.class).findAll();
+        RealmResults<PreviousPageModel> results = realm.where(PreviousPageModel.class).equalTo("id", id).findAll();
         int size = results.size();
         realm.commitTransaction();
         return size;

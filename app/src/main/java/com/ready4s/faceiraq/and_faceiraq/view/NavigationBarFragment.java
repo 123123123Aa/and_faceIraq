@@ -211,12 +211,22 @@ public class NavigationBarFragment extends Fragment {
         }
     }
 
-    public void setAddressField(String pageUrl) {
-        addressField.setText(pageUrl);
+    public void setAddressField(String pageUrl, boolean isNotValid) {
+        if(isNotValid) {
+            addressField.setError(String.valueOf(R.string.enter_valid_url));
+            addressField.setText(null);
+            addressField.setHint(pageUrl);
+            addressField.setHintTextColor(getResources().getColor(R.color.navigationBarTextColor));
+
+        } else {
+            addressField.setError(null);
+            addressField.setText(pageUrl);
+        }
         updateCardsCount();
     }
 
     public void showPreviousPageButton(boolean show) {
+        updateCardsCount();
         if (show) {
             previousPageButton.setVisibility(View.VISIBLE);
         } else {
