@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.ready4s.faceiraq.and_faceiraq.R;
@@ -116,6 +117,12 @@ public class WebViewFragment extends Fragment {
     private void init() {
         pageDisplay.setWebChromeClient(browserChromeClient);
         pageDisplay.setWebViewClient(new BrowserClient(onWebViewActionListener));
+        pageDisplay.getSettings().setDomStorageEnabled(true);
+        pageDisplay.getSettings().setAppCacheMaxSize(1024*1024*8);
+        pageDisplay.getSettings().setJavaScriptEnabled(true);
+        pageDisplay.getSettings().setAllowFileAccess(true);
+        pageDisplay.getSettings().setAppCacheEnabled(true);
+        pageDisplay.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         pageDisplay.getSettings().setLoadWithOverviewMode(true);
         pageDisplay.getSettings().setUseWideViewPort(true);
         pageDisplay.getSettings().setBuiltInZoomControls(true);
