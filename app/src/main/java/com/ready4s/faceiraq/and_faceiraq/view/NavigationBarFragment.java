@@ -2,11 +2,11 @@ package com.ready4s.faceiraq.and_faceiraq.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,8 +31,6 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
 import static android.view.View.GONE;
-import static com.ready4s.faceiraq.and_faceiraq.R.id.add;
-import static com.ready4s.faceiraq.and_faceiraq.R.id.pageUrl;
 
 /**
  * Created by Paweł Sałata on 14.04.2017.
@@ -69,6 +68,8 @@ public class NavigationBarFragment extends Fragment {
     RelativeLayout mMenuDotsExtended;
     @Bind(R.id.previousPageButton)
     ImageView previousPageButton;
+    @Bind(R.id.progressBar)
+    ProgressBar mProgressBar;
 
     private MainActivity mMainActivity;
 
@@ -214,6 +215,15 @@ public class NavigationBarFragment extends Fragment {
                 MainDialogFragment dialogFragment = new MainDialogFragment();
                 dialogFragment.show(getActivity().getSupportFragmentManager(),"simple dialog");
         }
+    }
+
+    public void setLoadingPageProgressBar(boolean isLoading) {
+        if (isLoading) {
+            mProgressBar.getIndeterminateDrawable().setColorFilter(getActivity().getResources().getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+        else
+            mProgressBar.setVisibility(View.GONE);
     }
 
     public void setAddressField(String pageUrl) {
