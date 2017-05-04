@@ -12,14 +12,14 @@
         android:layout_margin="3dp"
         >
     </android.support.v7.widget.RecyclerView>
-    <Button
-        android:id="@+id/dialog_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/navigationBarTextColor"
-        android:text="Cancel"
-        android:layout_margin="3dp"
-        android:layout_below="@id/dialog_recycler_view"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/dialog_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:textColor="@color/navigationBarTextColor"-->
+        <!--android:text="Cancel"-->
+        <!--android:layout_margin="3dp"-->
+        <!--android:layout_below="@id/dialog_recycler_view"-->
+        <!--/>-->
 </RelativeLayout>

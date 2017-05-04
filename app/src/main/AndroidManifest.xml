@@ -26,7 +26,9 @@
         <activity android:name=".contact.us.ContactUsActivity"
                   android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".MainActivity"
-                  android:windowSoftInputMode="adjustPan"/>
+                  android:windowSoftInputMode="adjustPan"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+            />
         <activity android:name=".theme.colour.ThemeColourActivity"/>
         <activity android:name=".controller.BookmarksActivity"/>
         <activity android:name=".controller.CardsActivity"

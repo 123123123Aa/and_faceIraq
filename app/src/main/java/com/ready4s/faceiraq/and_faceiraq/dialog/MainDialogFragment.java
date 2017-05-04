@@ -3,9 +3,7 @@ package com.ready4s.faceiraq.and_faceiraq.dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -17,14 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 
-import com.ready4s.faceiraq.and_faceiraq.MainActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by user on 19.04.2017.
@@ -34,8 +29,8 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
 
     @Bind(R.id.dialog_recycler_view)
     RecyclerView mDialogRecyclerView;
-    @Bind(R.id.dialog_button)
-    Button mCancelButton;
+//    @Bind(R.id.dialog_button)
+//    Button mCancelButton;
 
     public interface OnMainDialogActionsListener {
         public void onOpenedNewPage();
@@ -95,9 +90,9 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
         Resources.Theme theme = mActivity.getTheme();
         theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
         themeColour = typedValue.data;
-        Drawable drawable = mActivity.getResources().getDrawable(R.drawable.btn_round_grey);
-        drawable.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
-        mCancelButton.setBackground(drawable);
+//        Drawable drawable = mActivity.getResources().getDrawable(R.drawable.btn_round_grey);
+//        drawable.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
+//        mCancelButton.setBackground(drawable);
     }
 
     @Override
@@ -106,14 +101,14 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
         mDialogAdapter.onViewDetached();
     }
 
-    @OnClick(R.id.dialog_button)
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.dialog_button:
-                dismiss();
-                break;
-        }
-    }
+//    @OnClick(R.id.dialog_button)
+//    public void onClick(View view) {
+//        switch (view.getId()){
+//            case R.id.dialog_button:
+//                dismiss();
+//                break;
+//        }
+//    }
 
     @Override
     public void onPageSelected() {

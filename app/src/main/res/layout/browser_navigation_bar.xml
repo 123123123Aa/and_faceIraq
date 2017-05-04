@@ -31,6 +31,7 @@
             android:paddingLeft="5dp"
             android:textColor="@color/navigationBarTextColor"
             android:maxLines="1"
+            android:singleLine="true"
             android:inputType="textWebEditText"
             android:imeOptions="actionGo"
             android:selectAllOnFocus="true"
