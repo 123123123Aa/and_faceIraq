@@ -2,6 +2,7 @@ package com.ready4s.faceiraq.and_faceiraq;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -82,6 +83,11 @@ public class MainActivity extends FragmentActivity
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override
