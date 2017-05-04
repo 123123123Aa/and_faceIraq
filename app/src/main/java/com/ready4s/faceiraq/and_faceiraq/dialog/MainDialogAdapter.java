@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.ready4s.faceiraq.and_faceiraq.MainActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
@@ -75,6 +77,8 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Button mCircle;
         @Bind(R.id.dialog_switch_toggle)
         SwitchCompat mSwitchToggle;
+        @Bind(R.id.toggle_button)
+        ToggleButton mToggleButton;
 
         ViewHolder(View view) {
             super(view);
@@ -207,8 +211,13 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            holder.mCircle.setBackground(mActivity.getResources().getDrawable(R.drawable.circle));
 //            holder.mCircle.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
                 }
-                if (position == 4)
-                    holder.mSwitchToggle.setVisibility(View.VISIBLE);
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                    if (position == 4)
+                        holder.mSwitchToggle.setVisibility(View.VISIBLE);
+                } else {
+                    if (position == 4)
+                        holder.mToggleButton.setVisibility(View.VISIBLE);
+                }
                 if (position == 1 && !(mActivity instanceof MainActivity)) {
                     setVisibility(holder);
                 }
