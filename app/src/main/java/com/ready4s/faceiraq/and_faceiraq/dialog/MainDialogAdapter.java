@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.ready4s.faceiraq.and_faceiraq.MainActivity;
 import com.ready4s.faceiraq.and_faceiraq.R;
@@ -36,7 +38,7 @@ import static com.ready4s.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity
  * Created by user on 19.04.2017.
  */
 
-public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.ViewHolder>{
+public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private ArrayList<ItemListModel> mItemList = new ArrayList<>();
     private MainDialogFragment.OnMainDialogActionsListener listener;
@@ -75,6 +77,8 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
         Button mCircle;
         @Bind(R.id.dialog_switch_toggle)
         SwitchCompat mSwitchToggle;
+        @Bind(R.id.toggle_button)
+        ToggleButton mToggleButton;
 
         ViewHolder(View view) {
             super(view);
@@ -127,6 +131,30 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
         }
     }
 
+    public class ButtonViewHolder extends RecyclerView.ViewHolder {
+
+        @Bind(R.id.dialog_button) Button mCancelButton;
+//        @Bind(R.id.button_background) LinearLayout mButtoBackground;
+
+        ButtonViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+
+        @OnClick(R.id.dialog_button)
+        public void onClick() {
+            mView.onPageSelected();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 7)
+            return 1;
+        else
+            return 0;
+    }
+
     private void setVisibility(ViewHolder holder) {
         holder.setInvisible();
     }
@@ -148,41 +176,64 @@ public class MainDialogAdapter extends RecyclerView.Adapter<MainDialogAdapter.Vi
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_dialog_list_row, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case 0:
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_dialog_list_row, parent, false);
+                return new ViewHolder(view);
+            case 1:
+                View buttonView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_dialog_button, parent, false);
+                return new ButtonViewHolder(buttonView);
+        }
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        ItemListModel item = mItemList.get(position);
-        holder.mDialogTv.setText(item.getTitle());
-        holder.mDialogIv.setImageResource(item.getImageId());
-        if (position == 1) {
-            if (item.isSelected()) {
-                holder.mDialogIv.setImageResource(R.drawable.bookmark_checked);
-            }
-        }
-        if(position == 6)
-            holder.mLine.setVisibility(View.GONE);
-        if(position == 5) {
-            holder.mCircle.setVisibility(View.VISIBLE);
-            Drawable drawable = mActivity.getResources().getDrawable(R.drawable.circle);
-            drawable.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
-            holder.mCircle.setBackground(drawable);
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        switch (viewHolder.getItemViewType()) {
+            case 0:
+                ViewHolder holder = (ViewHolder) viewHolder;
+                ItemListModel item = mItemList.get(position);
+                holder.mDialogTv.setText(item.getTitle());
+                holder.mDialogIv.setImageResource(item.getImageId());
+                if (position == 1) {
+                    if (item.isSelected()) {
+                        holder.mDialogIv.setImageResource(R.drawable.bookmark_checked);
+                    }
+                }
+                if (position == 6)
+                    holder.mLine.setVisibility(View.GONE);
+                if (position == 5) {
+                    holder.mCircle.setVisibility(View.VISIBLE);
+                    Drawable drawable = mActivity.getResources().getDrawable(R.drawable.circle);
+                    drawable.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
+                    holder.mCircle.setBackground(drawable);
 //            holder.mCircle.setBackground(mActivity.getResources().getDrawable(R.drawable.circle));
 //            holder.mCircle.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
-        }
-        if(position == 4)
-            holder.mSwitchToggle.setVisibility(View.VISIBLE);
-        if(position == 1 && !(mActivity instanceof MainActivity)) {
-            setVisibility(holder);
+                }
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                    if (position == 4)
+                        holder.mSwitchToggle.setVisibility(View.VISIBLE);
+                } else {
+                    if (position == 4)
+                        holder.mToggleButton.setVisibility(View.VISIBLE);
+                }
+                if (position == 1 && !(mActivity instanceof MainActivity)) {
+                    setVisibility(holder);
+                }
+                break;
+            case 1:
+                ButtonViewHolder buttonHolder = (ButtonViewHolder) viewHolder;
+                Drawable drawable = mActivity.getResources().getDrawable(R.drawable.btn_round_grey);
+                drawable.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
+                buttonHolder.mCancelButton.setBackground(drawable);
+//                buttonHolder.mButtoBackground.setBackgroundColor(mActivity.getResources().getColor(android.R.color.transparent));
         }
     }
 
     @Override
     public int getItemCount() {
-        return mItemList.size();
+        return mItemList.size() + 1;
     }
 }
 
