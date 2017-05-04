@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ready4s.faceiraq.and_faceiraq">
+    package="net.faceiraq.and_faceiraq">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/SplashTheme">
-        <activity android:name=".SplashActivity"
+        <activity android:name="net.faceiraq.and_faceiraq.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,21 +21,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.HistoryActivity"
+        <activity android:name="net.faceiraq.and_faceiraq.controller.HistoryActivity"
                   android:windowSoftInputMode="stateAlwaysHidden"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".contact.us.ContactUsActivity"
+        <activity android:name="net.faceiraq.and_faceiraq.contact.us.ContactUsActivity"
                   android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".MainActivity"
+        <activity android:name="net.faceiraq.and_faceiraq.MainActivity"
                   android:windowSoftInputMode="adjustPan"
                   android:configChanges="orientation|screenSize|keyboardHidden"
             />
-        <activity android:name=".theme.colour.ThemeColourActivity"
+        <activity android:name="net.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".controller.BookmarksActivity"
+        <activity android:name="net.faceiraq.and_faceiraq.controller.BookmarksActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".controller.CardsActivity"
+        <activity android:name="net.faceiraq.and_faceiraq.controller.CardsActivity"
                   android:screenOrientation="portrait"
             android:theme="@style/CardsActivityTheme"/>
         <meta-data

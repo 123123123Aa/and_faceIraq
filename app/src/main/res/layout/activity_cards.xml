@@ -11,7 +11,7 @@
         android:background="@drawable/cards_background"
         android:scaleType="centerCrop"/>
 
-    <fragment class="com.ready4s.faceiraq.and_faceiraq.view.CardsNavigationBarFragment"
+    <fragment class="net.faceiraq.and_faceiraq.view.CardsNavigationBarFragment"
         android:id="@+id/cardsNavigationBarFragment"
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!--<fragment class="com.ready4s.faceiraq.and_faceiraq.view.CardsFragment"-->
+    <!--<fragment class="CardsFragment"-->
         <!--android:id="@+id/cardsDisplayFragment"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent" />-->
