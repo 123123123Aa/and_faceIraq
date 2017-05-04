@@ -169,6 +169,10 @@ public class MainActivity extends FragmentActivity
     public void onPageStarted(String url) {
 //        Log.d(TAG, "onPageStarted: url=" + url);
         SharedPreferencesHelper.setCardUrl(this, url);
+        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
+        if (navigationBar != null ) {
+            navigationBar.setLoadingPageProgressBar(true);
+        }
     }
 
     @Override
@@ -180,6 +184,10 @@ public class MainActivity extends FragmentActivity
             setPageAddressField(url);
             savePreviousPage();
             showPreviousPageButton(!previousPagesDAO.isEmpty());
+        }
+        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
+        if (navigationBar != null ) {
+            navigationBar.setLoadingPageProgressBar(false);
         }
     }
 

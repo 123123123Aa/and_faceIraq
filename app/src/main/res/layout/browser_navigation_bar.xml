@@ -40,6 +40,17 @@
             android:textColorHint="@color/darkGrey"
                   android:focusableInTouchMode="false"
             android:visibility="visible"
+            android:paddingRight="25dp"
+            />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/homeButton"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:visibility="gone"
             />
 
         <ImageView android:id="@+id/homeButton"
