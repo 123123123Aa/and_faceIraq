@@ -16,6 +16,8 @@ public class SharedPreferencesHelper {
     private static String CARD_NUMBER_PREF = "selectedCardNumber";
     private static String CARD_URL_PREF = "selectedCardUrl";
     private static String THEME_NAME_PREF = "selectedThemeName";
+    private static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+    public static final String REGISTRATION_COMPLETE = "gcmRegistrationComplete";
 
     public static SharedPreferences getPrefs(Context context) {
         return context.getSharedPreferences("CardNumberAcrossApplication", context.MODE_PRIVATE);
@@ -26,7 +28,7 @@ public class SharedPreferencesHelper {
     }
 
     public static void setCardNumber(Context context, long value) {
-        getPrefs(context).edit().putLong(CARD_NUMBER_PREF, value).commit();
+        getPrefs(context).edit().putLong(CARD_NUMBER_PREF, value).apply();
     }
 
     public static String getCardUrl(Context context) {
@@ -34,7 +36,7 @@ public class SharedPreferencesHelper {
     }
 
     public static void setCardUrl(Context context, String value) {
-        getPrefs(context).edit().putString(CARD_URL_PREF, value).commit();
+        getPrefs(context).edit().putString(CARD_URL_PREF, value).apply();
     }
 
     public static String getThemeName(Context context) {
@@ -42,6 +44,14 @@ public class SharedPreferencesHelper {
     }
 
     public static void setThemeName(Context context, String value) {
-        getPrefs(context).edit().putString(THEME_NAME_PREF, value).commit();
+        getPrefs(context).edit().putString(THEME_NAME_PREF, value).apply();
+    }
+
+    public static boolean isTokenSentToServer(Context context) {
+        return getPrefs(context).getBoolean(SENT_TOKEN_TO_SERVER, false);
+    }
+
+    public static void setTokenSentToServer(Context context, boolean value) {
+        getPrefs(context).edit().putBoolean(SENT_TOKEN_TO_SERVER, value).apply();
     }
 }

@@ -2,6 +2,7 @@ package net.faceiraq.and_faceiraq.view.history;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import net.faceiraq.and_faceiraq.R;
 
@@ -134,12 +137,19 @@ class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAdapter.H
         holder.pageTitle.setText(filteredHistoryRecords.get(position).getTitle());
         holder.pageUrl.setText(filteredHistoryRecords.get(position).getAddress());
 
-        if (filteredHistoryRecords.get(position).getBase64Logo() != null) {
-            Bitmap iconBitmap = ImageUtil.decodeBase64(filteredHistoryRecords.get(position).getBase64Logo());
-            holder.pageIcon.setImageBitmap(iconBitmap);
-        } else {
-            holder.pageIcon.setImageBitmap(null);
+        String base64Icon = filteredHistoryRecords.get(position).getBase64Logo();
+        byte[] iconByteArray = null;
+        if (base64Icon != null) {
+            iconByteArray = Base64.decode(base64Icon, Base64.DEFAULT);
         }
+
+        Glide.with(context)
+                .load(iconByteArray)
+                .asBitmap()
+                .fitCenter()
+                .error(R.drawable.blank_favicon)
+                .into(holder.pageIcon);
+
     }
 
     private boolean shouldDateBeShown(int position, String recordDate) {

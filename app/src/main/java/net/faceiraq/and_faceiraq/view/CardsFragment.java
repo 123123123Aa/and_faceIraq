@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.faceiraq.and_faceiraq.R;
+
+import com.bumptech.glide.Glide;
 import com.mutualmobile.cardstack.CardStackAdapter;
 import com.mutualmobile.cardstack.CardStackLayout;
 
@@ -114,11 +116,11 @@ public class CardsFragment extends Fragment {
             RelativeLayout mTitleSectionRl = (RelativeLayout) root.findViewById(R.id.card_title_section);
             mTitleSectionRl.setBackgroundColor(getThemeColour());
             byte[] screenshotByteArray = openedPages.get(position).getScreenshot();
-            try {
-                imageView.setImageBitmap(ImageUtil.convertToBitmap(screenshotByteArray));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Glide.with(context)
+                    .load(screenshotByteArray)
+                    .centerCrop()
+                    .into(imageView);
+
             ImageView deleteIcon = (ImageView) root.findViewById(R.id.deleteIcon);
             deleteIcon.setOnClickListener(new View.OnClickListener() {
                 @Override

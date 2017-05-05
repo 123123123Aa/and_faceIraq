@@ -1,16 +1,23 @@
 package net.faceiraq.and_faceiraq;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import net.faceiraq.and_faceiraq.controller.CardsActivity;
 import net.faceiraq.and_faceiraq.dialog.MainDialogFragment;
@@ -23,6 +30,7 @@ import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
 import net.faceiraq.and_faceiraq.model.database.previous_pages.PreviousPagesDAO;
 import net.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
+import net.faceiraq.and_faceiraq.push_notifications.RegistrationIntentService;
 import net.faceiraq.and_faceiraq.view.NavigationBarFragment;
 import net.faceiraq.and_faceiraq.view.WebViewFragment;
 
@@ -46,12 +54,15 @@ public class MainActivity extends FragmentActivity
                     MainDialogFragment.OnMainDialogActionsListener {
 
     private static final String TAG = "MainActivity";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private int themeId;
     private HistoryDAOImplementation historyDAO;
     private BookmarksDAOImplementation bookmarksDAO;
     private OpenedPagesDAO openedPagesDAO;
     private PreviousPagesDAO previousPagesDAO;
     private EventBus mEventBus = EventBus.getDefault();
+    private BroadcastReceiver gcmRegistrationBroadcastReceiver;
+    private boolean isReceiverRegistered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +71,56 @@ public class MainActivity extends FragmentActivity
         ThemeChangeUtil.onActivityCreateSetTheme(this);
         themeId = getThemeId();
         setContentView(R.layout.activity_main);
+        registerForGCM();
         Realm.init(this);
         historyDAO = new HistoryDAOImplementation();
         bookmarksDAO = new BookmarksDAOImplementation();
         openedPagesDAO = new OpenedPagesDAO();
         previousPagesDAO = new PreviousPagesDAO(this);
         goToHomePage(false);
+    }
+
+    private void registerForGCM() {
+        gcmRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                boolean sentToken = SharedPreferencesHelper.isTokenSentToServer(context);
+                if (sentToken) {
+                    Log.d(TAG, "onReceive: tokenSent=true");
+                } else {
+                    Log.d(TAG, "onReceive: tokenSent=false");
+                }
+            }
+        };
+        registerReceiver();
+        if (checkPlayServices()) {
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private void registerReceiver() {
+        if (!isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(gcmRegistrationBroadcastReceiver,
+                    new IntentFilter(SharedPreferencesHelper.REGISTRATION_COMPLETE));
+            isReceiverRegistered = true;
+        }
     }
 
     private int getThemeId(){
@@ -95,6 +150,7 @@ public class MainActivity extends FragmentActivity
     protected void onResume() {
         super.onResume();
         mEventBus.register(this);
+        registerReceiver();
         showPreviousPageButton(!previousPagesDAO.isEmpty());
     }
 
@@ -109,6 +165,8 @@ public class MainActivity extends FragmentActivity
         super.onPause();
         mEventBus.unregister(this);
         savePageToRealm();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(gcmRegistrationBroadcastReceiver);
+        isReceiverRegistered = false;
     }
 
     @Override
