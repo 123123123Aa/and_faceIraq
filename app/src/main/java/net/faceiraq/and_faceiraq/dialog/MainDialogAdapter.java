@@ -13,12 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import net.faceiraq.and_faceiraq.R;
 
 import net.faceiraq.and_faceiraq.MainActivity;
+import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.contact.us.ContactUsActivity;
 import net.faceiraq.and_faceiraq.controller.BookmarksActivity;
 import net.faceiraq.and_faceiraq.controller.HistoryActivity;
@@ -78,8 +77,8 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Button mCircle;
         @Bind(R.id.dialog_switch_toggle)
         SwitchCompat mSwitchToggle;
-        @Bind(R.id.toggle_button)
-        ToggleButton mToggleButton;
+        @Bind(R.id.dialog_switch)
+        Switch mSwitch;
 
         ViewHolder(View view) {
             super(view);
@@ -217,7 +216,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         holder.mSwitchToggle.setVisibility(View.VISIBLE);
                 } else {
                     if (position == 4)
-                        holder.mToggleButton.setVisibility(View.VISIBLE);
+                        holder.mSwitch.setVisibility(View.VISIBLE);
                 }
                 if (position == 1 && !(mActivity instanceof MainActivity)) {
                     setVisibility(holder);
