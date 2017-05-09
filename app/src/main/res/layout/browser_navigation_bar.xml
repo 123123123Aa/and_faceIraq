@@ -109,6 +109,7 @@
                 android:imeOptions="actionGo"
                 android:selectAllOnFocus="true"
                 android:paddingLeft="5dp"
+                android:theme="@style/EditTextColorCustom"
             />
 
         <Button android:id="@+id/cancel_button"

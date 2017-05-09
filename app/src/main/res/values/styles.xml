@@ -5,6 +5,11 @@
 
     </style>
 
+    <style name="EditTextColorCustom" parent="@style/SplashTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/black</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->

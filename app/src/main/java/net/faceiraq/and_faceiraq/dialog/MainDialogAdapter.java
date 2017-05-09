@@ -22,6 +22,7 @@ import net.faceiraq.and_faceiraq.contact.us.ContactUsActivity;
 import net.faceiraq.and_faceiraq.controller.BookmarksActivity;
 import net.faceiraq.and_faceiraq.controller.HistoryActivity;
 import net.faceiraq.and_faceiraq.model.ItemListModel;
+import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import net.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity;
 
 import java.util.ArrayList;
@@ -45,12 +46,14 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Activity mActivity;
     private int themeColour;
     private IMainDialogFragment mView;
+    private boolean isChecked;
 
     public MainDialogAdapter(MainDialogFragment.OnMainDialogActionsListener context, int colour) {
         this.listener = context;
         this.mActivity = (Activity) context;
         this.themeColour = colour;
         iniDialogItems();
+        isChecked = SharedPreferencesHelper.getChecked(mActivity);
     }
 
 
@@ -83,7 +86,23 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            mSwitchToggle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    isChecked = !isChecked;
+                }
+            });
         }
+//        @OnClick(R.id.dialog_switch_toggle)
+//        public void onSwitchClick() {
+//            if (isChecked)
+//                isChecked = false;
+//            else
+//                isChecked = true;
+//            notifyItemChanged(getAdapterPosition());
+//        }
+
+
         @OnClick(R.id.dialog_rl)
         public void onClick() {
             switch (getAdapterPosition()) {
@@ -111,7 +130,8 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     mView.onPageSelected();
                     break;
                 case 4:
-                    //notifications
+                        isChecked = !isChecked;
+                    notifyItemChanged(getAdapterPosition());
                     break;
                 case 5:
                     Intent colourIntent = new Intent(mActivity, ThemeColourActivity.class);
@@ -212,11 +232,15 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            holder.mCircle.setColorFilter(themeColour, PorterDuff.Mode.MULTIPLY);
                 }
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-                    if (position == 4)
+                    if (position == 4) {
                         holder.mSwitchToggle.setVisibility(View.VISIBLE);
+                        holder.mSwitchToggle.setChecked(isChecked);
+                    }
                 } else {
-                    if (position == 4)
+                    if (position == 4) {
                         holder.mSwitch.setVisibility(View.VISIBLE);
+                        holder.mSwitch.setChecked(isChecked);
+                    }
                 }
                 if (position == 1 && !(mActivity instanceof MainActivity)) {
                     setVisibility(holder);
@@ -229,6 +253,10 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 buttonHolder.mCancelButton.setBackground(drawable);
 //                buttonHolder.mButtoBackground.setBackgroundColor(mActivity.getResources().getColor(android.R.color.transparent));
         }
+    }
+
+    public void setSwitchSelection() {
+        SharedPreferencesHelper.setChecked(mActivity, isChecked);
     }
 
     @Override
