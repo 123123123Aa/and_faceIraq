@@ -34,15 +34,15 @@ public class WebViewFragment extends Fragment {
     private static final String TAG = "WebViewFragment";
 
     public interface OnWebViewActionListener {
+
         public void onPageFinished(PageDetails pageDetails);
         public void onUpdatePageIcon(PageDetails pageDetails);
         public void onErrorReceived();
         void onPageStarted(String url);
     }
-
     OnWebViewActionListener onWebViewActionListener;
-    net.faceiraq.and_faceiraq.view.BrowserChromeClient browserChromeClient;
 
+    net.faceiraq.and_faceiraq.view.BrowserChromeClient browserChromeClient;
     @Bind(R.id.pageDisplay)
     WebView pageDisplay;
 
@@ -77,7 +77,6 @@ public class WebViewFragment extends Fragment {
         super.onDestroyView();
     }
 
-
     public OpenedPageModel getOpenedPage() {
         OpenedPageModel page= new OpenedPageModel();
         page.setTitle(pageDisplay.getTitle());
@@ -86,6 +85,7 @@ public class WebViewFragment extends Fragment {
         page.setScreenshot(byteScreenshot);
         return page;
     }
+
 
     private Bitmap takeScreenshot() {
         View screenView = getView();
@@ -99,11 +99,19 @@ public class WebViewFragment extends Fragment {
         return bitmap;
     }
 
-
     public void goToSelectedPage(String pageUrl) {
         Log.d(TAG, "goToSelectedPage");
         browserChromeClient.clearPageDetails();
         pageDisplay.loadUrl(pageUrl);
+    }
+
+
+    public void goToPreviousPage() {
+        pageDisplay.goBack();
+    }
+
+    public boolean canGoBack() {
+        return pageDisplay.canGoBack();
     }
 
     public PageDetails getCurrentPageDetails() {

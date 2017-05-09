@@ -314,8 +314,12 @@ public class MainActivity extends FragmentActivity
     }
 
     private void goToPreviousPage() {
-        String url = previousPagesDAO.removeLastAndGetNext();
-        goToPage(url, false);
+//        String url = previousPagesDAO.removeLastAndGetNext();
+//        goToPage(url, false);
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        if (webView != null) {
+            webView.goToPreviousPage();
+        }
     }
 
     private void savePreviousPage() {
@@ -345,7 +349,7 @@ public class MainActivity extends FragmentActivity
     private void showPreviousPageButton(boolean show) {
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
         if (navigationBar != null) {
-            navigationBar.showPreviousPageButton(show);
+            navigationBar.showPreviousPageButton(canGoBack());
         }
     }
 
@@ -361,6 +365,11 @@ public class MainActivity extends FragmentActivity
         if (webView != null) {
             webView.goToSelectedPage(pageUrl);
         }
+    }
+
+    private boolean canGoBack() {
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        return webView != null && webView.canGoBack();
     }
 
     private PageDetails getCurrentPageDetails() {
@@ -425,7 +434,7 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onBackPressed() {
-        if (!previousPagesDAO.isEmpty()) {
+        if (canGoBack()) {
             goToPreviousPage();
         } else {
             super.onBackPressed();

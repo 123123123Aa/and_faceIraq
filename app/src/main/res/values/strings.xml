@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FaceIraq</string>
+    <string name="app_name">موسوعة العراق</string>
     <string name="HOME_PAGE_ADDRESS">http://faceiraq.net/</string>
     <string name="toolbar_title_contact_us">Contact Us</string>
     <string name="toolbar_theme_colour_title">Theme Colour</string>
