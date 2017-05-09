@@ -112,6 +112,7 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
 
     @Override
     public void onPageSelected() {
+        mDialogAdapter.setSwitchSelection();
         dismiss();
     }
 }

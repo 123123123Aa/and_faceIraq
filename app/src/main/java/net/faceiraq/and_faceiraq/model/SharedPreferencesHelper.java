@@ -16,6 +16,7 @@ public class SharedPreferencesHelper {
     private static String CARD_NUMBER_PREF = "selectedCardNumber";
     private static String CARD_URL_PREF = "selectedCardUrl";
     private static String THEME_NAME_PREF = "selectedThemeName";
+    private static String IS_CHECKED_PREF = "Checked";
 
     public static SharedPreferences getPrefs(Context context) {
         return context.getSharedPreferences("CardNumberAcrossApplication", context.MODE_PRIVATE);
@@ -43,5 +44,13 @@ public class SharedPreferencesHelper {
 
     public static void setThemeName(Context context, String value) {
         getPrefs(context).edit().putString(THEME_NAME_PREF, value).commit();
+    }
+
+    public static void setChecked(Context context, boolean isChecked) {
+        getPrefs(context).edit().putBoolean(IS_CHECKED_PREF, isChecked).commit();
+    }
+
+    public static boolean getChecked(Context context) {
+        return getPrefs(context).getBoolean(IS_CHECKED_PREF, false);
     }
 }

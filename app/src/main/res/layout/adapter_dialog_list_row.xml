@@ -3,7 +3,8 @@
                 android:id="@+id/dialog_rl"
               android:layout_width="match_parent"
               android:layout_height="50dp"
-    android:background="@color/navigationBarBackground">
+    android:background="@color/navigationBarBackground"
+    android:descendantFocusability="blocksDescendants">
     <ImageView
         android:id="@+id/dialog_iv"
         android:layout_width="24dp"

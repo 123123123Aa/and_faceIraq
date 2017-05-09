@@ -129,10 +129,10 @@ public class ContactUsActivity extends AppCompatActivity {
         }
     };
 
-    @OnClick({R.id.activity_contact_us_add_photo_iv, R.id.activity_contact_us_delete_photo})
+    @OnClick({R.id.add_image_section, R.id.activity_contact_us_delete_photo})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.activity_contact_us_add_photo_iv:
+            case R.id.add_image_section:
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, SELECT_PICTURE);

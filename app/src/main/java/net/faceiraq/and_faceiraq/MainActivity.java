@@ -111,13 +111,13 @@ public class MainActivity extends FragmentActivity
         savePageToRealm();
     }
 
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy: ");
-        openedPagesDAO.deleteAll();
-        previousPagesDAO.deleteAll();
-        super.onDestroy();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        Log.d(TAG, "onDestroy: ");
+//        openedPagesDAO.deleteAll();
+//        previousPagesDAO.deleteAll();
+//        super.onDestroy();
+//    }
 
     @Override
     protected void onResumeFragments() {
