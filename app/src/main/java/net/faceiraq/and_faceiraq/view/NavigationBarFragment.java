@@ -243,6 +243,12 @@ public class NavigationBarFragment extends Fragment {
         }
     }
 
+    public void hideFocusField() {
+        mFocusSection.setVisibility(GONE);
+        mAddressSection.setVisibility(View.VISIBLE);
+        mFocusEt.clearFocus();
+    }
+
     public void showPreviousPageButton(boolean show) {
         updateCardsCount();
         if (show) {

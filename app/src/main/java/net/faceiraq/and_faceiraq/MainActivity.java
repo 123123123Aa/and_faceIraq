@@ -173,6 +173,7 @@ public class MainActivity extends FragmentActivity
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
         if (navigationBar != null ) {
             navigationBar.setLoadingPageProgressBar(true);
+            navigationBar.hideFocusField();
         }
     }
 

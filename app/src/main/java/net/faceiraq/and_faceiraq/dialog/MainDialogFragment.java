@@ -2,6 +2,7 @@ package net.faceiraq.and_faceiraq.dialog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -96,6 +97,12 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mDialogAdapter.onViewAttached(this);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         mDialogAdapter.onViewDetached();
@@ -114,5 +121,11 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
     public void onPageSelected() {
         mDialogAdapter.setSwitchSelection();
         dismiss();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        mDialogAdapter.setSwitchSelection();
     }
 }
