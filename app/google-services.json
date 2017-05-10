@@ -1,0 +1,61 @@
+{
+  "project_info": {
+    "project_number": "771566440294",
+    "project_id": "faceiraq-166710"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771566440294:android:f5ac6ced9a4ccae8",
+        "android_client_info": {
+          "package_name": "net.faceiraq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8T3BsoIZRPQ8iDtpKluZvI9fWZ3H5Y2o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771566440294:android:1ce0e5ed35a75f63",
+        "android_client_info": {
+          "package_name": "net.faceiraq.and_faceiraq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8T3BsoIZRPQ8iDtpKluZvI9fWZ3H5Y2o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

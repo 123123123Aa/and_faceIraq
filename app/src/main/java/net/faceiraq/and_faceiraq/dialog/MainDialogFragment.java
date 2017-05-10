@@ -108,7 +108,7 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
         mDialogAdapter.onViewDetached();
     }
 
-//    @OnClick(R.id.dialog_button)
+    //    @OnClick(R.id.dialog_button)
 //    public void onClick(View view) {
 //        switch (view.getId()){
 //            case R.id.dialog_button:

@@ -43,7 +43,8 @@
 
             <ImageView android:id="@+id/pageIcon"
                 android:layout_width="@dimen/historyPageIconWidth"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

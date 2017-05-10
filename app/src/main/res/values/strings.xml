@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FaceIraq</string>
+    <string name="app_name">موسوعة العراق</string>
     <string name="HOME_PAGE_ADDRESS">http://faceiraq.net/</string>
     <string name="toolbar_title_contact_us">Contact Us</string>
     <string name="toolbar_theme_colour_title">Theme Colour</string>
@@ -15,6 +15,8 @@
     <string name="navigationBarFragmentTag">NavigationBarFragment</string>
     <string name="webViewFragmentTag">WebViewFragment</string>
     <string name="defaultThemeName">Beige</string>
+    <string name="txtOff">Off</string>
+    <string name="txtOn">On</string>
 
     <string-array name="dialog_item_list">
         <item>New page</item>0

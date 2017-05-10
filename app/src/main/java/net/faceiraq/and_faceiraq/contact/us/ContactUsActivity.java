@@ -22,8 +22,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.faceiraq.and_faceiraq.R;
+import com.bumptech.glide.Glide;
 
+import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 
 import java.io.FileDescriptor;
@@ -156,17 +157,17 @@ public class ContactUsActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
-                try {
 //                    Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                    mPhotoIv.setImageBitmap(getBitmapFromUri(selectedImageUri));
-                    filemanagerstring = selectedImageUri.getPath();
+                Glide.with(this)
+                        .load(selectedImageUri)
+                        .centerCrop()
+                        .into(mPhotoIv);
+//                    mPhotoIv.setImageBitmap(getBitmapFromUri(selectedImageUri));
+                filemanagerstring = selectedImageUri.getPath();
 //                    selectedImagePath = getPath(selectedImageUri);
-                    mAddImageSection.setVisibility(View.GONE);
-                    mImageSection.setVisibility(View.VISIBLE);
-                    mPhotoTitleTv.setText(filemanagerstring);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                mAddImageSection.setVisibility(View.GONE);
+                mImageSection.setVisibility(View.VISIBLE);
+                mPhotoTitleTv.setText(filemanagerstring);
             }
         }
     }

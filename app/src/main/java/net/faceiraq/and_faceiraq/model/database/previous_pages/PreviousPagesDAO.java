@@ -65,6 +65,17 @@ public class PreviousPagesDAO {
         return previousPageUrl;
     }
 
+    public void deleteAllWithId(long id) {
+        final RealmResults<PreviousPageModel> result = realm.where(PreviousPageModel.class).equalTo("id", id).findAll();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Log.d(TAG, "execute: delete previous pages from realm");
+                result.deleteAllFromRealm();
+            }
+        });
+    }
+
     public void deleteAll() {
         final RealmResults<PreviousPageModel> result = realm.where(PreviousPageModel.class).findAll();
         realm.executeTransaction(new Realm.Transaction() {
