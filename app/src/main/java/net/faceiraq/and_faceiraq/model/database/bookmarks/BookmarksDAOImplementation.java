@@ -4,6 +4,7 @@ import android.util.Log;
 
 import net.faceiraq.and_faceiraq.model.PageDetails;
 import net.faceiraq.and_faceiraq.model.database.BrowserDAO;
+import net.faceiraq.and_faceiraq.model.utils.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class BookmarksDAOImplementation implements BrowserDAO {
         record.setTitle(pageDetails.getTitle());
         record.setAddress(pageDetails.getAddress());
         record.setId(getPrimaryKeyValue(pageDetails));
+        record.setBase64Logo(pageDetails.getBase64Logo());
         Log.d(TAG, "Bookmarking: " + record.toString());
         realm.copyToRealmOrUpdate(record);
         realm.commitTransaction();

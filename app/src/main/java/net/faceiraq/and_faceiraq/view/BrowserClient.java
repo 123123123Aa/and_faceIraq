@@ -8,6 +8,9 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import net.faceiraq.and_faceiraq.model.PageDetails;
+import net.faceiraq.and_faceiraq.model.utils.TimeUtil;
+
 
 /**
  * Created by Paweł Sałata on 18.04.2017.
@@ -56,5 +59,15 @@ public class BrowserClient extends WebViewClient {
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         listener.onPageStarted(url);
         super.onPageStarted(view, url, favicon);
+    }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        PageDetails pageDetails = new PageDetails();
+        pageDetails.setTitle(view.getTitle());
+        pageDetails.setAddress(view.getUrl());
+        pageDetails.setTimestamp(TimeUtil.getCurrentTimestamp());
+//        listener.onPageFinished(pageDetails);
+        super.onPageFinished(view, url);
     }
 }

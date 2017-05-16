@@ -80,7 +80,7 @@ public class MainActivity extends FragmentActivity
         bookmarksDAO = new BookmarksDAOImplementation();
         openedPagesDAO = new OpenedPagesDAO();
         previousPagesDAO = new PreviousPagesDAO(this);
-        requestPermission();
+//        requestPermission();
         goToHomePage(false);
     }
 
@@ -257,9 +257,9 @@ public class MainActivity extends FragmentActivity
         Log.d(TAG, "onPageFinished: ");
         String url = pageDetails.getAddress();
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
-        isEditTextSelected = navigationBar.getEditTextSelection();
+        isEditTextSelected = navigationBar != null && navigationBar.getEditTextSelection();
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
-        String previousPage = webView.getPreviousPage();
+        String previousPage = webView != null ? webView.getPreviousPage() : "";
         if (PageUrlValidator.isValid(url)) {
             if (isEditTextSelected || previousPage.equals("")
                     || !previousPage.equals(getResources().getString(R.string.HOME_PAGE_ADDRESS))) {
@@ -280,8 +280,10 @@ public class MainActivity extends FragmentActivity
             }
 
         }
+        if (navigationBar != null ) {
             navigationBar.setEditTextSelected();
             navigationBar.setLoadingPageProgressBar(false);
+        }
     }
 
     @Override

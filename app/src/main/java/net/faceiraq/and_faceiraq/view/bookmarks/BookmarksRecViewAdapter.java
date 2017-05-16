@@ -2,6 +2,7 @@ package net.faceiraq.and_faceiraq.view.bookmarks;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import net.faceiraq.and_faceiraq.R;
 
@@ -109,10 +112,18 @@ public class BookmarksRecViewAdapter  extends RecyclerView.Adapter<BookmarksRecV
         holder.pageTitle.setText(bookmarksRecords.get(position).getTitle());
         holder.pageUrl.setText(bookmarksRecords.get(position).getAddress());
 
-        if (bookmarksRecords.get(position).getBase64Logo() != null) {
-            Bitmap iconBitmap = ImageUtil.decodeBase64(bookmarksRecords.get(position).getBase64Logo());
-            holder.pageIcon.setImageBitmap(iconBitmap);
+        String base64Icon = bookmarksRecords.get(position).getBase64Logo();
+        byte[] iconByteArray = null;
+        if (base64Icon != null) {
+            iconByteArray = Base64.decode(base64Icon, Base64.DEFAULT);
         }
+
+        Glide.with(mContext)
+                .load(iconByteArray)
+                .asBitmap()
+                .fitCenter()
+                .error(R.drawable.blank_favicon)
+                .into(holder.pageIcon);
     }
 
     @Override
