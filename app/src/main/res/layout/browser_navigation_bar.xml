@@ -10,13 +10,13 @@
         android:layout_height="wrap_content">
 
         <ImageView android:id="@+id/previousPageButton"
-            android:layout_width="@dimen/navigationPreviousPageButtonWidth"
-            android:layout_height="@dimen/navigationPreviousPageButtonHeight"
-            android:layout_marginStart="@dimen/navigationBarButtonsMargin"
-            android:layout_marginEnd="@dimen/navigationBarButtonsMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_alignParentStart="true"
             android:visibility="invisible"
-            android:background="@drawable/left_arrow"/>
+            android:background="@drawable/arrow_back"/>
 
         <EditText android:id="@+id/addressField"
             android:layout_width="wrap_content"
