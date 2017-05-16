@@ -73,6 +73,7 @@ public class NavigationBarFragment extends Fragment {
     ProgressBar mProgressBar;
 
     private MainActivity mMainActivity;
+    private boolean isEditTextSelected;
 
 
     public NavigationBarFragment() {
@@ -139,10 +140,19 @@ public class NavigationBarFragment extends Fragment {
                 mFocusEt.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(mFocusEt, InputMethodManager.SHOW_IMPLICIT);
+
             }
         });
-
     }
+
+    public boolean getEditTextSelection() {
+        return isEditTextSelected;
+    }
+
+    public void setEditTextSelected() {
+        isEditTextSelected = false;
+    }
+
 
 
 
@@ -151,6 +161,7 @@ public class NavigationBarFragment extends Fragment {
         if (actionId == EditorInfo.IME_ACTION_GO) {
             String pageUrl = mFocusEt.getText().toString();
             onNavigationBarActionListener.onPageSelected(pageUrl);
+            isEditTextSelected = true;
             addressField.setText(mFocusEt.getText().toString());
             mFocusSection.setVisibility(GONE);
             mAddressSection.setVisibility(View.VISIBLE);

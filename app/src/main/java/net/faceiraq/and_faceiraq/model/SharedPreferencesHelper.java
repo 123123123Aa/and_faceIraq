@@ -19,6 +19,7 @@ public class SharedPreferencesHelper {
     private static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String REGISTRATION_COMPLETE = "gcmRegistrationComplete";
     private static String IS_CHECKED_PREF = "Checked";
+    private static String HAS_CHANGED_PREF = "Switch_Change";
 
     public static SharedPreferences getPrefs(Context context) {
         return context.getSharedPreferences("CardNumberAcrossApplication", context.MODE_PRIVATE);
@@ -62,5 +63,13 @@ public class SharedPreferencesHelper {
 
     public static boolean getChecked(Context context) {
         return getPrefs(context).getBoolean(IS_CHECKED_PREF, false);
+    }
+
+    public static void setChanged(Context context, boolean hasChanged) {
+        getPrefs(context).edit().putBoolean(HAS_CHANGED_PREF, hasChanged).commit();
+    }
+
+    public static boolean getChanged(Context context) {
+        return getPrefs(context).getBoolean(HAS_CHANGED_PREF, false);
     }
 }

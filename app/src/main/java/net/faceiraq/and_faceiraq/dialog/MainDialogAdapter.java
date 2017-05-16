@@ -47,6 +47,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int themeColour;
     private IMainDialogFragment mView;
     private boolean isChecked;
+    private boolean hasChanged;
 
     public MainDialogAdapter(MainDialogFragment.OnMainDialogActionsListener context, int colour) {
         this.listener = context;
@@ -90,6 +91,8 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View view) {
                     isChecked = !isChecked;
+                    hasChanged = true;
+                    mView.allowPushService();
                 }
             });
         }
@@ -131,6 +134,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     break;
                 case 4:
                         isChecked = !isChecked;
+                    hasChanged = true;
                     notifyItemChanged(getAdapterPosition());
                     break;
                 case 5:
@@ -257,6 +261,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void setSwitchSelection() {
         SharedPreferencesHelper.setChecked(mActivity, isChecked);
+        SharedPreferencesHelper.setChanged(mActivity, hasChanged);
     }
 
     @Override

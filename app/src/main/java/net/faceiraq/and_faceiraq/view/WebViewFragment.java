@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -108,6 +109,16 @@ public class WebViewFragment extends Fragment {
 
     public void goToPreviousPage() {
         pageDisplay.goBack();
+    }
+
+    public String getPreviousPage() {
+        String historyUrl;
+        WebBackForwardList webBackForwardList = pageDisplay.copyBackForwardList();
+        if (webBackForwardList.getCurrentIndex() > 0) {
+            historyUrl = webBackForwardList.getItemAtIndex(webBackForwardList.getCurrentIndex() - 1).getUrl();
+            return historyUrl;
+        } else
+            return "";
     }
 
     public boolean canGoBack() {

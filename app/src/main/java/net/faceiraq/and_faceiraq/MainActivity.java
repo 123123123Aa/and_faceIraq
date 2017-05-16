@@ -4,13 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -63,6 +64,8 @@ public class MainActivity extends FragmentActivity
     private EventBus mEventBus = EventBus.getDefault();
     private BroadcastReceiver gcmRegistrationBroadcastReceiver;
     private boolean isReceiverRegistered;
+    private boolean isEditTextSelected;
+    private static final int REQUEST_READ_PHONE_STATE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,18 @@ public class MainActivity extends FragmentActivity
         bookmarksDAO = new BookmarksDAOImplementation();
         openedPagesDAO = new OpenedPagesDAO();
         previousPagesDAO = new PreviousPagesDAO(this);
+        requestPermission();
         goToHomePage(false);
+    }
+
+    private void requestPermission(){
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE);
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+        } else {
+            //TODO
+        }
     }
 
     private void registerForGCM() {
@@ -122,6 +136,7 @@ public class MainActivity extends FragmentActivity
             isReceiverRegistered = true;
         }
     }
+
 
     private int getThemeId(){
         try {
@@ -206,11 +221,14 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onPreviousPageButtonPressed() {
-        Log.d(TAG, "PREonPreviousPageButtonPressed: size=" + previousPagesDAO.getSize());
-        if (!previousPagesDAO.isEmpty()) {
-            goToPreviousPage();
-        }
-        Log.d(TAG, "POSTonPreviousPageButtonPressed: size=" + previousPagesDAO.getSize());
+        if (canGoBack())
+        goToPreviousPage();
+        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
+        PageDetails pageDetails = getCurrentPageDetails();
+        String url = pageDetails.getAddress();
+        navigationBar.setAddressField(url);
+        navigationBar.setAddressFieldError(false);
+        showPreviousPageButton(!previousPagesDAO.isEmpty());
     }
 
     @Override
@@ -227,28 +245,43 @@ public class MainActivity extends FragmentActivity
     @Override
     public void onPageStarted(String url) {
 //        Log.d(TAG, "onPageStarted: url=" + url);
-        SharedPreferencesHelper.setCardUrl(this, url);
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
-        if (navigationBar != null ) {
-            navigationBar.setLoadingPageProgressBar(true);
-            navigationBar.hideFocusField();
-        }
+            if (navigationBar != null) {
+                navigationBar.setLoadingPageProgressBar(true);
+                navigationBar.hideFocusField();
+            }
     }
 
     @Override
     public void onPageFinished(PageDetails pageDetails) {
         Log.d(TAG, "onPageFinished: ");
         String url = pageDetails.getAddress();
-        if (PageUrlValidator.isValid(url)) {
-            historyDAO.insert(pageDetails);
-            setPageAddressField(url);
-            savePreviousPage();
-            showPreviousPageButton(!previousPagesDAO.isEmpty());
-        }
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
-        if (navigationBar != null ) {
-            navigationBar.setLoadingPageProgressBar(false);
+        isEditTextSelected = navigationBar.getEditTextSelection();
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        String previousPage = webView.getPreviousPage();
+        if (PageUrlValidator.isValid(url)) {
+            if (isEditTextSelected || previousPage.equals("")
+                    || !previousPage.equals(getResources().getString(R.string.HOME_PAGE_ADDRESS))) {
+                historyDAO.insert(pageDetails);
+                setPageAddressField(url);
+                savePreviousPage();
+                showPreviousPageButton(!previousPagesDAO.isEmpty());
+            } else {
+                OpenedPageModel pageModel = new OpenedPageModel();
+                pageModel.setUrl(url);
+                long newCardId = openedPagesDAO.insert(pageModel);
+                SharedPreferencesHelper.setCardNumber(this, newCardId);
+                historyDAO.insert(pageDetails);
+                goToPage(pageModel.getUrl(), false);
+                setPageAddressField(url);
+                updateCardsCount();
+                showPreviousPageButton(!previousPagesDAO.isEmpty());
+            }
+
         }
+            navigationBar.setEditTextSelected();
+            navigationBar.setLoadingPageProgressBar(false);
     }
 
     @Override
@@ -429,14 +462,10 @@ public class MainActivity extends FragmentActivity
         goToPage(url, false);
     }
 
-    private String getHomePageAddress() {
-        return getString(R.string.HOME_PAGE_ADDRESS);
-    }
-
     @Override
     public void onBackPressed() {
         if (canGoBack()) {
-            goToPreviousPage();
+            onPreviousPageButtonPressed();
         } else {
             super.onBackPressed();
             finish();
