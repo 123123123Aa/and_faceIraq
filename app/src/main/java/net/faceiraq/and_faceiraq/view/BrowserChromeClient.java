@@ -41,7 +41,7 @@ public class BrowserChromeClient extends WebChromeClient {
         pageDetails.setTitle(title);
         pageDetails.setAddress(view.getUrl());
         pageDetails.setTimestamp(TimeUtil.getCurrentTimestamp());
-        onWebViewActionListener.onPageFinished(pageDetails);
+//        onWebViewActionListener.onPageFinished(pageDetails);
     }
 
     @Override

@@ -257,7 +257,7 @@ public class MainActivity extends FragmentActivity
         Log.d(TAG, "onPageFinished: ");
         String url = pageDetails.getAddress();
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
-        isEditTextSelected = navigationBar.getEditTextSelection();
+        isEditTextSelected = navigationBar != null && navigationBar.getEditTextSelection();
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
         String previousPage = webView.getPreviousPage();
         if (PageUrlValidator.isValid(url)) {
