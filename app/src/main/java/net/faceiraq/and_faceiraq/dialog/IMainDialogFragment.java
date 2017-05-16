@@ -7,5 +7,5 @@ package net.faceiraq.and_faceiraq.dialog;
 public interface IMainDialogFragment {
 
     void onPageSelected();
-    void allowPushService();
+//    void allowPushService();
 }

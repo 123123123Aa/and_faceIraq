@@ -92,7 +92,7 @@ public class MainDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View view) {
                     isChecked = !isChecked;
                     hasChanged = true;
-                    mView.allowPushService();
+//                    mView.allowPushService();
                 }
             });
         }
