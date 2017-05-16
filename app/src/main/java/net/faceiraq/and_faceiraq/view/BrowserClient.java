@@ -67,7 +67,7 @@ public class BrowserClient extends WebViewClient {
         pageDetails.setTitle(view.getTitle());
         pageDetails.setAddress(view.getUrl());
         pageDetails.setTimestamp(TimeUtil.getCurrentTimestamp());
-        listener.onPageFinished(pageDetails);
+//        listener.onPageFinished(pageDetails);
         super.onPageFinished(view, url);
     }
 }
