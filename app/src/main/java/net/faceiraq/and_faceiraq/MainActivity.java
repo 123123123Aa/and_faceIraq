@@ -295,6 +295,11 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
+    public void hideLoadingSpinner() {
+        hideLoadingPageProgressBar();
+    }
+
+    @Override
     public void onErrorReceived() {
         if (haveNetworkConnection()) {
             Log.d(TAG, "onErrorReceived: ");
@@ -406,6 +411,13 @@ public class MainActivity extends FragmentActivity
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
         if (navigationBar != null) {
             navigationBar.updateCardsCount();
+        }
+    }
+
+    private void hideLoadingPageProgressBar() {
+        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
+        if (navigationBar != null) {
+            navigationBar.setLoadingPageProgressBar(false);
         }
     }
 
