@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -67,6 +68,7 @@ public class ContactUsActivity extends AppCompatActivity {
 
     private String filemanagerstring;
     private View focusedView;
+    private Uri selectedImageUri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +101,8 @@ public class ContactUsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_contact_us, menu);
+        MenuItem mItem = (MenuItem) findViewById(R.id.action_send);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -116,6 +120,17 @@ public class ContactUsActivity extends AppCompatActivity {
             case R.id.action_send:
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("message/rfc822");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"marcin.zmija@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, mSubjectEt.getText().toString());
+                emailIntent.putExtra(Intent.EXTRA_TEXT, mContentEt.getText().toString());
+                emailIntent.putExtra(Intent.EXTRA_STREAM, selectedImageUri);
+                try {
+                    startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -143,6 +158,8 @@ public class ContactUsActivity extends AppCompatActivity {
                 mImageSection.setVisibility(View.GONE);
                 mPhotoTitleTv.setText("");
                 mPhotoIv.setImageDrawable(null);
+                break;
+
 
         }
 //        Intent intent = new Intent();
@@ -156,7 +173,7 @@ public class ContactUsActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
-                Uri selectedImageUri = data.getData();
+                selectedImageUri = data.getData();
 //                    Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
                 Glide.with(this)
                         .load(selectedImageUri)
@@ -171,6 +188,7 @@ public class ContactUsActivity extends AppCompatActivity {
             }
         }
     }
+
 
 //    public String getPath(Uri uri) {
 //        String[] projection = { MediaStore.Images.Media.DATA };

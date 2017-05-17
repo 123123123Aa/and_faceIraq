@@ -16,17 +16,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.faceiraq.and_faceiraq.R;
-
 import com.bumptech.glide.Glide;
 import com.mutualmobile.cardstack.CardStackAdapter;
 import com.mutualmobile.cardstack.CardStackLayout;
 
+import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.controller.CardsActivity;
 import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
-import net.faceiraq.and_faceiraq.model.utils.ImageUtil;
 import net.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 
 import java.util.ArrayList;
@@ -121,7 +119,7 @@ public class CardsFragment extends Fragment {
                     .centerCrop()
                     .into(imageView);
 
-            ImageView deleteIcon = (ImageView) root.findViewById(R.id.deleteIcon);
+            RelativeLayout deleteIcon = (RelativeLayout) root.findViewById(R.id.deleteIconSection);
             deleteIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

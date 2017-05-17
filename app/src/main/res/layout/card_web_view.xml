@@ -35,7 +35,11 @@
                 android:maxLines="1"
                 android:maxLength="35"
                 android:textSize="16sp"/>
-
+            <RelativeLayout
+                android:id="@+id/deleteIconSection"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true">
             <ImageView android:id="@+id/deleteIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -44,6 +48,7 @@
                 android:src="@drawable/delete_icon"
                 android:padding="5dp"
                 />
+            </RelativeLayout>
 
         <!--</RelativeLayout>-->
 

@@ -127,6 +127,10 @@ public class WebViewFragment extends Fragment {
         return pageDisplay.canGoBack();
     }
 
+    public void clearHistory() {
+        pageDisplay.clearHistory();
+    }
+
     public PageDetails getCurrentPageDetails() {
         PageDetails pageDetails = new PageDetails();
         pageDetails.setTimestamp(TimeUtil.getCurrentTimestamp());
