@@ -24,6 +24,6 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String s, Bundle bundle) {
         super.onMessageReceived(s, bundle);
         Log.d(TAG, "onMessageReceived: ");
-        Toast.makeText(this, "Received push notification", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Received push notification", Toast.LENGTH_LONG).show();
     }
 }
