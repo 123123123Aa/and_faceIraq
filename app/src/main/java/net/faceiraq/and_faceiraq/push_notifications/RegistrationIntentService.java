@@ -12,9 +12,17 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
 import net.faceiraq.and_faceiraq.R;
+import net.faceiraq.and_faceiraq.api.ApiCalls;
+import net.faceiraq.and_faceiraq.api.ApiManager;
+import net.faceiraq.and_faceiraq.api.data.response.RegisterResponse;
 import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 
 import java.io.IOException;
+import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Paweł Sałata on 05.05.2017.
@@ -27,9 +35,12 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
     private static final String SENDER_ID = "771566440294";
+    private ApiCalls api;
 
     public RegistrationIntentService() {
         super(TAG);
+        ApiManager.init(this);
+        api = ApiManager.get().getApi();
     }
 
     @Override
@@ -81,6 +92,23 @@ public class RegistrationIntentService extends IntentService {
      */
     private void sendRegistrationToServer(String token) {
         Log.d(TAG, "sendRegistrationToServer: token=" + token);
+        Call<Void> call = api.registerUser(
+                token,
+                SharedPreferencesHelper.getUUID(this)
+                ,""
+                ,""
+                ,"");
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d(TAG, "onResponse, code: " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+            }
+        });
     }
 
     /**

@@ -20,6 +20,7 @@ public class SharedPreferencesHelper {
     public static final String REGISTRATION_COMPLETE = "gcmRegistrationComplete";
     private static String IS_CHECKED_PREF = "Checked";
     private static String HAS_CHANGED_PREF = "Switch_Change";
+    private static String UUID = "DeviceIdentification";
 
     public static SharedPreferences getPrefs(Context context) {
         return context.getSharedPreferences("CardNumberAcrossApplication", context.MODE_PRIVATE);
@@ -71,5 +72,13 @@ public class SharedPreferencesHelper {
 
     public static boolean getChanged(Context context) {
         return getPrefs(context).getBoolean(HAS_CHANGED_PREF, false);
+    }
+
+    public static void setUUID(Context context, String value) {
+        getPrefs(context).edit().putString(UUID, value).apply();
+    }
+
+    public static String getUUID(Context context) {
+        return getPrefs(context).getString(UUID, "");
     }
 }

@@ -20,6 +20,8 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import net.faceiraq.and_faceiraq.api.ApiCalls;
+import net.faceiraq.and_faceiraq.api.ApiManager;
 import net.faceiraq.and_faceiraq.controller.CardsActivity;
 import net.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 import net.faceiraq.and_faceiraq.model.PageDetails;
@@ -82,6 +84,7 @@ public class MainActivity extends FragmentActivity
         previousPagesDAO = new PreviousPagesDAO(this);
 //        requestPermission();
         goToHomePage(false);
+        Log.d(TAG, "UUID: " + SharedPreferencesHelper.getUUID(this));
     }
 
     private void requestPermission(){
