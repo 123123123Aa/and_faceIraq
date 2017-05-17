@@ -13,6 +13,8 @@ import java.util.UUID;
 
 public class MyApplication extends Application {
 
+    private boolean firstTimeOpened = true;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -21,5 +23,12 @@ public class MyApplication extends Application {
             String uuid = UUID.randomUUID().toString();
             SharedPreferencesHelper.setUUID(this, uuid);
         }
+    }
+    public boolean isOpen() {
+        return  firstTimeOpened;
+    }
+
+    public void setOpen() {
+        firstTimeOpened = false;
     }
 }
