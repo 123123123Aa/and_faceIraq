@@ -211,7 +211,7 @@ public class MainActivity extends FragmentActivity
      */
     @Override
     public void onPageSelected(String pageUrl) {
-        goToPage(pageUrl, true);
+        goToPage(pageUrl, false);
     }
 
     @Override
@@ -235,6 +235,7 @@ public class MainActivity extends FragmentActivity
     public void onCardsButtonPressed() {
         Intent cardsIntent = new Intent(MainActivity.this, CardsActivity.class);
         startActivityForResult(cardsIntent, CARDS_REQUEST_CODE);
+        clearHistory();
     }
 
 
@@ -273,10 +274,12 @@ public class MainActivity extends FragmentActivity
                 long newCardId = openedPagesDAO.insert(pageModel);
                 SharedPreferencesHelper.setCardNumber(this, newCardId);
                 historyDAO.insert(pageDetails);
-                goToPage(pageModel.getUrl(), false);
+                goToPage(pageModel.getUrl(), true);
                 setPageAddressField(url);
                 updateCardsCount();
                 showPreviousPageButton(!previousPagesDAO.isEmpty());
+                clearHistory();
+
             }
 
         }
@@ -308,9 +311,10 @@ public class MainActivity extends FragmentActivity
         pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
         long newCardId = openedPagesDAO.insert(pageModel);
         SharedPreferencesHelper.setCardNumber(this, newCardId);
-        goToPage(pageModel.getUrl(), false);
+        goToPage(pageModel.getUrl(), true);
         showPreviousPageButton(false);
         updateCardsCount();
+        clearHistory();
         Log.d(TAG, "onOpenedNewPage: pages size=" + openedPagesDAO.getSize());
     }
 
@@ -335,17 +339,17 @@ public class MainActivity extends FragmentActivity
 
     private void goToHomePage(boolean isHomeButton) {
         String homePageAddress = getResources().getString(R.string.HOME_PAGE_ADDRESS);
-        goToPage(homePageAddress, isHomeButton);
+        goToPage(homePageAddress, false);
     }
 
-    private void goToPage(String rawUrl, boolean saveToPreviousPages) {
+    private void goToPage(String rawUrl, boolean clearHistory) {
         Log.d(TAG, "Visiting page: " + rawUrl);
         String validUrlAddress = PageUrlValidator.validatePageUrl(rawUrl);
-//        if (saveToPreviousPages) savePreviousPage();
         SharedPreferencesHelper.setCardUrl(this, validUrlAddress);
 //        setPageAddressField(validUrlAddress);
         setAddressFieldError(false);
         loadPageToWebView(validUrlAddress);
+        if (clearHistory) clearHistory();
         showPreviousPageButton(!previousPagesDAO.isEmpty());
     }
 
@@ -408,6 +412,12 @@ public class MainActivity extends FragmentActivity
         return webView != null && webView.canGoBack();
     }
 
+    private void clearHistory() {
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        if (webView !=null)
+        webView.clearHistory();
+    }
+
     private PageDetails getCurrentPageDetails() {
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
         return webView != null ? webView.getCurrentPageDetails() : new PageDetails();
@@ -461,7 +471,7 @@ public class MainActivity extends FragmentActivity
     private void loadSelectedCard() {
         String url = SharedPreferencesHelper.getCardUrl(this);
         Log.d(TAG, "loadSelectedCard: url=" + url);
-        goToPage(url, false);
+        goToPage(url, true);
     }
 
     @Override
