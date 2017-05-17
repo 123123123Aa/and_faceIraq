@@ -40,6 +40,8 @@ public class WebViewFragment extends Fragment {
         public void onUpdatePageIcon(PageDetails pageDetails);
         public void onErrorReceived();
         void onPageStarted(String url);
+
+        void hideLoadingSpinner();
     }
     OnWebViewActionListener onWebViewActionListener;
 

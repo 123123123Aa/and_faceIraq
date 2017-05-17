@@ -63,11 +63,7 @@ public class BrowserClient extends WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        PageDetails pageDetails = new PageDetails();
-        pageDetails.setTitle(view.getTitle());
-        pageDetails.setAddress(view.getUrl());
-        pageDetails.setTimestamp(TimeUtil.getCurrentTimestamp());
-//        listener.onPageFinished(pageDetails);
+        listener.hideLoadingSpinner();
         super.onPageFinished(view, url);
     }
 }
