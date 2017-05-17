@@ -66,6 +66,7 @@ public class MainActivity extends FragmentActivity
     private boolean isReceiverRegistered;
     private boolean isEditTextSelected;
     private static final int REQUEST_READ_PHONE_STATE = 1;
+    private boolean isCardSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,7 @@ public class MainActivity extends FragmentActivity
         openedPagesDAO = new OpenedPagesDAO();
         previousPagesDAO = new PreviousPagesDAO(this);
 //        requestPermission();
-        goToHomePage(false);
+        onOpenedNewPage();
     }
 
     private void requestPermission(){
@@ -236,6 +237,7 @@ public class MainActivity extends FragmentActivity
         Intent cardsIntent = new Intent(MainActivity.this, CardsActivity.class);
         startActivityForResult(cardsIntent, CARDS_REQUEST_CODE);
         clearHistory();
+        isCardSelected = true;
     }
 
 
@@ -262,12 +264,13 @@ public class MainActivity extends FragmentActivity
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
         String previousPage = webView != null ? webView.getPreviousPage() : "";
         if (PageUrlValidator.isValid(url)) {
-            if (isEditTextSelected || previousPage.equals("")
+            if (isEditTextSelected || previousPage.equals("") || isCardSelected
                     || !previousPage.equals(getResources().getString(R.string.HOME_PAGE_ADDRESS))) {
                 historyDAO.insert(pageDetails);
                 setPageAddressField(url);
                 savePreviousPage();
                 showPreviousPageButton(!previousPagesDAO.isEmpty());
+                isCardSelected = false;
             } else {
                 OpenedPageModel pageModel = new OpenedPageModel();
                 pageModel.setUrl(url);
@@ -452,13 +455,16 @@ public class MainActivity extends FragmentActivity
                     ThemeChangeUtil.changeToTheme(this, data.getStringExtra("Colour"));
                     break;
                 case CARDS_REQUEST_CODE:
+                    isCardSelected = true;
                     loadSelectedCard();
 //                    cardAmount = data.getIntExtra("cards_amount", 1);
                     break;
                 case HISTORY_REQUEST_CODE:
+                    isCardSelected = true;
                     loadSelectedCard();
                     break;
                 case BOOKMARKS_REQUEST_CODE:
+                    isCardSelected = true;
                     loadSelectedCard();
             }
         }
