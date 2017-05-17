@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -68,6 +70,7 @@ public class MainActivity extends FragmentActivity
     private boolean isReceiverRegistered;
     private boolean isEditTextSelected;
     private static final int REQUEST_READ_PHONE_STATE = 1;
+    private boolean isCardSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +86,7 @@ public class MainActivity extends FragmentActivity
         openedPagesDAO = new OpenedPagesDAO();
         previousPagesDAO = new PreviousPagesDAO(this);
 //        requestPermission();
-        goToHomePage(false);
+        onOpenedNewPage();
         Log.d(TAG, "UUID: " + SharedPreferencesHelper.getUUID(this));
     }
 
@@ -239,6 +242,7 @@ public class MainActivity extends FragmentActivity
         Intent cardsIntent = new Intent(MainActivity.this, CardsActivity.class);
         startActivityForResult(cardsIntent, CARDS_REQUEST_CODE);
         clearHistory();
+        isCardSelected = true;
     }
 
 
@@ -265,12 +269,13 @@ public class MainActivity extends FragmentActivity
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
         String previousPage = webView != null ? webView.getPreviousPage() : "";
         if (PageUrlValidator.isValid(url)) {
-            if (isEditTextSelected || previousPage.equals("")
+            if (isEditTextSelected || previousPage.equals("") || isCardSelected
                     || !previousPage.equals(getResources().getString(R.string.HOME_PAGE_ADDRESS))) {
                 historyDAO.insert(pageDetails);
                 setPageAddressField(url);
                 savePreviousPage();
                 showPreviousPageButton(!previousPagesDAO.isEmpty());
+                isCardSelected = false;
             } else {
                 OpenedPageModel pageModel = new OpenedPageModel();
                 pageModel.setUrl(url);
@@ -299,8 +304,12 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onErrorReceived() {
-        Log.d(TAG, "onErrorReceived: ");
-        setAddressFieldError(true);
+        if (haveNetworkConnection()) {
+            Log.d(TAG, "onErrorReceived: ");
+            setAddressFieldError(true);
+        } else {
+            return;
+        }
     }
 
 
@@ -416,9 +425,13 @@ public class MainActivity extends FragmentActivity
     }
 
     private void loadPageToWebView(String pageUrl) {
-        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
-        if (webView != null) {
-            webView.goToSelectedPage(pageUrl);
+        if (haveNetworkConnection()) {
+            WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+            if (webView != null) {
+                webView.goToSelectedPage(pageUrl);
+            }
+        } else {
+            Toast.makeText(this, "Check network connection", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -467,13 +480,16 @@ public class MainActivity extends FragmentActivity
                     ThemeChangeUtil.changeToTheme(this, data.getStringExtra("Colour"));
                     break;
                 case CARDS_REQUEST_CODE:
+                    isCardSelected = true;
                     loadSelectedCard();
 //                    cardAmount = data.getIntExtra("cards_amount", 1);
                     break;
                 case HISTORY_REQUEST_CODE:
+                    isCardSelected = true;
                     loadSelectedCard();
                     break;
                 case BOOKMARKS_REQUEST_CODE:
+                    isCardSelected = true;
                     loadSelectedCard();
             }
         }
@@ -498,4 +514,23 @@ public class MainActivity extends FragmentActivity
             finish();
         }
     }
+
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
+
 }

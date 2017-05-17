@@ -21,10 +21,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.faceiraq.and_faceiraq.R;
-
 import net.faceiraq.and_faceiraq.MainActivity;
+import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.dialog.MainDialogFragment;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -74,6 +76,7 @@ public class NavigationBarFragment extends Fragment {
 
     private MainActivity mMainActivity;
     private boolean isEditTextSelected;
+    private String addresFieldUrl;
 
 
     public NavigationBarFragment() {
@@ -135,8 +138,9 @@ public class NavigationBarFragment extends Fragment {
             public void onClick(View view) {
                 mFocusSection.setVisibility(View.VISIBLE);
                 mAddressSection.setVisibility(GONE);
-                mFocusEt.setText(addressField.getText().toString());
-                mFocusEt.setSelection(addressField.length());
+                mFocusEt.setText(addresFieldUrl);
+                if (addresFieldUrl != null)
+                mFocusEt.setSelection(addresFieldUrl.length());
                 mFocusEt.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(mFocusEt, InputMethodManager.SHOW_IMPLICIT);
@@ -162,7 +166,12 @@ public class NavigationBarFragment extends Fragment {
             String pageUrl = mFocusEt.getText().toString();
             onNavigationBarActionListener.onPageSelected(pageUrl);
             isEditTextSelected = true;
-            addressField.setText(mFocusEt.getText().toString());
+            try {
+                URL url = new URL(pageUrl);
+                addressField.setText(url.getHost());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             mFocusSection.setVisibility(GONE);
             mAddressSection.setVisibility(View.VISIBLE);
             hideSoftKeyboard();
@@ -240,7 +249,13 @@ public class NavigationBarFragment extends Fragment {
 
     public void setAddressField(String pageUrl) {
         if (addressField.getError() == null) {
-            addressField.setText(pageUrl);
+            addresFieldUrl = pageUrl;
+            try {
+                URL url = new URL(pageUrl);
+                addressField.setText(url.getHost());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
         updateCardsCount();
     }
