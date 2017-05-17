@@ -139,6 +139,7 @@ public class NavigationBarFragment extends Fragment {
                 mFocusSection.setVisibility(View.VISIBLE);
                 mAddressSection.setVisibility(GONE);
                 mFocusEt.setText(addresFieldUrl);
+                if (addresFieldUrl != null)
                 mFocusEt.setSelection(addresFieldUrl.length());
                 mFocusEt.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
