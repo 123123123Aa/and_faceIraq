@@ -124,7 +124,7 @@ public class ContactUsActivity extends AppCompatActivity {
                 emailIntent.setType("message/rfc822");
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"marcin.zmija@gmail.com"});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, mSubjectEt.getText().toString());
-                emailIntent.putExtra(Intent.EXTRA_TEXT, mContentEt.getText().toString());
+                emailIntent.putExtra(Intent.EXTRA_TEXT, getEmailContent() + mContentEt.getText().toString());
                 emailIntent.putExtra(Intent.EXTRA_STREAM, selectedImageUri);
                 try {
                     startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
@@ -144,6 +144,13 @@ public class ContactUsActivity extends AppCompatActivity {
             }
         }
     };
+
+    private String getEmailContent() {
+        if (mEmailEt.getText().toString().equals(""))
+            return "";
+        else
+            return "Prefered contact e-mail: " + mEmailEt.getText().toString() + "\n\n" + "Message:" + "\n";
+    }
 
     @OnClick({R.id.add_image_section, R.id.activity_contact_us_delete_photo})
     public void onClick(View view) {
