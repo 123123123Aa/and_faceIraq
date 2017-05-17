@@ -122,7 +122,7 @@ public class ContactUsActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType("message/rfc822");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"marcin.zmija@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"ahmeddjplaystore@gmail.com"});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, mSubjectEt.getText().toString());
                 emailIntent.putExtra(Intent.EXTRA_TEXT, getEmailContent() + mContentEt.getText().toString());
                 emailIntent.putExtra(Intent.EXTRA_STREAM, selectedImageUri);

@@ -54,6 +54,14 @@ public class HistoryDAOImplementation implements BrowserDAO {
         realm.commitTransaction();
     }
 
+    public String getLast() {
+        realm.beginTransaction();
+        RealmResults<HistoryRecord> results = realm.where(HistoryRecord.class).findAll();
+        String url = results.last().getAddress();
+        realm.commitTransaction();
+        return url;
+    }
+
     @Override
     public void delete(final long id) {
         realm.executeTransaction(new Realm.Transaction() {

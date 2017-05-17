@@ -60,7 +60,7 @@ public class PreviousPagesDAO {
         long id = SharedPreferencesHelper.getCardNumber(mContext);
         realm.beginTransaction();
         RealmResults<PreviousPageModel> previousPages = realm.where(PreviousPageModel.class).equalTo("id", id).findAll();
-        String previousPageUrl = previousPages.last().getUrl();
+        String previousPageUrl = previousPages.last().getUrl() ;
         realm.commitTransaction();
         return previousPageUrl;
     }

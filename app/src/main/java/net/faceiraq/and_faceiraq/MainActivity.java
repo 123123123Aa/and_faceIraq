@@ -22,8 +22,6 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import net.faceiraq.and_faceiraq.api.ApiCalls;
-import net.faceiraq.and_faceiraq.api.ApiManager;
 import net.faceiraq.and_faceiraq.controller.CardsActivity;
 import net.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 import net.faceiraq.and_faceiraq.model.PageDetails;
@@ -71,6 +69,7 @@ public class MainActivity extends FragmentActivity
     private boolean isEditTextSelected;
     private static final int REQUEST_READ_PHONE_STATE = 1;
     private boolean isCardSelected;
+    private MyApplication mApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +84,13 @@ public class MainActivity extends FragmentActivity
         bookmarksDAO = new BookmarksDAOImplementation();
         openedPagesDAO = new OpenedPagesDAO();
         previousPagesDAO = new PreviousPagesDAO(this);
+        mApplication = (MyApplication) getApplication();
 //        requestPermission();
-        onOpenedNewPage();
+        if (mApplication.isOpen()) {
+            onOpenedNewPage();
+            mApplication.setOpen();
+        } else
+        goToPage(historyDAO.getLast(), false);
         Log.d(TAG, "UUID: " + SharedPreferencesHelper.getUUID(this));
     }
 
