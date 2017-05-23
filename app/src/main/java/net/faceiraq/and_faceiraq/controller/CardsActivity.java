@@ -33,6 +33,7 @@ public class CardsActivity extends AppCompatActivity
     
     public static final String TAG = "CardsActivity";
     public static final int CARDS_REQUEST_CODE = 10;
+    public static final int HOME_BUTTON_CARDS_SELECTED = 13;
 
     private OpenedPagesDAO openedPagesDAO;
     private PreviousPagesDAO previousPagesDAO;
@@ -81,7 +82,7 @@ public class CardsActivity extends AppCompatActivity
     @Override
     public void onHomeButtonPressed() {
         SharedPreferencesHelper.setCardUrl(this, getString(R.string.HOME_PAGE_ADDRESS));
-        setResult(RESULT_OK);
+        setResult(HOME_BUTTON_CARDS_SELECTED);
         finish();
     }
 
