@@ -48,6 +48,7 @@ import io.realm.Realm;
 
 import static net.faceiraq.and_faceiraq.controller.BookmarksActivity.BOOKMARKS_REQUEST_CODE;
 import static net.faceiraq.and_faceiraq.controller.CardsActivity.CARDS_REQUEST_CODE;
+import static net.faceiraq.and_faceiraq.controller.CardsActivity.HOME_BUTTON_CARDS_SELECTED;
 import static net.faceiraq.and_faceiraq.controller.HistoryActivity.HISTORY_REQUEST_CODE;
 import static net.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity.THEME_COLOUR_REQUEST_CODE;
 
@@ -70,7 +71,6 @@ public class MainActivity extends FragmentActivity
     private static final int REQUEST_READ_PHONE_STATE = 1;
     private boolean isCardSelected;
     private MyApplication mApplication;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,11 +87,13 @@ public class MainActivity extends FragmentActivity
         mApplication = (MyApplication) getApplication();
 //        requestPermission();
         if (mApplication.isOpen()) {
-            onOpenedNewPage();
+            goToHomePage(false);
             mApplication.setOpen();
         } else
         goToPage(historyDAO.getLast(), false);
         Log.d(TAG, "UUID: " + SharedPreferencesHelper.getUUID(this));
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        webView.initScrollListener();
     }
 
     private void requestPermission(){
@@ -238,7 +240,7 @@ public class MainActivity extends FragmentActivity
         String url = pageDetails.getAddress();
         navigationBar.setAddressField(url);
         navigationBar.setAddressFieldError(false);
-        showPreviousPageButton(!previousPagesDAO.isEmpty());
+        showPreviousPageButton(canGoBack());
     }
 
     @Override
@@ -289,9 +291,8 @@ public class MainActivity extends FragmentActivity
                 goToPage(pageModel.getUrl(), true);
                 setPageAddressField(url);
                 updateCardsCount();
-                showPreviousPageButton(!previousPagesDAO.isEmpty());
                 clearHistory();
-
+                navigationBar.showPreviousPageButton(false);
             }
 
         }
@@ -304,6 +305,10 @@ public class MainActivity extends FragmentActivity
     @Override
     public void hideLoadingSpinner() {
         hideLoadingPageProgressBar();
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        if (webView != null) {
+            webView.scrollTo();
+        }
     }
 
     @Override
@@ -478,14 +483,23 @@ public class MainActivity extends FragmentActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
+        if( resultCode == HOME_BUTTON_CARDS_SELECTED) {
+            isCardSelected = false;
+            goToHomePage(true);
+        }
+        else if (resultCode == RESULT_OK) {
             switch(requestCode) {
                 case THEME_COLOUR_REQUEST_CODE:
                     ThemeChangeUtil.changeToTheme(this, data.getStringExtra("Colour"));
                     break;
                 case CARDS_REQUEST_CODE:
                     isCardSelected = true;
-                    loadSelectedCard();
+                    String url = SharedPreferencesHelper.getCardUrl(this);
+                    if (url.equals("") ){
+                        goToPage(getResources().getString(R.string.HOME_PAGE_ADDRESS), false);
+                        clearHistory();
+                    } else {
+                        loadSelectedCard(); }
 //                    cardAmount = data.getIntExtra("cards_amount", 1);
                     break;
                 case HISTORY_REQUEST_CODE:

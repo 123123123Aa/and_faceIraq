@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
 
+import net.faceiraq.and_faceiraq.ObservableWebView;
 import net.faceiraq.and_faceiraq.R;
-
 import net.faceiraq.and_faceiraq.model.PageDetails;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import net.faceiraq.and_faceiraq.model.utils.ImageUtil;
@@ -47,7 +46,7 @@ public class WebViewFragment extends Fragment {
 
     net.faceiraq.and_faceiraq.view.BrowserChromeClient browserChromeClient;
     @Bind(R.id.pageDisplay)
-    WebView pageDisplay;
+    ObservableWebView pageDisplay;
 
     public WebViewFragment() {
     }
@@ -71,6 +70,7 @@ public class WebViewFragment extends Fragment {
 
         init();
 
+
         return view;
     }
 
@@ -78,6 +78,16 @@ public class WebViewFragment extends Fragment {
     public void onDestroyView() {
         ButterKnife.unbind(this);
         super.onDestroyView();
+    }
+
+    public void initScrollListener() {
+        pageDisplay.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
+            @Override
+            public void onScroll(int l, int t) {
+                if (t == 1)
+                pageDisplay.loadUrl(getCurrentPageDetails().getAddress());
+            }
+        });
     }
 
     public OpenedPageModel getOpenedPage() {
@@ -89,6 +99,9 @@ public class WebViewFragment extends Fragment {
         return page;
     }
 
+    public void scrollTo() {
+        pageDisplay.scrollTo(0, 10);
+    }
 
     private Bitmap takeScreenshot() {
         View screenView = getView();
