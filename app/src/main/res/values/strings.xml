@@ -17,6 +17,7 @@
     <string name="defaultThemeName">Beige</string>
     <string name="txtOff">Off</string>
     <string name="txtOn">On</string>
+    <string name="send">Send</string>
 
     <string-array name="dialog_item_list">
         <item>New page</item>0

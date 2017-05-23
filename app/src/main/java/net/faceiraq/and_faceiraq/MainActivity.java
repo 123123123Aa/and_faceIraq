@@ -178,7 +178,7 @@ public class MainActivity extends FragmentActivity
         super.onResume();
         mEventBus.register(this);
         registerReceiver();
-        showPreviousPageButton(!previousPagesDAO.isEmpty());
+        showPreviousPageButton(canGoBack());
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -280,7 +280,7 @@ public class MainActivity extends FragmentActivity
                 historyDAO.insert(pageDetails);
                 setPageAddressField(url);
                 savePreviousPage();
-                showPreviousPageButton(!previousPagesDAO.isEmpty());
+                showPreviousPageButton(canGoBack());
                 isCardSelected = false;
             } else {
                 OpenedPageModel pageModel = new OpenedPageModel();
@@ -376,7 +376,7 @@ public class MainActivity extends FragmentActivity
         setAddressFieldError(false);
         loadPageToWebView(validUrlAddress);
         if (clearHistory) clearHistory();
-        showPreviousPageButton(!previousPagesDAO.isEmpty());
+        showPreviousPageButton(canGoBack());
     }
 
     private void goToPreviousPage() {

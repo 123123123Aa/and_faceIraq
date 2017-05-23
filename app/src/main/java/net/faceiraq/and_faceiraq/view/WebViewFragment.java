@@ -5,12 +5,15 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import net.faceiraq.and_faceiraq.ObservableWebView;
 import net.faceiraq.and_faceiraq.R;
@@ -46,7 +49,10 @@ public class WebViewFragment extends Fragment {
 
     net.faceiraq.and_faceiraq.view.BrowserChromeClient browserChromeClient;
     @Bind(R.id.pageDisplay)
-    ObservableWebView pageDisplay;
+    WebView pageDisplay;
+
+    @Bind(R.id.swipeContainer)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public WebViewFragment() {
     }
@@ -81,13 +87,24 @@ public class WebViewFragment extends Fragment {
     }
 
     public void initScrollListener() {
-        pageDisplay.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onScroll(int l, int t) {
-                if (t == 1)
-                pageDisplay.loadUrl(getCurrentPageDetails().getAddress());
+            public void onRefresh() {
+                if (swipeRefreshLayout.isRefreshing() ) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                pageDisplay.reload();
             }
         });
+//        pageDisplay.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
+//            @Override
+//            public void onScroll(int l, int t) {
+//                if (t == 0)
+//                pageDisplay.loadUrl(getCurrentPageDetails().getAddress());
+//            }
+//        });
+
     }
 
     public OpenedPageModel getOpenedPage() {
@@ -106,6 +123,9 @@ public class WebViewFragment extends Fragment {
     private Bitmap takeScreenshot() {
         View screenView = getView();
         Bitmap bitmap;
+        if (screenView == null) {
+            return Bitmap.createBitmap(1080, 1593, ARGB_8888);
+        }
         screenView.setDrawingCacheEnabled(true);
         if(screenView.getDrawingCache() != null)
             bitmap = Bitmap.createBitmap(screenView.getDrawingCache());

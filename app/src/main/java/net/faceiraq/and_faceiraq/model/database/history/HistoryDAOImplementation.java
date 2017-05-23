@@ -30,6 +30,9 @@ public class HistoryDAOImplementation implements BrowserDAO {
 
     @Override
     public void insert(PageDetails pageDetails) {
+        if (!shouldSaveToHistory(pageDetails.getAddress(), pageDetails.getTimestamp())) {
+            return;
+        }
         realm.beginTransaction();
         final HistoryRecord record = new HistoryRecord();
         record.setTimestamp(pageDetails.getTimestamp());
@@ -60,6 +63,14 @@ public class HistoryDAOImplementation implements BrowserDAO {
         String url = results.last().getAddress();
         realm.commitTransaction();
         return url;
+    }
+
+    public long getLastTimestamp() {
+        realm.beginTransaction();
+        RealmResults<HistoryRecord> results = realm.where(HistoryRecord.class).findAll();
+        long timestamp = results.last().getTimestamp();
+        realm.commitTransaction();
+        return timestamp;
     }
 
     @Override
@@ -102,5 +113,16 @@ public class HistoryDAOImplementation implements BrowserDAO {
                 .findAllSorted(HistoryRecord.TIMESTAMP, Sort.DESCENDING);
         recordList.addAll(realm.copyFromRealm(results));
         return recordList;
+    }
+
+    private boolean shouldSaveToHistory(String url, long timestamp) {
+        if (!url.equals(getLast())) {
+            return true;
+        }
+        if (timestamp / 1000 != getLastTimestamp() / 1000) {
+            Log.d(TAG, "shouldSaveToHistory: equal timestamps");
+            return true;
+        }
+        return false;
     }
 }
