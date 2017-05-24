@@ -30,7 +30,6 @@ import net.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOImplementa
 import net.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
-import net.faceiraq.and_faceiraq.model.database.previous_pages.PreviousPagesDAO;
 import net.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
 import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import net.faceiraq.and_faceiraq.push_notifications.RegistrationIntentService;
@@ -63,7 +62,6 @@ public class MainActivity extends FragmentActivity
     private HistoryDAOImplementation historyDAO;
     private BookmarksDAOImplementation bookmarksDAO;
     private OpenedPagesDAO openedPagesDAO;
-    private PreviousPagesDAO previousPagesDAO;
     private EventBus mEventBus = EventBus.getDefault();
     private BroadcastReceiver gcmRegistrationBroadcastReceiver;
     private boolean isReceiverRegistered;
@@ -71,6 +69,7 @@ public class MainActivity extends FragmentActivity
     private static final int REQUEST_READ_PHONE_STATE = 1;
     private boolean isCardSelected;
     private MyApplication mApplication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,14 +82,13 @@ public class MainActivity extends FragmentActivity
         historyDAO = new HistoryDAOImplementation();
         bookmarksDAO = new BookmarksDAOImplementation();
         openedPagesDAO = new OpenedPagesDAO();
-        previousPagesDAO = new PreviousPagesDAO(this);
         mApplication = (MyApplication) getApplication();
 //        requestPermission();
         if (mApplication.isOpen()) {
             goToHomePage(false);
             mApplication.setOpen();
         } else
-        goToPage(historyDAO.getLast(), false);
+        goToPage(historyDAO.getLastUrl(), false);
         Log.d(TAG, "UUID: " + SharedPreferencesHelper.getUUID(this));
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
         webView.initScrollListener();
@@ -279,7 +277,6 @@ public class MainActivity extends FragmentActivity
                     || !previousPage.equals(getResources().getString(R.string.HOME_PAGE_ADDRESS))) {
                 historyDAO.insert(pageDetails);
                 setPageAddressField(url);
-                savePreviousPage();
                 showPreviousPageButton(canGoBack());
                 isCardSelected = false;
             } else {
@@ -387,16 +384,6 @@ public class MainActivity extends FragmentActivity
             webView.goToPreviousPage();
         }
     }
-
-    private void savePreviousPage() {
-        String url = SharedPreferencesHelper.getCardUrl(this);
-//        if ( !previousPagesDAO.isEmpty() && url.equals(getHomePageAddress()) ||
-//                !url.equals(getHomePageAddress())) {
-            previousPagesDAO.insert(url);
-            Log.d(TAG, "savePreviousPage: url=" + url);
-//        }
-    }
-
 
     private void setPageAddressField(String pageUrl) {
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);

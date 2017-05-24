@@ -8,12 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import net.faceiraq.and_faceiraq.R;
-
 import net.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
-import net.faceiraq.and_faceiraq.model.database.previous_pages.PreviousPagesDAO;
 import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
 import net.faceiraq.and_faceiraq.view.CardsFragment;
 import net.faceiraq.and_faceiraq.view.CardsNavigationBarFragment;
@@ -36,7 +34,6 @@ public class CardsActivity extends AppCompatActivity
     public static final int HOME_BUTTON_CARDS_SELECTED = 13;
 
     private OpenedPagesDAO openedPagesDAO;
-    private PreviousPagesDAO previousPagesDAO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +42,6 @@ public class CardsActivity extends AppCompatActivity
         setContentView(R.layout.activity_cards);
         Log.d(TAG, "onCreate:");
         openedPagesDAO = new OpenedPagesDAO();
-        previousPagesDAO = new PreviousPagesDAO(this);
         initCardsFragment();
     }
 
@@ -125,7 +121,6 @@ public class CardsActivity extends AppCompatActivity
 
     public void onCardDeleted(long id) {
         openedPagesDAO.delete(id);
-        previousPagesDAO.deleteAllWithId(id);
         updateNavigationBarCardsCount();
     }
 }

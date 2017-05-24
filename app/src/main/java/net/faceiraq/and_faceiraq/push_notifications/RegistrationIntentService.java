@@ -34,7 +34,7 @@ public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
-    private static final String SENDER_ID = "771566440294";
+    private static final String SENDER_ID = "848160161345";
     private ApiCalls api;
 
     public RegistrationIntentService() {

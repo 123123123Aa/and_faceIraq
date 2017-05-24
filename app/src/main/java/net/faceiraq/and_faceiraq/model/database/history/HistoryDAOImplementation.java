@@ -57,7 +57,15 @@ public class HistoryDAOImplementation implements BrowserDAO {
         realm.commitTransaction();
     }
 
-    public String getLast() {
+    public boolean isEmpty() {
+        realm.beginTransaction();
+        RealmResults<HistoryRecord> results = realm.where(HistoryRecord.class).findAll();
+        boolean isEmpty = results.isEmpty();
+        realm.commitTransaction();
+        return isEmpty;
+    }
+
+    public String getLastUrl() {
         if (!realm.isEmpty()) {
             realm.beginTransaction();
             RealmResults<HistoryRecord> results = realm.where(HistoryRecord.class).findAll();
@@ -122,7 +130,10 @@ public class HistoryDAOImplementation implements BrowserDAO {
     }
 
     private boolean shouldSaveToHistory(String url, long timestamp) {
-        if (!url.equals(getLast())) {
+        if (isEmpty()) {
+            return true;
+        }
+        if (!url.equals(getLastUrl())) {
             return true;
         }
         if (timestamp / 1000 != getLastTimestamp() / 1000) {
