@@ -84,7 +84,7 @@ public class HistoryDAOImplementation implements BrowserDAO {
             realm.commitTransaction();
             return timestamp;
         } else
-            return System.currentTimeMillis();
+            return 0;
     }
 
     @Override

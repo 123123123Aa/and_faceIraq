@@ -28,6 +28,7 @@ public class BrowserClient extends WebViewClient {
     @SuppressWarnings("deprecated")
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        listener.onNewPageStartedLoading(view.getUrl());
         view.loadUrl(url);
         return true;
     }
@@ -36,6 +37,7 @@ public class BrowserClient extends WebViewClient {
     @Override
     public boolean shouldOverrideUrlLoading(
             WebView view, WebResourceRequest request) {
+        listener.onNewPageStartedLoading(view.getUrl());
         view.loadUrl(request.getUrl().toString());
         return true;
     }

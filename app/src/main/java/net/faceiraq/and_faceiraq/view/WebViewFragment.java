@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
@@ -30,7 +31,7 @@ import static android.graphics.Bitmap.Config.ARGB_8888;
  * email: psalata9@gmail.com
  */
 
-public class WebViewFragment extends Fragment {
+public class WebViewFragment extends Fragment implements View.OnTouchListener {
 
     private static final String TAG = "WebViewFragment";
 
@@ -42,6 +43,9 @@ public class WebViewFragment extends Fragment {
         void onPageStarted(PageDetails pageDetails);
 
         void hideLoadingSpinner();
+
+        void onNewPageStartedLoading(String previousUrl);
+        void webViewClicked();
     }
     OnWebViewActionListener onWebViewActionListener;
 
@@ -73,9 +77,18 @@ public class WebViewFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         init();
-
+        pageDisplay.setOnTouchListener(this);
 
         return view;
+    }
+
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (view.getId() == R.id.pageDisplay && motionEvent.getAction() == MotionEvent.ACTION_UP){
+            onWebViewActionListener.webViewClicked();
+        }
+        return false;
     }
 
     @Override
