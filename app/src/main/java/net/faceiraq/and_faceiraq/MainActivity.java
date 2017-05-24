@@ -257,27 +257,21 @@ public class MainActivity extends FragmentActivity
      */
 
     @Override
-    public void onPageStarted(String url) {
+    public void onPageStarted(PageDetails pageDetails) {
 //        Log.d(TAG, "onPageStarted: url=" + url);
         NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
             if (navigationBar != null) {
                 navigationBar.setLoadingPageProgressBar(true);
                 navigationBar.hideFocusField();
             }
-    }
 
-    @Override
-    public void onPageFinished(PageDetails pageDetails) {
-        Log.d(TAG, "onPageFinished: ");
         String url = pageDetails.getAddress();
-        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
         isEditTextSelected = navigationBar != null && navigationBar.getEditTextSelection();
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
         String previousPage = webView != null ? webView.getPreviousPage() : "";
         if (PageUrlValidator.isValid(url)) {
-            if (isEditTextSelected || previousPage.equals("") || isCardSelected
+            if (isEditTextSelected || isCardSelected || previousPage.equals("")
                     || !previousPage.equals(getResources().getString(R.string.HOME_PAGE_ADDRESS))) {
-                historyDAO.insert(pageDetails);
                 setPageAddressField(url);
                 savePreviousPage();
                 showPreviousPageButton(canGoBack());
@@ -287,7 +281,7 @@ public class MainActivity extends FragmentActivity
                 pageModel.setUrl(url);
                 long newCardId = openedPagesDAO.insert(pageModel);
                 SharedPreferencesHelper.setCardNumber(this, newCardId);
-                historyDAO.insert(pageDetails);
+
                 goToPage(pageModel.getUrl(), true);
                 setPageAddressField(url);
                 updateCardsCount();
@@ -296,10 +290,17 @@ public class MainActivity extends FragmentActivity
             }
 
         }
+    }
+
+    @Override
+    public void onPageFinished(PageDetails pageDetails) {
+        Log.d(TAG, "onPageFinished: ");
+        NavigationBarFragment navigationBar = (NavigationBarFragment) getSupportFragmentManager().findFragmentById(R.id.navigationBarFragment);
         if (navigationBar != null ) {
             navigationBar.setEditTextSelected();
             navigationBar.setLoadingPageProgressBar(false);
         }
+        historyDAO.insert(pageDetails);
     }
 
     @Override
@@ -499,7 +500,8 @@ public class MainActivity extends FragmentActivity
                         goToPage(getResources().getString(R.string.HOME_PAGE_ADDRESS), false);
                         clearHistory();
                     } else {
-                        loadSelectedCard(); }
+                        loadSelectedCard();
+                        clearHistory();}
 //                    cardAmount = data.getIntExtra("cards_amount", 1);
                     break;
                 case HISTORY_REQUEST_CODE:

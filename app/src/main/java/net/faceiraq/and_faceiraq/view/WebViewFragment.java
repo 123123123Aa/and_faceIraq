@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.webkit.WebBackForwardList;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import net.faceiraq.and_faceiraq.ObservableWebView;
 import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.model.PageDetails;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
@@ -41,7 +39,7 @@ public class WebViewFragment extends Fragment {
         public void onPageFinished(PageDetails pageDetails);
         public void onUpdatePageIcon(PageDetails pageDetails);
         public void onErrorReceived();
-        void onPageStarted(String url);
+        void onPageStarted(PageDetails pageDetails);
 
         void hideLoadingSpinner();
     }
