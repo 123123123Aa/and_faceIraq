@@ -58,19 +58,25 @@ public class HistoryDAOImplementation implements BrowserDAO {
     }
 
     public String getLast() {
-        realm.beginTransaction();
-        RealmResults<HistoryRecord> results = realm.where(HistoryRecord.class).findAll();
-        String url = results.last().getAddress();
-        realm.commitTransaction();
-        return url;
+        if (!realm.isEmpty()) {
+            realm.beginTransaction();
+            RealmResults<HistoryRecord> results = realm.where(HistoryRecord.class).findAll();
+            String url = results.last().getAddress();
+            realm.commitTransaction();
+            return url;
+        } else
+            return "http://www.faceiraq.net/";
     }
 
     public long getLastTimestamp() {
-        realm.beginTransaction();
-        RealmResults<HistoryRecord> results = realm.where(HistoryRecord.class).findAll();
-        long timestamp = results.last().getTimestamp();
-        realm.commitTransaction();
-        return timestamp;
+        if (!realm.isEmpty()) {
+            realm.beginTransaction();
+            RealmResults<HistoryRecord> results = realm.where(HistoryRecord.class).findAll();
+            long timestamp = results.last().getTimestamp();
+            realm.commitTransaction();
+            return timestamp;
+        } else
+            return System.currentTimeMillis();
     }
 
     @Override

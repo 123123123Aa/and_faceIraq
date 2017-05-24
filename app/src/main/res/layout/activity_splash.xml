@@ -14,20 +14,20 @@
     <!--<include-->
     <!--layout="@layout/bg_train"/>-->
 
-    <TextView
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        android:text="@string/app_name"
-        android:visibility="visible"
-        />
-    <!--<ImageView-->
+    <!--<TextView-->
+        <!--android:layout_centerInParent="true"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/app_icon"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_centerVertical="true"/>-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="40sp"-->
+        <!--android:text="@string/app_name"-->
+        <!--android:visibility="visible"-->
+        <!--/>-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>
