@@ -9,7 +9,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import net.faceiraq.and_faceiraq.model.PageDetails;
-import net.faceiraq.and_faceiraq.model.utils.TimeUtil;
 
 
 /**
@@ -57,7 +56,9 @@ public class BrowserClient extends WebViewClient {
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        listener.onPageStarted(url);
+        PageDetails pageDetails = new PageDetails();
+        pageDetails.setAddress(view.getUrl());
+        listener.onPageStarted(pageDetails);
         super.onPageStarted(view, url, favicon);
     }
 

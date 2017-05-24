@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.faceiraq.and_faceiraq.R;
-
 import net.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 
 import butterknife.Bind;
