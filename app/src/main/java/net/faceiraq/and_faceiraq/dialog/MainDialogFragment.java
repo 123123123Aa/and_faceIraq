@@ -10,19 +10,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Toast;
 
 import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.api.ApiCalls;
 import net.faceiraq.and_faceiraq.api.ApiManager;
+import net.faceiraq.and_faceiraq.api.data.model.PushDetails;
+import net.faceiraq.and_faceiraq.api.data.response.PushResponse;
+import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by user on 19.04.2017.
@@ -112,8 +119,7 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
 //        if (SharedPreferencesHelper.getChanged(mActivity)) {
 //
 //            PushDetails pushDetails = new PushDetails();
-//            TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-//            String uuid = telephonyManager.getDeviceId();
+//            String uuid = SharedPreferencesHelper.getUUID(mActivity);
 //            pushDetails.setActive(SharedPreferencesHelper.getChecked(mActivity));
 //            pushDetails.setUuid(uuid);
 //            Call<PushResponse> call = api.allowPushService(pushDetails);

@@ -38,18 +38,19 @@ public class WebViewFragment extends Fragment implements View.OnTouchListener {
     public interface OnWebViewActionListener {
 
         public void onPageFinished(PageDetails pageDetails);
+
         public void onUpdatePageIcon(PageDetails pageDetails);
         public void onErrorReceived();
         void onPageStarted(PageDetails pageDetails);
-
         void hideLoadingSpinner();
 
         void onNewPageStartedLoading(String previousUrl);
+
         void webViewClicked();
     }
     OnWebViewActionListener onWebViewActionListener;
-
     net.faceiraq.and_faceiraq.view.BrowserChromeClient browserChromeClient;
+
     @Bind(R.id.pageDisplay)
     WebView pageDisplay;
 
@@ -79,9 +80,16 @@ public class WebViewFragment extends Fragment implements View.OnTouchListener {
         init();
         pageDisplay.setOnTouchListener(this);
 
+        Bundle args = getArguments();
+        if (args != null) {
+            String url = args.getString("url");
+            pageDisplay.loadUrl(url);
+        }
+
+        initScrollListener();
+
         return view;
     }
-
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -90,6 +98,7 @@ public class WebViewFragment extends Fragment implements View.OnTouchListener {
         }
         return false;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -152,6 +161,10 @@ public class WebViewFragment extends Fragment implements View.OnTouchListener {
         pageDisplay.loadUrl(pageUrl);
     }
 
+    public void stopLoading() {
+        pageDisplay.stopLoading();
+    }
+
 
     public void goToPreviousPage() {
         pageDisplay.goBack();
@@ -174,6 +187,7 @@ public class WebViewFragment extends Fragment implements View.OnTouchListener {
     public void clearHistory() {
         pageDisplay.clearHistory();
     }
+
 
     public PageDetails getCurrentPageDetails() {
         PageDetails pageDetails = new PageDetails();

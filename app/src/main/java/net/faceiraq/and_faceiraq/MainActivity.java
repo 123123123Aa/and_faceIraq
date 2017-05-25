@@ -9,8 +9,6 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -48,6 +46,7 @@ import java.lang.reflect.Method;
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 
+import static net.faceiraq.and_faceiraq.R.id.webViewFragment;
 import static net.faceiraq.and_faceiraq.controller.BookmarksActivity.BOOKMARKS_REQUEST_CODE;
 import static net.faceiraq.and_faceiraq.controller.CardsActivity.CARDS_REQUEST_CODE;
 import static net.faceiraq.and_faceiraq.controller.CardsActivity.HOME_BUTTON_CARDS_SELECTED;
@@ -57,8 +56,7 @@ import static net.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity.THEME_C
 public class MainActivity extends FragmentActivity
         implements NavigationBarFragment.OnNavigationBarActionListener,
                     WebViewFragment.OnWebViewActionListener,
-                    MainDialogFragment.OnMainDialogActionsListener,
-                    Handler.Callback {
+                    MainDialogFragment.OnMainDialogActionsListener {
 
     private static final String TAG = "MainActivity";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -96,8 +94,8 @@ public class MainActivity extends FragmentActivity
         } else
         goToPage(historyDAO.getLastUrl(), false);
         Log.d(TAG, "UUID: " + SharedPreferencesHelper.getUUID(this));
-        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
-        webView.initScrollListener();
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
+//        webView.initScrollListener();
     }
 
     private void requestPermission(){
@@ -222,6 +220,11 @@ public class MainActivity extends FragmentActivity
         instantiateFragments();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        outState.putString("url", historyDAO.getLastUrl());
+    }
+
     /**
      * NavigationBar methods
      */
@@ -276,16 +279,16 @@ public class MainActivity extends FragmentActivity
 
             OpenedPageModel pageModel = new OpenedPageModel();
             pageModel.setUrl(url);
-//            openNewPage(pageModel);
-
-            long newCardId = openedPagesDAO.insert(pageModel);
-            SharedPreferencesHelper.setCardNumber(this, newCardId);
-
-//            goToPage(pageModel.getUrl(), true);
-            updateCardsCount();
-            showPreviousPageButton(false);
-            clearHistory();
-            urlOpenedInNewCard = true;
+            openNewPage(pageModel);
+//
+//            long newCardId = openedPagesDAO.insert(pageModel);
+//            SharedPreferencesHelper.setCardNumber(this, newCardId);
+//
+////            goToPage(pageModel.getUrl(), true);
+//            updateCardsCount();
+//            showPreviousPageButton(false);
+//            clearHistory();
+//            urlOpenedInNewCard = true;
         } else {
             showPreviousPageButton(canGoBack());
         }
@@ -303,29 +306,30 @@ public class MainActivity extends FragmentActivity
             navigationBar.setEditTextSelected();
             navigationBar.setLoadingPageProgressBar(false);
             navigationBar.setAddressField(pageDetails.getAddress());
-            if (urlOpenedInNewCard) {
-                clearHistory();
-                urlOpenedInNewCard = false;
-            }
-            navigationBar.showPreviousPageButton(canGoBack());
         }
         historyDAO.insert(pageDetails);
     }
 
     @Override
     public void hideLoadingSpinner() {
+//        setAddressFieldError(false);
         hideLoadingPageProgressBar();
-        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
         if (webView != null) {
             webView.scrollTo();
         }
+        if (urlOpenedInNewCard) {
+            clearHistory();
+            urlOpenedInNewCard = false;
+        }
+        showPreviousPageButton(canGoBack());
     }
 
-    private final Handler handler = new Handler(this);
+//    private final Handler handler = new Handler(this);
     boolean webViewClicked = false;
+
     boolean previousPageWasFaceiraq = false;
     boolean urlOpenedInNewCard = false;
-
     @Override
     public void onNewPageStartedLoading(String previousUrl) {
         if (previousUrl.equals(getResources().getString(R.string.HOME_PAGE_ADDRESS))) {
@@ -338,15 +342,7 @@ public class MainActivity extends FragmentActivity
         webViewClicked = true;
     }
 
-    @Override
-    public boolean handleMessage(Message message) {
-        if (message.what == WEB_VIEW_CLICKED) {
-            clearHistory();
-            showPreviousPageButton(false);
-            return true;
-        }
-        return false;
-    }
+//    @Override
 
     @Override
     public void onErrorReceived() {
@@ -358,7 +354,6 @@ public class MainActivity extends FragmentActivity
         }
     }
 
-
     public void onSaveBookmarkClick() {
         PageDetails pageDetails = getCurrentPageDetails();
         String url = pageDetails.getAddress();
@@ -367,6 +362,7 @@ public class MainActivity extends FragmentActivity
             Toast.makeText(this, getString(R.string.bookmark_added), Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     public void onOpenedNewPage() {
@@ -377,15 +373,17 @@ public class MainActivity extends FragmentActivity
     }
 
     private void openNewPage(OpenedPageModel pageModel) {
+        savePageToRealm();
+        openNewWebViewFragmentWithUrl(pageModel.getUrl(), R.anim.enter_to_left, R.anim.exit_to_left);
         long newCardId = openedPagesDAO.insert(pageModel);
         SharedPreferencesHelper.setCardNumber(this, newCardId);
         updateCardsCount();
         urlOpenedInNewCard = true;
-        goToPage(pageModel.getUrl(), true);
-
         showPreviousPageButton(false);
         clearHistory();
-        handler.sendEmptyMessageDelayed(WEB_VIEW_CLICKED, 500);
+        goToPage(pageModel.getUrl(), true);
+
+//        handler.sendEmptyMessageDelayed(WEB_VIEW_CLICKED, 500);
     }
 
     @Override
@@ -403,8 +401,8 @@ public class MainActivity extends FragmentActivity
 
     private OpenedPageModel getOpenedPage() {
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.webViewFragment);
-        return webView.getOpenedPage();
+                .findFragmentById(webViewFragment);
+        return webView != null ? webView.getOpenedPage() : new OpenedPageModel();
     }
 
     private void goToHomePage(boolean isHomeButton) {
@@ -426,7 +424,7 @@ public class MainActivity extends FragmentActivity
     private void goToPreviousPage() {
 //        String url = previousPagesDAO.removeLastAndGetNext();
 //        goToPage(url, false);
-        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
         if (webView != null) {
             webView.goToPreviousPage();
         }
@@ -469,7 +467,7 @@ public class MainActivity extends FragmentActivity
 
     private void loadPageToWebView(String pageUrl) {
         if (haveNetworkConnection()) {
-            WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+            WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
             if (webView != null) {
                 webView.goToSelectedPage(pageUrl);
             }
@@ -479,18 +477,25 @@ public class MainActivity extends FragmentActivity
     }
 
     private boolean canGoBack() {
-        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
         return webView != null && webView.canGoBack();
     }
 
+    private void stopLoadingCurrentUrl() {
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
+        if (webView != null) {
+            webView.stopLoading();
+        }
+    }
+
     private void clearHistory() {
-        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
         if (webView !=null)
         webView.clearHistory();
     }
 
     private PageDetails getCurrentPageDetails() {
-        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(R.id.webViewFragment);
+        WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
         return webView != null ? webView.getCurrentPageDetails() : new PageDetails();
     }
 
@@ -504,7 +509,7 @@ public class MainActivity extends FragmentActivity
                 R.id.navigationBarFragment,
                 new NavigationBarFragment());
         instantiateFragment(
-                R.id.webViewFragment,
+                webViewFragment,
                 new WebViewFragment());
     }
 
@@ -512,7 +517,22 @@ public class MainActivity extends FragmentActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(containerId);
         if (fragment != null) return;
-        fragmentManager.beginTransaction().replace(containerId, newInstance).addToBackStack(null).commit();
+        Bundle bundle = new Bundle();
+        String url = mApplication.isOpen() ? getResources().getString(R.string.HOME_PAGE_ADDRESS) : historyDAO.getLastUrl();
+        bundle.putString("url", url);
+        newInstance.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(containerId, newInstance).addToBackStack(null).commitAllowingStateLoss();
+    }
+
+    private void openNewWebViewFragmentWithUrl(String url, int enterAnimId, int exitAnimId) {
+        int containerId = webViewFragment;
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(enterAnimId, exitAnimId);
+        WebViewFragment webViewFragment = new WebViewFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("url", url);
+        webViewFragment.setArguments(bundle);
+        transaction.replace(containerId, webViewFragment).addToBackStack(null).commitAllowingStateLoss();
     }
 
     @Override
@@ -554,8 +574,9 @@ public class MainActivity extends FragmentActivity
 
     private void loadSelectedCard() {
         String url = SharedPreferencesHelper.getCardUrl(this);
-        Log.d(TAG, "loadSelectedCard: url=" + url);
-        goToPage(url, true);
+        openNewWebViewFragmentWithUrl(url, R.anim.enter_to_right, R.anim.exit_to_right);
+//        Log.d(TAG, "loadSelectedCard: url=" + url);
+//        goToPage(url, true);
     }
 
     @Override

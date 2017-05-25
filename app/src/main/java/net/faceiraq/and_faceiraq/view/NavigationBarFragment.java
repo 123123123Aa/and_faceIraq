@@ -34,6 +34,7 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
 import static android.view.View.GONE;
+import static net.faceiraq.and_faceiraq.R.id.pageDisplay;
 
 /**
  * Created by Paweł Sałata on 14.04.2017.
@@ -101,6 +102,13 @@ public class NavigationBarFragment extends Fragment {
         onTextClick();
         mMainActivity = (MainActivity)getActivity();
         changeNavigationBarBackground();
+
+        Bundle args = getArguments();
+        if (args != null) {
+            String url = args.getString("url");
+            addressField.setText(url);
+        }
+
         return view;
     }
 

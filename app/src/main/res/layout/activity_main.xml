@@ -7,14 +7,22 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <fragment class="net.faceiraq.and_faceiraq.view.NavigationBarFragment"
-        android:id="@+id/navigationBarFragment"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <FrameLayout android:id="@+id/navigationBarFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-    <fragment class="net.faceiraq.and_faceiraq.view.WebViewFragment"
-        android:id="@+id/webViewFragment"
+    <FrameLayout android:id="@+id/webViewFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <!--<fragment class="net.faceiraq.and_faceiraq.view.NavigationBarFragment"-->
+        <!--android:id="@+id/navigationBarFragment"-->
+        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"/>-->
+    <!---->
+    <!--<fragment class="net.faceiraq.and_faceiraq.view.WebViewFragment"-->
+        <!---->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
 
 
 </LinearLayout>
