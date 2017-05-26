@@ -18,8 +18,8 @@ import android.webkit.WebView;
 import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.model.PageDetails;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
-import net.faceiraq.and_faceiraq.model.utils.ImageUtil;
-import net.faceiraq.and_faceiraq.model.utils.TimeUtil;
+import net.faceiraq.and_faceiraq.utils.ImageUtil;
+import net.faceiraq.and_faceiraq.utils.TimeUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

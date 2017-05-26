@@ -1,6 +1,5 @@
 package net.faceiraq.and_faceiraq.view.history;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -20,8 +19,8 @@ import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.controller.HistoryActivity;
 import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import net.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
-import net.faceiraq.and_faceiraq.model.utils.ImageUtil;
-import net.faceiraq.and_faceiraq.model.utils.TimeUtil;
+import net.faceiraq.and_faceiraq.utils.ImageUtil;
+import net.faceiraq.and_faceiraq.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

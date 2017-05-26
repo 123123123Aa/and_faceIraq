@@ -7,10 +7,10 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class PushDetails {
-    @SerializedName("uuid")
-    String uuid;
     @SerializedName("is_active")
     boolean isActive;
+    @SerializedName("uuid")
+    String uuid;
 
     public String getUuid() {
         return uuid;
@@ -26,5 +26,9 @@ public class PushDetails {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public boolean getActive() {
+        return isActive;
     }
 }

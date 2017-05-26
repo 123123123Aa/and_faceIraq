@@ -26,7 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import net.faceiraq.and_faceiraq.R;
-import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
+import net.faceiraq.and_faceiraq.utils.ThemeChangeUtil;
 
 import java.io.FileDescriptor;
 import java.io.IOException;

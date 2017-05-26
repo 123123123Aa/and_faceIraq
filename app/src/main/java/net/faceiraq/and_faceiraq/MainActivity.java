@@ -31,8 +31,8 @@ import net.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOImplementa
 import net.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
-import net.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
-import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
+import net.faceiraq.and_faceiraq.utils.PageUrlValidator;
+import net.faceiraq.and_faceiraq.utils.ThemeChangeUtil;
 import net.faceiraq.and_faceiraq.push_notifications.RegistrationIntentService;
 import net.faceiraq.and_faceiraq.view.NavigationBarFragment;
 import net.faceiraq.and_faceiraq.view.WebViewFragment;

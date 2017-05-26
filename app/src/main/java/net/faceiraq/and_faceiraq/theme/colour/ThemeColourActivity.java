@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import net.faceiraq.and_faceiraq.R;
 
-import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
+import net.faceiraq.and_faceiraq.utils.ThemeChangeUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

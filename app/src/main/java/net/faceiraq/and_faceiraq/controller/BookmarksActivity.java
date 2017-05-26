@@ -14,7 +14,7 @@ import net.faceiraq.and_faceiraq.R;
 
 import net.faceiraq.and_faceiraq.model.database.bookmarks.BookmarkRecord;
 import net.faceiraq.and_faceiraq.model.database.bookmarks.BookmarksDAOImplementation;
-import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
+import net.faceiraq.and_faceiraq.utils.ThemeChangeUtil;
 import net.faceiraq.and_faceiraq.view.bookmarks.BookmarksFragment;
 
 import java.util.List;

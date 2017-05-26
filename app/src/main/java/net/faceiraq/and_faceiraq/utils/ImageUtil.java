@@ -1,4 +1,4 @@
-package net.faceiraq.and_faceiraq.model.utils;
+package net.faceiraq.and_faceiraq.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

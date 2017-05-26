@@ -1,4 +1,4 @@
-package net.faceiraq.and_faceiraq.model.utils;
+package net.faceiraq.and_faceiraq.utils;
 
 /**
  * Created by Paweł Sałata on 14.04.2017.

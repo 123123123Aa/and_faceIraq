@@ -2,7 +2,7 @@ package net.faceiraq.and_faceiraq.model;
 
 import android.graphics.Bitmap;
 
-import net.faceiraq.and_faceiraq.model.utils.ImageUtil;
+import net.faceiraq.and_faceiraq.utils.ImageUtil;
 
 import java.util.UUID;
 

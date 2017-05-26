@@ -14,7 +14,7 @@ import net.faceiraq.and_faceiraq.R;
 
 import net.faceiraq.and_faceiraq.model.database.history.HistoryDAOImplementation;
 import net.faceiraq.and_faceiraq.model.database.history.HistoryRecord;
-import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
+import net.faceiraq.and_faceiraq.utils.ThemeChangeUtil;
 import net.faceiraq.and_faceiraq.view.history.HistoryFragment;
 
 import java.util.List;

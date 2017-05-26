@@ -6,7 +6,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import net.faceiraq.and_faceiraq.model.PageDetails;
-import net.faceiraq.and_faceiraq.model.utils.TimeUtil;
+import net.faceiraq.and_faceiraq.utils.TimeUtil;
 
 /**
  * Created by Paweł Sałata on 18.04.2017.

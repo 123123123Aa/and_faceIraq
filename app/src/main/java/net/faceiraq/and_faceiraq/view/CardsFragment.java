@@ -25,7 +25,7 @@ import net.faceiraq.and_faceiraq.controller.CardsActivity;
 import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
-import net.faceiraq.and_faceiraq.model.utils.PageUrlValidator;
+import net.faceiraq.and_faceiraq.utils.PageUrlValidator;
 
 import java.util.ArrayList;
 import java.util.List;

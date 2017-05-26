@@ -12,7 +12,7 @@ import net.faceiraq.and_faceiraq.dialog.MainDialogFragment;
 import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
-import net.faceiraq.and_faceiraq.model.utils.ThemeChangeUtil;
+import net.faceiraq.and_faceiraq.utils.ThemeChangeUtil;
 import net.faceiraq.and_faceiraq.view.CardsFragment;
 import net.faceiraq.and_faceiraq.view.CardsNavigationBarFragment;
 

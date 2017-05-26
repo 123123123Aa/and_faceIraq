@@ -11,7 +11,7 @@ import android.widget.TextView;
 import net.faceiraq.and_faceiraq.R;
 
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
-import net.faceiraq.and_faceiraq.model.utils.ImageUtil;
+import net.faceiraq.and_faceiraq.utils.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;

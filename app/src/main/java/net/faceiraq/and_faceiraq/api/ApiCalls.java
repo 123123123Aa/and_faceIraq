@@ -14,13 +14,14 @@ import retrofit2.http.Query;
  */
 
 public interface ApiCalls {
-    @POST("api.php?action=pushSetting")
-    Call<PushResponse> allowPushService(@Body PushDetails pushDetails);
+
+    @POST("app/api.php?action=pushSetting")
+    Call<Void> allowPushService(@Body PushDetails pushDetails);
 
     @POST("app/api.php?action=regUser")
     Call<Void> registerUser(@Query("regID") String deviceToken,
-                                        @Query("uuid") String uuid,
-                                        @Query("model") String model,
-                                        @Query("platform") String platform,
-                                        @Query("version") String version);
+                            @Query("uuid") String uuid,
+                            @Query("model") String model,
+                            @Query("platform") String platform,
+                            @Query("version") String version);
 }

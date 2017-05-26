@@ -4,7 +4,7 @@ import android.util.Log;
 
 import net.faceiraq.and_faceiraq.model.PageDetails;
 import net.faceiraq.and_faceiraq.model.database.BrowserDAO;
-import net.faceiraq.and_faceiraq.model.utils.ImageUtil;
+import net.faceiraq.and_faceiraq.utils.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;

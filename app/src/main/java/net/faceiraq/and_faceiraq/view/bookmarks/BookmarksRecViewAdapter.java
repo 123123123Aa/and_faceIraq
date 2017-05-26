@@ -1,6 +1,5 @@
 package net.faceiraq.and_faceiraq.view.bookmarks;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -18,7 +17,7 @@ import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.controller.BookmarksActivity;
 import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 import net.faceiraq.and_faceiraq.model.database.bookmarks.BookmarkRecord;
-import net.faceiraq.and_faceiraq.model.utils.ImageUtil;
+import net.faceiraq.and_faceiraq.utils.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;

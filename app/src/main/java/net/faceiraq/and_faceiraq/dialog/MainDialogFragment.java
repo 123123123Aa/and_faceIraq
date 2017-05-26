@@ -10,25 +10,24 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Toast;
 
 import net.faceiraq.and_faceiraq.R;
 import net.faceiraq.and_faceiraq.api.ApiCalls;
 import net.faceiraq.and_faceiraq.api.ApiManager;
 import net.faceiraq.and_faceiraq.api.data.model.PushDetails;
-import net.faceiraq.and_faceiraq.api.data.response.PushResponse;
 import net.faceiraq.and_faceiraq.model.SharedPreferencesHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -37,6 +36,7 @@ import retrofit2.Response;
 
 public class MainDialogFragment extends DialogFragment implements IMainDialogFragment{
 
+    private static final String TAG = "MainDialogFragment";
     @Bind(R.id.dialog_recycler_view)
     RecyclerView mDialogRecyclerView;
 //    @Bind(R.id.dialog_button)
@@ -113,36 +113,30 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
 //        mCancelButton.setBackground(drawable);
     }
 
-//    @Override
-//    public void allowPushService() {
-//        mDialogAdapter.setSwitchSelection();
-//        if (SharedPreferencesHelper.getChanged(mActivity)) {
-//
-//            PushDetails pushDetails = new PushDetails();
-//            String uuid = SharedPreferencesHelper.getUUID(mActivity);
-//            pushDetails.setActive(SharedPreferencesHelper.getChecked(mActivity));
-//            pushDetails.setUuid(uuid);
-//            Call<PushResponse> call = api.allowPushService(pushDetails);
-//            call.enqueue(new Callback<PushResponse>() {
-//                @Override
-//                public void onResponse(Call<PushResponse> call, Response<PushResponse> response) {
-//                    if (response.code() == 200) {
-//                        Toast.makeText(mActivity, "ok", Toast.LENGTH_LONG).show();
-//                    } else {
-//                        Toast.makeText(mActivity, "not good", Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<PushResponse> call, Throwable t) {
-//                    Toast.makeText(mActivity, "not ok", Toast.LENGTH_LONG).show();
-//                }
-//            });
-//        }
-//
-//
-//    }
 
+    public void sendNotificationsSettingsToServer() {
+        mDialogAdapter.setSwitchSelection();
+        if (SharedPreferencesHelper.getChanged(mActivity)) {
+            PushDetails pushDetails = new PushDetails();
+            String uuid = SharedPreferencesHelper.getUUID(mActivity);
+            pushDetails.setActive(SharedPreferencesHelper.getChecked(mActivity));
+            pushDetails.setUuid(uuid);
+            Log.d(TAG, "sendNotificationsSettingsToServer: uuid=" + uuid
+                    + ", checked= " + pushDetails.getActive());
+            Call<Void> call = api.allowPushService(pushDetails);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    Log.d(TAG, "onResponse: code= " + response.code());
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.d(TAG, "onFailure: message= " + t.getMessage());
+                }
+            });
+        }
+    }
 
     @Override
     public void onResume() {
@@ -176,6 +170,6 @@ public class MainDialogFragment extends DialogFragment implements IMainDialogFra
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         mDialogAdapter.setSwitchSelection();
-
+        sendNotificationsSettingsToServer();
     }
 }
