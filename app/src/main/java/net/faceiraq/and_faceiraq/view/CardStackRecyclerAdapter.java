@@ -29,7 +29,7 @@ public class CardStackRecyclerAdapter extends RecyclerView.Adapter<CardStackRecy
     private List<OpenedPageModel> openedPages;
     private Context context;
 
-    public CardStackRecyclerAdapter(List<OpenedPageModel> openedPages, Context context) {
+    public CardStackRecyclerAdapter(Context context, List<OpenedPageModel> openedPages) {
         this.openedPages = new ArrayList<>(openedPages);
         this.context = context;
     }
@@ -37,7 +37,7 @@ public class CardStackRecyclerAdapter extends RecyclerView.Adapter<CardStackRecy
     @Override
     public CardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_web_view, parent, false);
+                .inflate(R.layout.opened_page_layout, parent, false);
         return new CardHolder(view);
     }
 

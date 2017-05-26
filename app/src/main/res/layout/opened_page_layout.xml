@@ -8,7 +8,7 @@
     card_view:cardCornerRadius="6dp"
     card_view:cardUseCompatPadding="true"
     card_view:cardElevation="6dp"
-    android:layout_height="500dp">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/card_title_section"
