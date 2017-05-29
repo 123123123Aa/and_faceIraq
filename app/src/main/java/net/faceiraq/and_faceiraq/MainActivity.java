@@ -33,7 +33,6 @@ import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPageModel;
 import net.faceiraq.and_faceiraq.model.database.opened_pages.OpenedPagesDAO;
 import net.faceiraq.and_faceiraq.utils.PageUrlValidator;
 import net.faceiraq.and_faceiraq.utils.ThemeChangeUtil;
-import net.faceiraq.and_faceiraq.push_notifications.RegistrationIntentService;
 import net.faceiraq.and_faceiraq.view.NavigationBarFragment;
 import net.faceiraq.and_faceiraq.view.WebViewFragment;
 
@@ -67,7 +66,7 @@ public class MainActivity extends FragmentActivity
     private BookmarksDAOImplementation bookmarksDAO;
     private OpenedPagesDAO openedPagesDAO;
     private EventBus mEventBus = EventBus.getDefault();
-    private BroadcastReceiver gcmRegistrationBroadcastReceiver;
+    private BroadcastReceiver fcmRegistrationBroadcastReceiver;
     private boolean isReceiverRegistered;
     private boolean isEditTextSelected;
     private static final int REQUEST_READ_PHONE_STATE = 1;
@@ -109,7 +108,7 @@ public class MainActivity extends FragmentActivity
     }
 
     private void registerForGCM() {
-        gcmRegistrationBroadcastReceiver = new BroadcastReceiver() {
+        fcmRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 boolean sentToken = SharedPreferencesHelper.isTokenSentToServer(context);
@@ -122,8 +121,7 @@ public class MainActivity extends FragmentActivity
         };
         registerReceiver();
         if (checkPlayServices()) {
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
+
         }
     }
 
@@ -145,7 +143,7 @@ public class MainActivity extends FragmentActivity
 
     private void registerReceiver() {
         if (!isReceiverRegistered) {
-            LocalBroadcastManager.getInstance(this).registerReceiver(gcmRegistrationBroadcastReceiver,
+            LocalBroadcastManager.getInstance(this).registerReceiver(fcmRegistrationBroadcastReceiver,
                     new IntentFilter(SharedPreferencesHelper.REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
         }
@@ -194,7 +192,7 @@ public class MainActivity extends FragmentActivity
         super.onPause();
         mEventBus.unregister(this);
         savePageToRealm();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(gcmRegistrationBroadcastReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(fcmRegistrationBroadcastReceiver);
         isReceiverRegistered = false;
     }
 
