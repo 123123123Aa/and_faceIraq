@@ -33,7 +33,7 @@ import static android.graphics.Bitmap.Config.ARGB_8888;
 
 public class WebViewFragment extends Fragment implements View.OnTouchListener {
 
-    private static final String TAG = "WebViewFragment";
+    public static final String TAG = "WebViewFragment";
 
     public interface OnWebViewActionListener {
 

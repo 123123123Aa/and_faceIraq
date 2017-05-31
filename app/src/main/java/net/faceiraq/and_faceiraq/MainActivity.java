@@ -73,6 +73,7 @@ public class MainActivity extends FragmentActivity
     private static final int REQUEST_READ_PHONE_STATE = 1;
     private boolean isCardSelected;
     private MyApplication mApplication;
+    private String previousPageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,7 +194,7 @@ public class MainActivity extends FragmentActivity
     protected void onPause() {
         super.onPause();
         mEventBus.unregister(this);
-        savePageToRealm();
+        savePageToRealm("");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(gcmRegistrationBroadcastReceiver);
         isReceiverRegistered = false;
     }
@@ -279,7 +280,7 @@ public class MainActivity extends FragmentActivity
 
             OpenedPageModel pageModel = new OpenedPageModel();
             pageModel.setUrl(url);
-            openNewPage(pageModel);
+            openNewPage(pageModel, previousPageUrl);
 //
 //            long newCardId = openedPagesDAO.insert(pageModel);
 //            SharedPreferencesHelper.setCardNumber(this, newCardId);
@@ -334,6 +335,7 @@ public class MainActivity extends FragmentActivity
     public void onNewPageStartedLoading(String previousUrl) {
         if (previousUrl.equals(getResources().getString(R.string.HOME_PAGE_ADDRESS))) {
             previousPageWasFaceiraq = true;
+            previousPageUrl = previousUrl;
         }
     }
 
@@ -368,12 +370,12 @@ public class MainActivity extends FragmentActivity
     public void onOpenedNewPage() {
         OpenedPageModel pageModel = new OpenedPageModel();
         pageModel.setUrl(getResources().getString(R.string.HOME_PAGE_ADDRESS));
-        openNewPage(pageModel);
+        openNewPage(pageModel, "");
         Log.d(TAG, "onOpenedNewPage: pages size=" + openedPagesDAO.getSize());
     }
 
-    private void openNewPage(OpenedPageModel pageModel) {
-        savePageToRealm();
+    private void openNewPage(OpenedPageModel pageModel, String urlToSave) {
+        savePageToRealm(urlToSave);
         openNewWebViewFragmentWithUrl(pageModel.getUrl(), R.anim.enter_to_left, R.anim.exit_to_left);
         long newCardId = openedPagesDAO.insert(pageModel);
         SharedPreferencesHelper.setCardNumber(this, newCardId);
@@ -391,9 +393,12 @@ public class MainActivity extends FragmentActivity
         historyDAO.update(pageDetails);
     }
 
-    private void savePageToRealm() {
+    private void savePageToRealm(String urlToSave) {
         OpenedPageModel openedPage = getOpenedPage();
         long cardId = SharedPreferencesHelper.getCardNumber(this);
+        if (!urlToSave.isEmpty()) {
+            openedPage.setUrl(urlToSave);
+        }
         openedPage.setId(cardId);
         openedPagesDAO.update(openedPage);
         Log.d(TAG, "savePageToRealm: id=" + cardId + ", url=" + openedPage.getUrl());
@@ -401,7 +406,7 @@ public class MainActivity extends FragmentActivity
 
     private OpenedPageModel getOpenedPage() {
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager()
-                .findFragmentById(webViewFragment);
+                .findFragmentByTag(WebViewFragment.TAG);
         return webView != null ? webView.getOpenedPage() : new OpenedPageModel();
     }
 
@@ -507,13 +512,15 @@ public class MainActivity extends FragmentActivity
     private void instantiateFragments() {
         instantiateFragment(
                 R.id.navigationBarFragment,
-                new NavigationBarFragment());
+                new NavigationBarFragment(),
+                NavigationBarFragment.TAG);
         instantiateFragment(
                 webViewFragment,
-                new WebViewFragment());
+                new WebViewFragment(),
+                WebViewFragment.TAG);
     }
 
-    private void instantiateFragment(int containerId, Fragment newInstance) {
+    private void instantiateFragment(int containerId, Fragment newInstance, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(containerId);
         if (fragment != null) return;
@@ -521,7 +528,7 @@ public class MainActivity extends FragmentActivity
         String url = mApplication.isOpen() ? getResources().getString(R.string.HOME_PAGE_ADDRESS) : historyDAO.getLastUrl();
         bundle.putString("url", url);
         newInstance.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(containerId, newInstance).addToBackStack(null).commitAllowingStateLoss();
+        fragmentManager.beginTransaction().replace(containerId, newInstance, tag).addToBackStack(null).commitAllowingStateLoss();
     }
 
     private void openNewWebViewFragmentWithUrl(String url, int enterAnimId, int exitAnimId) {
@@ -532,7 +539,7 @@ public class MainActivity extends FragmentActivity
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
         webViewFragment.setArguments(bundle);
-        transaction.replace(containerId, webViewFragment).addToBackStack(null).commitAllowingStateLoss();
+        transaction.replace(containerId, webViewFragment, WebViewFragment.TAG).addToBackStack(null).commitAllowingStateLoss();
     }
 
     @Override
