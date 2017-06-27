@@ -8,7 +8,7 @@
 
     <include layout="@layout/toolbar_home"></include>
 
-    <fragment class="net.faceiraq.and_faceiraq.view.history.HistoryFragment"
+    <fragment class="com.developersgroups.faceiraq.view.history.HistoryFragment"
         android:id="@+id/historyFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

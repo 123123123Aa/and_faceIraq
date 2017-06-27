@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.faceiraq.and_faceiraq">
+    package="com.developersgroups.faceiraq">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -12,7 +12,7 @@
 
 
     <application
-        android:name=".MyApplication"
+        android:name="com.developersgroups.faceiraq.MyApplication"
         android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,25 +30,25 @@
             </intent-filter>
         </receiver>
         <service
-            android:name=".push_notifications.MyGcmListenerService"
+            android:name="com.developersgroups.faceiraq.push_notifications.MyGcmListenerService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name=".push_notifications.MyInstanceIDListenerService"
+            android:name="com.developersgroups.faceiraq.push_notifications.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
-            android:name=".push_notifications.RegistrationIntentService"
+            android:name="com.developersgroups.faceiraq.push_notifications.RegistrationIntentService"
             android:exported="false">
         </service>
 
-        <activity android:name="net.faceiraq.and_faceiraq.SplashActivity"
+        <activity android:name="com.developersgroups.faceiraq.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,21 +56,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="net.faceiraq.and_faceiraq.controller.HistoryActivity"
+        <activity android:name="com.developersgroups.faceiraq.controller.HistoryActivity"
                   android:windowSoftInputMode="stateAlwaysHidden"
                   android:screenOrientation="portrait"/>
-        <activity android:name="net.faceiraq.and_faceiraq.contact.us.ContactUsActivity"
+        <activity android:name="com.developersgroups.faceiraq.contact.us.ContactUsActivity"
                   android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait"/>
-        <activity android:name="net.faceiraq.and_faceiraq.MainActivity"
+        <activity android:name="com.developersgroups.faceiraq.MainActivity"
                   android:windowSoftInputMode="adjustPan"
                   android:configChanges="orientation|screenSize|keyboardHidden"
             />
-        <activity android:name="net.faceiraq.and_faceiraq.theme.colour.ThemeColourActivity"
+        <activity android:name="com.developersgroups.faceiraq.theme.colour.ThemeColourActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name="net.faceiraq.and_faceiraq.controller.BookmarksActivity"
+        <activity android:name="com.developersgroups.faceiraq.controller.BookmarksActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name="net.faceiraq.and_faceiraq.controller.CardsActivity"
+        <activity android:name="com.developersgroups.faceiraq.controller.CardsActivity"
                   android:screenOrientation="portrait"
             android:theme="@style/CardsActivityTheme"/>
         <meta-data

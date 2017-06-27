@@ -8,7 +8,7 @@
 
     <include layout="@layout/toolbar_home"></include>
 
-    <fragment class="net.faceiraq.and_faceiraq.view.bookmarks.BookmarksFragment"
+    <fragment class="com.developersgroups.faceiraq.view.bookmarks.BookmarksFragment"
         android:id="@+id/bookmarksFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

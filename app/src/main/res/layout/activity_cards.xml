@@ -11,7 +11,7 @@
         android:background="@drawable/cards_background"
         android:scaleType="centerCrop"/>
 
-    <fragment class="net.faceiraq.and_faceiraq.view.CardsNavigationBarFragment"
+    <fragment class="com.developersgroups.faceiraq.view.CardsNavigationBarFragment"
         android:id="@+id/cardsNavigationBarFragment"
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
