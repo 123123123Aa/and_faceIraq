@@ -23,6 +23,6 @@ public class FcmMessageListenerService extends FirebaseMessagingService {
         String from = remoteMessage.getFrom();
         Log.d(TAG, "onMessageReceived, from: " + from);
         Log.d(TAG, "onMessageReceived, notificationBody: " + remoteMessage.getNotification().getBody());
-        Toast.makeText(this, "Push notification received, please contact our developer for more information", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Push notification received, please contact our developer for more information", Toast.LENGTH_LONG).show();
     }
 }
