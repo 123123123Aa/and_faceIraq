@@ -28,13 +28,12 @@ import com.developersgroups.faceiraq.model.database.bookmarks.BookmarksDAOImplem
 import com.developersgroups.faceiraq.model.database.history.HistoryDAOImplementation;
 import com.developersgroups.faceiraq.model.database.opened_pages.OpenedPageModel;
 import com.developersgroups.faceiraq.model.database.opened_pages.OpenedPagesDAO;
-import com.developersgroups.faceiraq.push_notifications.RegistrationIntentService;
 import com.developersgroups.faceiraq.utils.PageUrlValidator;
 import com.developersgroups.faceiraq.utils.ThemeChangeUtil;
 import com.developersgroups.faceiraq.view.NavigationBarFragment;
 import com.developersgroups.faceiraq.view.WebViewFragment;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -66,7 +65,7 @@ public class MainActivity extends FragmentActivity
     private BookmarksDAOImplementation bookmarksDAO;
     private OpenedPagesDAO openedPagesDAO;
     private EventBus mEventBus = EventBus.getDefault();
-    private BroadcastReceiver gcmRegistrationBroadcastReceiver;
+    private BroadcastReceiver fcmRegistrationBroadcastReceiver;
     private boolean isReceiverRegistered;
     private boolean isEditTextSelected;
     private static final int REQUEST_READ_PHONE_STATE = 1;
@@ -81,7 +80,7 @@ public class MainActivity extends FragmentActivity
         ThemeChangeUtil.onActivityCreateSetTheme(this);
         themeId = getThemeId();
         setContentView(R.layout.activity_main);
-        registerForGCM();
+//        registerFirebase();
         Realm.init(this);
         historyDAO = new HistoryDAOImplementation();
         bookmarksDAO = new BookmarksDAOImplementation();
@@ -108,8 +107,10 @@ public class MainActivity extends FragmentActivity
         }
     }
 
-    private void registerForGCM() {
-        gcmRegistrationBroadcastReceiver = new BroadcastReceiver() {
+    private void registerFirebase() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "registerFirebase: token: " + token);
+        fcmRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 boolean sentToken = SharedPreferencesHelper.isTokenSentToServer(context);
@@ -121,31 +122,11 @@ public class MainActivity extends FragmentActivity
             }
         };
         registerReceiver();
-        if (checkPlayServices()) {
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
-    }
-
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
     }
 
     private void registerReceiver() {
         if (!isReceiverRegistered) {
-            LocalBroadcastManager.getInstance(this).registerReceiver(gcmRegistrationBroadcastReceiver,
+            LocalBroadcastManager.getInstance(this).registerReceiver(fcmRegistrationBroadcastReceiver,
                     new IntentFilter(SharedPreferencesHelper.REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
         }
@@ -194,7 +175,7 @@ public class MainActivity extends FragmentActivity
         super.onPause();
         mEventBus.unregister(this);
         savePageToRealm("");
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(gcmRegistrationBroadcastReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(fcmRegistrationBroadcastReceiver);
         isReceiverRegistered = false;
     }
 

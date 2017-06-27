@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiManager {
 
 
-    public static final String API_BASE_URL = "http://faceiraq.net/";
+    public static final String API_BASE_URL = "http://www.faceiraq.net/";
 
     private static ApiManager INSTANCE;
     private final Retrofit mRetrofit;
@@ -46,6 +46,7 @@ public class ApiManager {
         httpClient.writeTimeout(60, TimeUnit.SECONDS);
         httpClient.addInterceptor(interceptor);
         httpClient.addNetworkInterceptor(logging);
+        httpClient.followRedirects(true);
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
