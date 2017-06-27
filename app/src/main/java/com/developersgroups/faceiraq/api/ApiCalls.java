@@ -1,6 +1,7 @@
 package com.developersgroups.faceiraq.api;
 
 import com.developersgroups.faceiraq.api.data.model.PushDetails;
+import com.developersgroups.faceiraq.api.data.response.EmailResponse;
 import com.developersgroups.faceiraq.api.data.response.RegisterResponse;
 
 import retrofit2.Call;
@@ -9,6 +10,8 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+
+import static com.developersgroups.faceiraq.R.id.line;
 
 /**
  * Created by user on 15.05.2017.
@@ -27,4 +30,13 @@ public interface ApiCalls {
             @Field("model") String model,
             @Field("platform") String platform,
             @Field("version") String version);
+//
+//    @POST("app/api.php?action=contactUsMsg")
+//    rx.Observable<EmailResponse> sendEmail(@Body EmailModel model);
+
+    @FormUrlEncoded
+    @POST("app/api.php?action=contactUsMsg")
+    rx.Observable<EmailResponse> sendEmail(@Field("subject") String subject,
+                                           @Field("message") String message,
+                                           @Field("email") String email);
 }
