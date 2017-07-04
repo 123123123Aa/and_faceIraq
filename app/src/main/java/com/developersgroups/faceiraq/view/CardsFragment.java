@@ -41,7 +41,6 @@ public class CardsFragment extends Fragment {
 
     public static final String TAG = "CardsFragment";
 
-
     @Bind(R.id.cardStack)
     CardStackLayout cardStackLayout;
 
@@ -82,7 +81,7 @@ public class CardsFragment extends Fragment {
     }
 
     private void removePageAt(int position) {
-        ((CardsActivity)getActivity()).onCardDeleted(openedPages.get(position).getId());
+        ((CardsActivity) getActivity()).onCardDeleted(openedPages.get(position).getId());
         openedPages.remove(position);
         adapter = new CardsAdapter(getActivity(), openedPages);
         cardStackLayout.removeAdapter();
@@ -155,10 +154,9 @@ public class CardsFragment extends Fragment {
                     openedPages.get(position).getUrl());
             Log.d(TAG,
                     "onClick: position=" + position +
-                    ", id=" + openedPages.get(position).getId() +
-                    ", url=" + openedPages.get(position).getUrl());
-            ((CardsActivity)context).onCardSelected();
+                            ", id=" + openedPages.get(position).getId() +
+                            ", url=" + openedPages.get(position).getUrl());
+            ((CardsActivity) context).onCardSelected();
         }
     }
-
 }

@@ -178,13 +178,6 @@ public class MainActivity extends FragmentActivity
         isReceiverRegistered = false;
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        Log.d(TAG, "onDestroy: ");
-//        openedPagesDAO.deleteAll();
-//        previousPagesDAO.deleteAll();
-//        super.onDestroy();
-//    }
 
     @Override
     protected void onResumeFragments() {
@@ -222,9 +215,6 @@ public class MainActivity extends FragmentActivity
     public void onPreviousPageButtonPressed() {
         if (canGoBack())
             goToPreviousPage();
-//        PageDetails pageDetails = getCurrentPageDetails();
-//        String url = pageDetails.getAddress();
-//        setPageAddressField(url);
         setAddressFieldError(false);
         showPreviousPageButton(canGoBack());
     }
@@ -252,23 +242,11 @@ public class MainActivity extends FragmentActivity
         }
 
         String url = pageDetails.getAddress();
-//        setPageAddressField(url);
 
         if (previousPageWasFaceiraq && webViewClicked) {
-//            Toast.makeText(this, "URL CLICKED FROM FACEIRAQ", Toast.LENGTH_LONG).show();
-
             OpenedPageModel pageModel = new OpenedPageModel();
             pageModel.setUrl(url);
             openNewPage(pageModel, previousPageUrl);
-//
-//            long newCardId = openedPagesDAO.insert(pageModel);
-//            SharedPreferencesHelper.setCardNumber(this, newCardId);
-//
-////            goToPage(pageModel.getUrl(), true);
-//            updateCardsCount();
-//            showPreviousPageButton(false);
-//            clearHistory();
-//            urlOpenedInNewCard = true;
         } else {
             showPreviousPageButton(canGoBack());
         }
@@ -305,9 +283,7 @@ public class MainActivity extends FragmentActivity
         showPreviousPageButton(canGoBack());
     }
 
-//    private final Handler handler = new Handler(this);
     boolean webViewClicked = false;
-
     boolean previousPageWasFaceiraq = false;
     boolean urlOpenedInNewCard = false;
     @Override
@@ -322,8 +298,6 @@ public class MainActivity extends FragmentActivity
     public void webViewClicked() {
         webViewClicked = true;
     }
-
-//    @Override
 
     @Override
     public void onErrorReceived() {
@@ -363,8 +337,6 @@ public class MainActivity extends FragmentActivity
         showPreviousPageButton(false);
         clearHistory();
         goToPage(pageModel.getUrl(), true);
-
-//        handler.sendEmptyMessageDelayed(WEB_VIEW_CLICKED, 500);
     }
 
     @Override
@@ -406,8 +378,6 @@ public class MainActivity extends FragmentActivity
     }
 
     private void goToPreviousPage() {
-//        String url = previousPagesDAO.removeLastAndGetNext();
-//        goToPage(url, false);
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
         if (webView != null) {
             webView.goToPreviousPage();

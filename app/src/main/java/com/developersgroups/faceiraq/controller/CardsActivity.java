@@ -28,7 +28,7 @@ import static com.developersgroups.faceiraq.theme.colour.ThemeColourActivity.THE
 public class CardsActivity extends AppCompatActivity
         implements CardsNavigationBarFragment.OnCardsNavigationBarActions,
                     MainDialogFragment.OnMainDialogActionsListener {
-    
+
     public static final String TAG = "CardsActivity";
     public static final int CARDS_REQUEST_CODE = 10;
     public static final int HOME_BUTTON_CARDS_SELECTED = 13;
