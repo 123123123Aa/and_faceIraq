@@ -5,8 +5,6 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Map;
-
 /**
  * Created by Paweł Sałata on 05.05.2017.
  * email: psalata9@gmail.com

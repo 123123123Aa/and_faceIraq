@@ -1,13 +1,9 @@
 package com.developersgroups.faceiraq.push_notifications;
 
-import android.app.NotificationManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * Created by Paweł Sałata on 27.06.2017.

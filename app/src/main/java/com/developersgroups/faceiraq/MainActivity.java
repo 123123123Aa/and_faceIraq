@@ -32,7 +32,6 @@ import com.developersgroups.faceiraq.utils.PageUrlValidator;
 import com.developersgroups.faceiraq.utils.ThemeChangeUtil;
 import com.developersgroups.faceiraq.view.NavigationBarFragment;
 import com.developersgroups.faceiraq.view.WebViewFragment;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.greenrobot.eventbus.EventBus;

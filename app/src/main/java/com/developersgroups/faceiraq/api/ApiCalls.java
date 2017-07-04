@@ -9,9 +9,6 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
-
-import static com.developersgroups.faceiraq.R.id.line;
 
 /**
  * Created by user on 15.05.2017.
