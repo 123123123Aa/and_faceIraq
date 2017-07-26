@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -28,10 +29,14 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                if (getIntent().getExtras() != null) {
+                    intent.putExtras(getIntent().getExtras());
+                }
                 startActivity(intent);
                 finish();
             }
