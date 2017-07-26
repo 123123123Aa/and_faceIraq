@@ -8,6 +8,7 @@ import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.developersgroups.faceiraq.MainActivity;
 import com.developersgroups.faceiraq.R;
@@ -53,12 +54,16 @@ public class FcmMessageListenerService extends FirebaseMessagingService {
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
+        RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification);
+        contentView.setImageViewResource(R.id.image, R.drawable.app_icon);
+        contentView.setTextViewText(R.id.title, remoteMessage.getNotification().getTitle());
+        contentView.setTextViewText(R.id.text, remoteMessage.getNotification().getBody());
+
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.app_icon)
+                .setSmallIcon(R.drawable.icon)
                 .setContentTitle(remoteMessage.getNotification().getTitle())
-                .setContentText(remoteMessage.getNotification().getBody())
+                .setContent(contentView)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setOngoing(false)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
