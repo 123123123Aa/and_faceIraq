@@ -47,18 +47,6 @@ public class ContactUsActivity extends AppCompatActivity {
     Toolbar mToolbar;
     @Bind(R.id.toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.activity_contact_us_add_photo_iv)
-    ImageView mAddPhotoIv;
-    @Bind(R.id.activity_contact_us_photo_iv)
-    ImageView mPhotoIv;
-    @Bind(R.id.activity_contact_us_delete_photo)
-    ImageView mDeletePhoto;
-    @Bind(R.id.activity_contact_us_photo_title_tv)
-    TextView mPhotoTitleTv;
-    @Bind(R.id.image_section)
-    RelativeLayout mImageSection;
-    @Bind(R.id.add_image_section)
-    RelativeLayout mAddImageSection;
     @Bind(R.id.activity_contact_us_content_et)
     EditText mContentEt;
     @Bind(R.id.activity_contact_us_email_et)
@@ -165,23 +153,31 @@ public class ContactUsActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Toast.makeText(ContactUsActivity.this, "Message not sent", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(EmailResponse emailResponse) {
-                        if (emailResponse.getStatus().equals("success"))
-                            Toast.makeText(ContactUsActivity.this, "Code 200", Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(ContactUsActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        if (emailResponse.getStatus().equals("success")) {
+                            Toast.makeText(ContactUsActivity.this, "Message sent", Toast.LENGTH_LONG).show();
+                            clearFields();
+                        } else {
+                            Toast.makeText(ContactUsActivity.this, "Message not sent", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
+    }
 
-
-
-
-
-//
+    private void clearFields() {
+        if (mContentEt != null) {
+            mContentEt.getText().clear();
+        }
+        if (mEmailEt != null) {
+            mEmailEt.getText().clear();
+        }
+        if (mSubjectEt != null) {
+            mSubjectEt.getText().clear();
+        }
     }
 
     private void setOnChangeListeners() {
@@ -270,26 +266,6 @@ public class ContactUsActivity extends AppCompatActivity {
 //                "Select Picture"), SELECT_PICTURE);
 
 //    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-                selectedImageUri = data.getData();
-//                    Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                Glide.with(this)
-                        .load(selectedImageUri)
-                        .centerCrop()
-                        .into(mPhotoIv);
-//                    mPhotoIv.setImageBitmap(getBitmapFromUri(selectedImageUri));
-                filemanagerstring = selectedImageUri.getPath();
-                selectedImagePath = getPath(selectedImageUri);
-                mAddImageSection.setVisibility(View.GONE);
-                mImageSection.setVisibility(View.VISIBLE);
-                mPhotoTitleTv.setText(filemanagerstring);
-            }
-        }
-    }
-
 
     public String getPath(Uri uri) {
         String[] projection = { MediaStore.Images.Media.DATA };
