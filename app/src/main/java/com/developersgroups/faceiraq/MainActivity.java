@@ -86,14 +86,39 @@ public class MainActivity extends FragmentActivity
         openedPagesDAO = new OpenedPagesDAO();
         mApplication = (MyApplication) getApplication();
 //        requestPermission();
-        if (mApplication.isOpen()) {
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.getString("url") != null) {
+            Log.d(TAG, "url from extras");
+            String url = extras.getString("url");
+            OpenedPageModel openedPageModel = new OpenedPageModel();
+            openedPageModel.setUrl(url);
+            openNewPage(openedPageModel, "");
+        } else if (mApplication.isOpen()) {
+            Log.d(TAG, "url home page");
             goToHomePage(false);
             mApplication.setOpen();
-        } else
-        goToPage(historyDAO.getLastUrl(), false);
+        } else {
+            Log.d(TAG, "url from history");
+            goToPage(historyDAO.getLastUrl(), false);
+        }
         Log.d(TAG, "UUID: " + SharedPreferencesHelper.getUUID(this));
         WebViewFragment webView = (WebViewFragment) getSupportFragmentManager().findFragmentById(webViewFragment);
-//        webView.initScrollListener();
+//webView.initScrollListener();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.d(TAG, "onNewIntent: ");
+        super.onNewIntent(intent);
+        Bundle extras = intent.getExtras();
+        if (extras != null && extras.getString("url") != null) {
+            Log.d(TAG, "url from extras");
+            String url = extras.getString("url");
+            OpenedPageModel openedPageModel = new OpenedPageModel();
+            openedPageModel.setUrl(url);
+            openNewPage(openedPageModel, "");
+        }
     }
 
     private void requestPermission(){
