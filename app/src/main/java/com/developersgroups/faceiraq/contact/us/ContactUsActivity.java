@@ -189,7 +189,7 @@ public class ContactUsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_contact_us, menu);
-        MenuItem mItem = (MenuItem) findViewById(R.id.action_send);
+//        MenuItem mItem = (MenuItem) findViewById(R.id.action_send);
 
         return super.onCreateOptionsMenu(menu);
     }
